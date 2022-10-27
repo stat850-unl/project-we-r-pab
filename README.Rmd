@@ -22,6 +22,9 @@ Once you have received feedback on your project proposal (via Canvas) you may al
 ## Data Set
 Provide a link to your dataset here, and a description of the variables in the data set.
 
+Link:https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv
+
+
 ## Potential Topics to Explore Using the Data Set
 Describe avenues you might explore using the data
 
@@ -31,3 +34,4 @@ List all of the project contributors here.
 Andrew Ker
 Bipin Poudel
 Paulus Hermanto
+
