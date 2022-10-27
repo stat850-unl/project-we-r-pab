@@ -1,6 +1,6 @@
 ---
 title: "Stat 850 Project Description"
-author: "Andrew Ker, Bipin Poudel, Paul Hermanto ..."
+author: "Andrew Ker, Bipin Poudel, Paul Hermanto"
 output: github_document
 ---
 
