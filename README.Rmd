@@ -31,6 +31,8 @@ Link:https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2
 
 ## Potential Topics to Explore Using the Data Set
 Describe avenues you might explore using the data
+-Paul: We can try to observe/filter out the the wins of a certain team. We can try to calculate average points won. We can see if there's any tie.
+
 
 ## Group Members
 List all of the project contributors here.
