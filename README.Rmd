@@ -33,9 +33,10 @@ Link:https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2
 ## Potential Topics to Explore Using the Data Set
 Describe avenues you might explore using the data
 -Paul: We can try to observe/filter out the the wins of a certain team. We can try to calculate average points won. We can see if there's any tie.
+-Paul: Compare the total number of games won by Denver to the average number of games won for all teams to see how the broncos are performing compared to other teams.
 -Bipin: Prop 1: A line plot of total points won by each team through out the years.
 -Bipin: Prop 2: The total number of games won by Denver Broncos through out the years from 2000 to 2019. 
--
+
 
 
 ## Group Members
