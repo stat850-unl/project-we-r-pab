@@ -51,7 +51,8 @@ Description of the variables in the data set:
 *away_team_city: character with the name of the away or road team's city
   + some home team cities are actually states or regions, but are the official location of those teams
   
-
+`##### Load in the Dataset #####
+footballgames <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv')`
 
 
 ## Potential Topics to Explore Using the Data Set
