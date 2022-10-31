@@ -27,4 +27,4 @@ Describe avenues you might explore using the data
 
 ## Group Members
 
-List all of the project contributors here.
+Andrew Ker, Bipin Poudel, Paulus Hermanto
