@@ -25,14 +25,19 @@ Link:https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2
 
 Description of the variables in the data set:
 
-+year: numeric value for the year in which the football game was played
-+week: numeric value representing the week of the season in which the game was played
+*year: numeric value for the year in which the football game was played  
+
+*week: numeric value representing the week of the season in which the game was played  
   + NFL Seasons have 17 Weeks
   + WildCard, Division, ConfChamp, and SuperBowl are names for different weeks of the postseason
-+home_team: character indicating the team playing at home
-+away_team: character indicating the team playing on the road
-+winner: character indicating the winner of the game
-+tie: character indicating if the game ended in a tie
+*home_team: character indicating the team playing at home  
+
+*away_team: character indicating the team playing on the road  
+
+*winner: character indicating the winner of the game  
+
+*tie: character indicating if the game ended in a tie  
+
 +day: character indicating the abbreviated day of the week the game was played
 +date: character indicating the date the game was played on
 +time: time variable indicating the time the game started
