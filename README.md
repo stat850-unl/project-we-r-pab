@@ -38,23 +38,35 @@ Description of the variables in the data set:
 
 *tie: character indicating if the game ended in a tie  
 
-+day: character indicating the abbreviated day of the week the game was played
-+date: character indicating the date the game was played on
-+time: time variable indicating the time the game started
-  + times are given in military time and the time zone used is EST
-+pts_win: numeric value for the number of points scored by the winning team
-+pts_loss: numeric value for the number of points scored by the losing team
-+yds_win: numeric value for the number of yards gained by the winning team
-+turnovers_win: numeric value for the number of turnovers by the winning team
-  + turnovers include fumbles and interceptions, does not include turnovers on downs
-+yds_loss: numeric value for the number of yards gained by the losing team
-+turnovers_loss: numeric value for the number of turnovers by the losing team
-  + turnovers include fumbles and interceptions, does not include turnovers on downs
-+home_team_name: character with the name or mascot of the home team
-+home_team_city: character with the name of the home team's city
-  + some home team cities are actually states or regions, but are the official location of those teams
-+away_team_name: character with the name or mascot of the away or road team
-+away_team_city: character with the name of the away or road team's city
+*day: character indicating the abbreviated day of the week the game was played  
+
+*date: character indicating the date the game was played on  
+
+*time: time variable indicating the time the game started
+  + times are given in military time and the time zone used is EST  
+  
+*pts_win: numeric value for the number of points scored by the winning team  
+
+*pts_loss: numeric value for the number of points scored by the losing team  
+
+*yds_win: numeric value for the number of yards gained by the winning team  
+
+*turnovers_win: numeric value for the number of turnovers by the winning team
+  + turnovers include fumbles and interceptions, does not include turnovers on downs  
+  
+*yds_loss: numeric value for the number of yards gained by the losing team  
+
+*turnovers_loss: numeric value for the number of turnovers by the losing team  
+  + turnovers include fumbles and interceptions, does not include turnovers on downs  
+  
+*home_team_name: character with the name or mascot of the home team  
+
+*home_team_city: character with the name of the home team's city
+  + some home team cities are actually states or regions, but are the official location of those teams  
+  
+*away_team_name: character with the name or mascot of the away or road team  
+
+*away_team_city: character with the name of the away or road team's city
   + some home team cities are actually states or regions, but are the official location of those teams
   
 `##### Load in the Dataset #####
@@ -88,11 +100,17 @@ str(footballgames)`
 Describe avenues you might explore using the data
 
 -Paul: Compare the total number of games won by Denver Broncos to the average number of games won for all teams to see how the broncos are performing compared to other teams.
+
 -Bipin: Prop 1: A line plot of total points won by each team through out the years.
+
 -Bipin: Prop 2: The total number of games won by Denver Broncos through out the years from 2000 to 2019. 
+
 -Bipin: Prop 3: Try modelling points won by yards won in a game.
+
 -Andrew: Derive winning percentage variable and compare winning percentage to super bowl wins.
--Andrew: Compare number of games won by the home team with the number of games won by the away team
+
+-Andrew: Compare number of games won by the home team with the number of games won by the away team.
+
 -Andrew: Fit a multiple regression model to model number of wins
 
 
