@@ -54,12 +54,10 @@ Description of the variables in the data set:
 `##### Load in the Dataset #####
 footballgames <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv')`
 
-`##### derive categorical variable #####
-
-# replace NA's in tie column with string 0
-footballgames$tie[is.na(footballgames$tie)] <- "0"
-
-# replace ties with string 1 instead of string with team name
+`##### derive categorical variable #####`
+`# replace NA's in tie column with string 0
+footballgames$tie[is.na(footballgames$tie)] <- "0"`
+`# replace ties with string 1 instead of string with team name
 for(i in 1:5324){
   if(footballgames$tie[i] != "0"){
     footballgames$tie[i] <- "1"
@@ -68,14 +66,14 @@ for(i in 1:5324){
   else{
     i <- i+1
   }
-}
+}`
 
-# treat tie as categorical
-footballgames$tie <- as.factor(footballgames$tie)
+`# treat tie as categorical
+footballgames$tie <- as.factor(footballgames$tie)`
 
 
-# get structure to check if tie is not a factor
-str(footballgames)
+`# get structure to check if tie is not a factor
+str(footballgames)`
 `
 
 
