@@ -61,11 +61,13 @@ Description of the variables in the data set:
 
 ## Potential Topics to Explore Using the Data Set
 Describe avenues you might explore using the data
--Paul: Compare the total number of games won by Denver1 Broncos to the average number of games won for all teams to see how the broncos are performing compared to other teams.
+-Paul: Compare the total number of games won by Denver Broncos to the average number of games won for all teams to see how the broncos are performing compared to other teams.
 -Bipin: Prop 1: A line plot of total points won by each team through out the years.
 -Bipin: Prop 2: The total number of games won by Denver Broncos through out the years from 2000 to 2019. 
 -Bipin: Prop 3: Try modelling points won by yards won in a game.
-
+-Andrew: Derive winning percentage variable and compare winning percentage to super bowl wins.
+-Andrew: Compare number of games won by the home team with the number of games won by the away team
+-Andrew: Fit a multiple regression model to model number of wins
 
 
 ## Group Members
