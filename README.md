@@ -24,6 +24,7 @@ in the data set.
 Link:https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv
 
 Description of the variables in the data set:
+
 *year: numeric value for the year in which the football game was played
 *week: numeric value representing the week of the season in which the game was played
   + NFL Seasons have 17 Weeks
