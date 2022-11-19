@@ -41,9 +41,14 @@ bbdata<-subset(footballgames, home_team=="Buffalo Bills"|away_team=="Buffalo Bil
 
 library(tidyverse)
 library(magrittr)
+library(dplyr)
+library(ggplot2)
+ggdata<-bbdata %>% group_by(year) %>% count(winner)
 
+fdata<-subset(ggdata, winner=="Buffalo Bills")
 
-
+plot1<-ggplot(data=fdata, aes(x=year, y=n))+geom_line()
+plot1
 ```
 
 
