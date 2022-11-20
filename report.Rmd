@@ -98,3 +98,13 @@ plot1<- ggplot(data= b, aes(year, n))+geom_line(aes(color=winner))+ xlab("Year")
 ggplotly(plot1)
 
 ```
+
+#Interactive scatterplot of points won vs yards won for selected teams
+
+```{r}
+m= subset(footballgames, winner== "Baltimore Ravens"|winner=="Chicago Bears"|winner=="Denver Broncos"|winner=="Miami Dolphins"|winner=="New England Patriots")
+
+plot2<-ggplot(data= m)+ geom_point(aes(pts_win, yds_win,color= winner)) +xlab("Points Won")+ ylab("Yards Win")
+
+ggplotly(plot2)
+```
