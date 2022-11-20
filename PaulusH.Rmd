@@ -28,3 +28,21 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+library(dplyr)
+##trial
+footballgames <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv')
+
+broncosgames<-filter(footballgames, home_team == "Denver Broncos" | away_team == "Denver Broncos")
+
+broncosgms<-subset(footballgames, home_team == "Denver Broncos" | away_team == "Denver Broncos")
+broncoswinner<-subset(broncosgms, winner == "Denver Broncos")
+aggregate(x=broncosgms, by = )
+
+broncosgames %>%
+  mutate(won = ifelse(winner == "Denver Broncos"), 1, 0) %>%
+  group_by(`year`) %>%
+  summarize(won = sum(won))
+```
+
