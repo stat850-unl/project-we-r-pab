@@ -38,3 +38,19 @@ str(footballgames)
 ```
 
 
+#Interactive line plots for the number of wins for selected teams. 
+```{r}
+library(tidyverse)
+library(magrittr)
+library(dplyr)
+library(ggplot2)
+library(plotly)
+
+a=footballgames %>% group_by(year) %>%  count(winner)
+b = subset(a, winner== "Baltimore Ravens"|winner=="Chicago Bears"|winner=="Denver Broncos"|winner=="Miami Dolphins"|winner=="New England Patriots")
+
+plot1<- ggplot(data= b, aes(year, n))+geom_line(aes(color=winner))+ xlab("Year")+ylab("Number of wins")+ggtitle("Number of games won by selected teams each year")
+
+ggplotly(plot1)
+
+```
