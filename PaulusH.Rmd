@@ -34,15 +34,28 @@ library(dplyr)
 ##trial
 footballgames <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv')
 
+#filtering out broncos games
 broncosgames<-filter(footballgames, home_team == "Denver Broncos" | away_team == "Denver Broncos")
 
-broncosgms<-subset(footballgames, home_team == "Denver Broncos" | away_team == "Denver Broncos")
-broncoswinner<-subset(broncosgms, winner == "Denver Broncos")
-aggregate(x=broncosgms, by = )
-
-broncosgames %>%
-  mutate(won = ifelse(winner == "Denver Broncos"), 1, 0) %>%
+#number of games played each year
+broncosplays<-broncosgames %>%
   group_by(`year`) %>%
-  summarize(won = sum(won))
+  summarise(number_of_games = n())
+
+#filtering out the games that Broncos won
+broncoswins<-filter(broncosgames, winner == "Denver Broncos")
+
+#number of games won by Broncos
+broncosnumberofwins<-broncoswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting
+broncosnumbers<-full_join(broncosplays, broncosnumberofwins)
+
+
+
+
+
 ```
 
