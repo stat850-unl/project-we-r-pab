@@ -47,7 +47,7 @@ library(tidyverse)
 library(magrittr)
 library(dplyr)
 library(ggplot2)
-
+library(plotly)
 
 ggdata<-bbdata %>% group_by(year) %>% count(winner)
 
@@ -64,7 +64,8 @@ a=footballgames %>% group_by(year) %>%  count(winner)
 b = subset(a, winner== "Baltimore Ravens"|winner=="Chicago Bears"|winner=="Denver Broncos"|winner=="Miami Dolphins"|winner=="New England Patriots")
 
 plot2<- ggplot(data= b, aes(year, n))+geom_line(aes(color=winner))+ xlab("Year")+ylab("Number of wins")+ggtitle("Number of games won by selected teams each year")
-plot2
+
+ggplotly(plot2)
 ```
 
 
