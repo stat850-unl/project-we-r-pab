@@ -56,6 +56,9 @@ broncosnumbers<-
   broncosnumbers %>% 
   mutate(winning_percentage = broncosnumbers$number_of_wins/broncosnumbers$number_of_games)
 
-#plotting the 
+#plotting the ratio as line and plotting the tables
+#broncosnumbers %>%
+ # ggplot(aes(x = year, y = number_of_games)) + 
+  #geom_bar(position = "stack")
 ```
 
