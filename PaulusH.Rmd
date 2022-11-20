@@ -50,12 +50,12 @@ broncosnumberofwins<-broncoswins %>%
   group_by(`year`) %>%
   summarise(number_of_wins = n())
 
-#joining the tables before plotting
-broncosnumbers<-full_join(broncosplays, broncosnumberofwins)
+#joining the tables before plotting and adding the winning ratio
+broncosnumbers<-inner_join(broncosplays, broncosnumberofwins)
+broncosnumbers<- 
+  broncosnumbers %>% 
+  mutate(winning_percentage = broncosnumbers$number_of_wins/broncosnumbers$number_of_games)
 
-
-
-
-
+#plotting the 
 ```
 

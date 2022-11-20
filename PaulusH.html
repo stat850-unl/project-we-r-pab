@@ -424,9 +424,14 @@ broncosnumberofwins&lt;-broncoswins %&gt;%
   group_by(`year`) %&gt;%
   summarise(number_of_wins = n())
 
-#joining the tables before plotting
-broncosnumbers&lt;-full_join(broncosplays, broncosnumberofwins)</code></pre>
+#joining the tables before plotting and adding the winning ratio
+broncosnumbers&lt;-inner_join(broncosplays, broncosnumberofwins)</code></pre>
 <pre><code>## Joining, by = &quot;year&quot;</code></pre>
+<pre class="r"><code>broncosnumbers&lt;- 
+  broncosnumbers %&gt;% 
+  mutate(winning_percentage = broncosnumbers$number_of_wins/broncosnumbers$number_of_games)
+
+#plotting the </code></pre>
 </div>
 
 
