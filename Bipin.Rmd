@@ -2,6 +2,8 @@
 title: "Bipin"
 output: html_document
 date: "2022-11-19"
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -34,10 +36,10 @@ str(footballgames)
 
 ```
 
-#Filter out the data for games played by Buffalo Bills
+#Filter out the data for games played by New England Patriots
 
 ```{r}
-bbdata<-subset(footballgames, home_team=="Buffalo Bills"|away_team=="Buffalo Bills")
+bbdata<-subset(footballgames, home_team=="New England Patriots"|away_team=="New England Patriots")
 
 library(tidyverse)
 library(magrittr)
@@ -45,7 +47,7 @@ library(dplyr)
 library(ggplot2)
 ggdata<-bbdata %>% group_by(year) %>% count(winner)
 
-fdata<-subset(ggdata, winner=="Buffalo Bills")
+fdata<-subset(ggdata, winner=="New England Patriots")
 
 plot1<-ggplot(data=fdata, aes(x=year, y=n))+geom_line()
 plot1
