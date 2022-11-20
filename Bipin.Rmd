@@ -36,23 +36,36 @@ str(footballgames)
 
 ```
 
-#Filter out the data for games played by New England Patriots
+
 
 ```{r}
+
+#Filter out the data for games played by New England Patriots
 bbdata<-subset(footballgames, home_team=="New England Patriots"|away_team=="New England Patriots")
 
 library(tidyverse)
 library(magrittr)
 library(dplyr)
 library(ggplot2)
+
+
 ggdata<-bbdata %>% group_by(year) %>% count(winner)
 
+#Filter out data for number of games won by New England Patriots
 fdata<-subset(ggdata, winner=="New England Patriots")
 
 plot1<-ggplot(data=fdata, aes(x=year, y=n))+geom_line()
 plot1
 ```
 
+```{r}
+#Line plot of number of games won by 5 selected teams each year
+a=footballgames %>% group_by(year) %>%  count(winner)
+b = subset(a, winner== "Baltimore Ravens"|winner=="Chicago Bears"|winner=="Denver Broncos"|winner=="Miami Dolphins"|winner=="New England Patriots")
+
+plot2<- ggplot(data= b, aes(year, n))+geom_line(aes(color=winner))+ xlab("Year")+ylab("Number of wins")+ggtitle("Number of games won by selected teams each year")
+plot2
+```
 
 
 
