@@ -30,7 +30,7 @@ it does not make sense to list a team winner for a game that ended with a tie. A
 if an NFL game ended with one team winning and a value of 1 if an NFL game ended in a tie. The code for deriving this 
 variable is shown below.
 
-```{r}
+```{r, echo = TRUE, results = 'hide'}
 ##### derive categorical variable #####
 # replace NA's in tie column with string 0
 footballgames$tie[is.na(footballgames$tie)] <- "0"
@@ -52,6 +52,32 @@ footballgames$tie <- as.factor(footballgames$tie)
 # get structure to check if tie is not a factor
 str(footballgames)
 ```
+
+After deriving the categorical variable, the data still had 19 variables, but with 10 character variables, seven
+numeric variables, one time variable, and one categorical variable. For more information about the data, please refer
+to the table below, which contains a list of variables, their descriptions, and their types.
+
+Variable Name | Variable Description | Variable Type
+------------- | -------------------- | -------------
+year |
+week |
+home_team |
+away_team |
+winner |
+tie |
+day |
+date |
+time |
+pts_win |
+pts_loss |
+yds_win |
+turnovers_win |
+yds_loss |
+turnovers_loss |
+home_team_name |
+home_team_city |
+away_team_name |
+away_team_city |
 
 
 #Interactive line plots for the number of wins for selected teams. 
