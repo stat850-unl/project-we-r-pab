@@ -142,7 +142,16 @@ ggplotly(plot2)
 ```
 
 
-```{r}
+#### Is there an Advantage to Playing at Home?
+
+It's a common belief that playing any sport (including football) at home stadiums gives the home team an advantage
+over the visiting team. The results below aim to assess this belief. First, the number of games won by the home team and the number of games won by the road team are tallied. Based off this tally, there were 3,045 NFL games won by the
+home team from 2000-2019. Over this same stretch of time, there were 2,279 NFL games won by the away team. Clearly, 
+the home team wins more often than the road team, but it is helpful to provide additional context. Since there were
+5,324 games played, the home team has won 3,045/5,324 games for a percentage of 57%. This suggests that the home team
+wins NFL games about 57% of the time. It must be noted however, that these counts are not exact since the data lists
+a home team, even for games played at a neutral site.
+```{r, echo = FALSE, warning=FALSE}
 ### Comparing the number of games won by the home team to the number of games won by the away team ###
 
 # create a vector of 0's
@@ -168,16 +177,16 @@ table(footballgames$locationofwin)
 # 3045
 # 2279
 
-# convert locationof win to categorical
+# convert locationofwin to categorical
 footballgames$locationofwin <- as.factor(footballgames$locationofwin)
 
 # bar plot of games won by home team and games won by away team
 footballgames %>%
   ggplot(aes(x = locationofwin, fill = locationofwin)) + 
   geom_bar() + 
-  geom_text(stat='count', aes(label=..count..), vjust=-1) + 
-  ggtitle("Comparing Number of Games Won by Away Teams to the Number of Games Won by the Home Team") +
-    scale_fill_discrete(labels=c('Away Team Wins', 'Home Team Wins')) 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Comparing Games Won by Away Teams to Games Won by the Home Team") +
+    scale_fill_discrete(labels=c('Away Team Won', 'Home Team Won')) 
 
 ```
 
