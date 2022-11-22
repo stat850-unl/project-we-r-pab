@@ -106,7 +106,13 @@ away_team_city | name of the away team's city | character
 
 # Exploratory Data Analysis
 
-#Interactive line plots for the number of wins for selected teams. 
+structure of the data
+summary statistics
+plots of summary statistics
+
+# Analysis
+
+
 ```{r}
 library(tidyverse)
 library(magrittr)
@@ -114,6 +120,7 @@ library(dplyr)
 library(ggplot2)
 library(plotly)
 
+# Interactive line plots for the number of wins for selected teams
 a=footballgames %>% group_by(year) %>%  count(winner)
 b = subset(a, winner== "Baltimore Ravens"|winner=="Chicago Bears"|winner=="Denver Broncos"|winner=="Miami Dolphins"|winner=="New England Patriots")
 
@@ -132,3 +139,13 @@ plot2<-ggplot(data= m)+ geom_point(aes(pts_win, yds_win,color= winner)) +xlab("P
 
 ggplotly(plot2)
 ```
+
+
+
+
+
+# Conclusion
+
+# Future Ideas
+
+# References
