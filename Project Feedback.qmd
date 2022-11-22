@@ -7,11 +7,32 @@ editor: visual
 
 ## Introduction
 
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# load in the data
+footballgames <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv')
+```
+
+
 ### **Data**
 
-The data was originally gathered by Pro Football Reference. The data was stored in NFL Scores Main Page under All Game Scores, which is linked here. \[data(https://www.profootballreference.com/boxscores/game-scores.html). The data was used for a tidytuesday project in 2020(\[data (https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-04/readme.md#gamescsv)) that primarily focused on NFL attendance. The data used for this report was found using the tidytuesday link. This data originally contained 19 variables related to NFL game scores and outcomes. Out of these 19 variables, 11 were character variables, seven were numeric variables, and one was a time variable. In order to meet project specifications, a categorical variable was needed. To derive a categorical variable, a loop was utilized to replace values of "NA" with a string "0" in the tie column and replace team names with a string "1". This also helped to clean the data, since it does not make sense to list a team winner for a game that ended with a tie. After this loop, the strings of "0" and "1" were converted to a categorical variable. This process essentially created a categorical variable with a value of 0 if an NFL game ended with one team winning and a value of 1 if an NFL game ended in a tie. The code for deriving this variable is shown below.
+The data was originally gathered by Pro Football Reference. The data was stored in NFL Scores Main Page under All Game
+Scores ([data](https://www.pro-football-reference.com/boxscores/game-scores.htm)). The data was
+used for a tidytuesday project in 2020
+([data](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-04/readme.md#gamescsv)) that 
+primarily focused on NFL attendance. The data used for this report was found using the tidytuesday link.
 
-```{r}
+This data originally contained 19 variables related to NFL game scores and outcomes. Out of these 19 variables, 11
+were character variables, seven were numeric variables, and one was a time variable. In order to meet project
+specifications, a categorical variable was needed. To derive a categorical variable, a loop was utilized to replace
+values of "NA" with a string "0" in the tie column and replace team names with a string "1". This also helped to clean
+the data, since it does not make sense to list a team winner for a game that ended with a tie. After this loop, the
+strings of "0" and "1" were converted to a categorical variable. This process essentially created a categorical
+variable with a value of 0 if an NFL game ended with one team winning and a value of 1 if an NFL game ended in a tie.
+The code for deriving this variable is shown below.
+
+```{r, echo = TRUE, results = 'hide'}
 ##### derive categorical variable #####
 # replace NA's in tie column with string 0
 footballgames$tie[is.na(footballgames$tie)] <- "0"
@@ -32,67 +53,55 @@ footballgames$tie <- as.factor(footballgames$tie)
 
 # get structure to check if tie is not a factor
 str(footballgames)
+
+footballgames
 ```
 
-### **Data Set**
+After deriving the categorical variable, additional data cleaning was needed. The "winner" variable contains the name
+of the winning team; however, this still contained the name of the "winning" team even if the game ended in a tie. To 
+clean this, another loop was utilized to replace the winning team's name with "tie" in the "winner" column, if the 
+game ended in a tie. The code for this is shown below.
 
-Provide a link to your dataset here, and a description of the variables in the data set.
+```{r, echo = TRUE, results = 'hide'}
+# replace ties with string 1 instead of string with team name
+for(i in 1:5324){
+  if(footballgames$tie[i] == 1){
+    footballgames$winner[i] <- "Tie"
+    i < i+1
+  }
+  else{
+    i <- i+1
+  }
+}
 
-Link: https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv
+footballgames
+```
 
-#### Description of the variables in the data set:
+Once the data was cleaned, it still had 19 variables, but with 10 character variables, seven numeric variables, one
+time variable, and one categorical variable. For more information about the data, please refer to the table below,
+which contains a list of variables, their descriptions, and their types.
 
--   year: numeric value for the year in which the football game was played
-
--   week: numeric value representing the week of the season in which the game was played
-
--   NFL Seasons have 17 Weeks
-
--   WildCard, Division, ConfChamp, and SuperBowl are names for different weeks of the postseason
-
--   home_team: character indicating the team playing at home
-
--   away_team: character indicating the team playing on the road
-
--   winner: character indicating the winner of the game
-
--   tie: character indicating if the game ended in a tie
-
--   day: character indicating the abbreviated day of the week the game was played
-
--   date: character indicating the date the game was played on
-
--   time: time variable indicating the time the game started
-
--   times are given in military time and the time zone used is EST
-
--   pts_win: numeric value for the number of points scored by the winning team
-
--   pts_loss: numeric value for the number of points scored by the losing team
-
--   yds_win: numeric value for the number of yards gained by the winning team
-
--   turnovers_win: numeric value for the number of turnovers by the winning team
-
--   turnovers include fumbles and interceptions, does not include turnovers on downs
-
--   yds_loss: numeric value for the number of yards gained by the losing team
-
--   turnovers_loss: numeric value for the number of turnovers by the losing team
-
--   turnovers include fumbles and interceptions, does not include turnovers on downs
-
--   home_team_name: character with the name or mascot of the home team
-
--   home_team_city: character with the name of the home team's city
-
--   some home team cities are actually states or regions, but are the official location of those teams
-
--   away_team_name: character with the name or mascot of the away or road team
-
--   away_team_city: character with the name of the away or road team's city
-
--   some home team cities are actually states or regions, but are the official location of those teams.
+Variable Name | Variable Description | Variable Type
+------------- | -------------------- | -------------
+year | The year in which the game was played | numeric
+week | The week of the season in which the game was played | character
+home_team | name of the team playing at their home stadium | character
+away_team | name of the team playing at visiting stadium | character
+winner | name of the winning team | character
+tie | indicates whether the game ended in a tie or not | categorical
+day | day of the week the game was played on | character
+date | date the game was played on | character
+time | time of the day when the game started | time
+pts_win | points scored by the winning team | numeric
+pts_loss | points scored by the losing team | numeric
+yds_win | yards gained by the winning team | numeric
+turnovers_win | turnovers committed by the winning team | numeric
+yds_loss | yards gained by the losing team | numeric
+turnovers_loss | turnovers committed by the losing team | numeric
+home_team_name | name of the team playing at their home stadium | character
+home_team_city | name of the home team's city | character
+away_team_name | name of the team playing at visiting stadium | character
+away_team_city | name of the away team's city | character
 
 ## Analysis
 
