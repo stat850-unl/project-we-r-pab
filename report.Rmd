@@ -1,6 +1,6 @@
 ---
-title: "Report"
-author: "Paulus Hermanto", "Andrew Ker", "Bipin Poudel"
+title: "STAT 850 Report"
+author: "Paulus Hermanto, Andrew Ker, Bipin Poudel"
 date: "2022-11-18"
 output: html_document
 ---
