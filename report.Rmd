@@ -18,7 +18,7 @@ footballgames <- readr::read_csv('https://raw.githubusercontent.com/rfordatascie
 
 # Data
 The data was originally gathered by Pro Football Reference. The data was stored in NFL Scores Main Page under All Game
-Scores, which is linked here. [data](https://www.pro-football-reference.com/boxscores/game-scores.htm). The data was
+Scores ([data](https://www.pro-football-reference.com/boxscores/game-scores.htm)). The data was
 used for a tidytuesday project in 2020
 ([data](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-04/readme.md#gamescsv)) that 
 primarily focused on NFL attendance. The data used for this report was found using the tidytuesday link.
