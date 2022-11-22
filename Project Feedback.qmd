@@ -193,8 +193,6 @@ footballgames %>%
 
 ```
 
-While the focus of this analysis is not on statistical modeling, it might be helpful to compare the number of games
-won by the home team to the number of games won by the road team using a t-test. 
 
 ## Conclusion
 
