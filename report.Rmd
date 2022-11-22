@@ -104,7 +104,7 @@ home_team_city | name of the home team's city | character
 away_team_name | name of the team playing at visiting stadium | character
 away_team_city | name of the away team's city | character
 
-
+# Exploratory Data Analysis
 
 #Interactive line plots for the number of wins for selected teams. 
 ```{r}
