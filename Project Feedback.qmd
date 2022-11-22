@@ -139,6 +139,11 @@ plot2<-ggplot(data= m)+ geom_point(aes(pts_win, yds_win,color= winner)) +xlab("P
 ggplotly(plot2)
 ```
 
+Other Ideas for Analysis:
+
+Compare number of games won by the home team to number of games won by the away team
+Derive winning percentage variable for teams, can compare winning percentage to number of super bowls won
+compare games won by Broncos to average number of games won for all teams
 
 
 ## Conclusion
