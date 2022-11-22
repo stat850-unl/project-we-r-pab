@@ -145,7 +145,7 @@ Compare number of games won by the home team to number of games won by the away 
 Derive winning percentage variable for teams, can compare winning percentage to number of super bowls won
 compare games won by Broncos to average number of games won for all teams
 
-```{r}
+```{r, echo = FALSE}
 ### Comparing the number of games won by the home team to the number of games won by the away team ###
 
 # create a vector of 0's
@@ -171,16 +171,16 @@ table(footballgames$locationofwin)
 # 3045
 # 2279
 
-# convert locationof win to categorical
+# convert locationofwin to categorical
 footballgames$locationofwin <- as.factor(footballgames$locationofwin)
 
 # bar plot of games won by home team and games won by away team
 footballgames %>%
   ggplot(aes(x = locationofwin, fill = locationofwin)) + 
   geom_bar() + 
-  geom_text(stat='count', aes(label=..count..), vjust=-1) + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
   ggtitle("Comparing Number of Games Won by Away Teams to the Number of Games Won by the Home Team") +
-    scale_fill_discrete(labels=c('Away Team Wins', 'Home Team Wins')) 
+    scale_fill_discrete(labels=c('Away Team Won', 'Home Team Won')) 
 
 ```
 
