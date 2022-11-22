@@ -15,7 +15,7 @@ footballgames <- readr::read_csv('https://raw.githubusercontent.com/rfordatascie
 ```
 
 
-### **Data**
+### Data
 
 The data was originally gathered by Pro Football Reference. The data was stored in NFL Scores Main Page under All Game
 Scores ([data](https://www.pro-football-reference.com/boxscores/game-scores.htm)). The data was
@@ -103,25 +103,15 @@ home_team_city | name of the home team's city | character
 away_team_name | name of the team playing at visiting stadium | character
 away_team_city | name of the away team's city | character
 
+
+## Exploratory Data Analysis
+
 ## Analysis
+Each of us plans on contributing our findings/analysis here
 
-### ##Each of us plans on contributing our findings/analysis here
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
-```
-
-You can add options to executable code like this
-
-```{r}
-#| echo: false
-2 * 2
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).
 
 ## Conclusion
+
+## Future Ideas
 
 ## References
