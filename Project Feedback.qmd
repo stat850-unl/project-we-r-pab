@@ -106,8 +106,39 @@ away_team_city | name of the away team's city | character
 
 ## Exploratory Data Analysis
 
+structure of the data
+summary statistics
+plots of summary statistics
+
 ## Analysis
 Each of us plans on contributing our findings/analysis here
+
+```{r}
+library(tidyverse)
+library(magrittr)
+library(dplyr)
+library(ggplot2)
+library(plotly)
+
+# Interactive line plots for the number of wins for selected teams
+a=footballgames %>% group_by(year) %>%  count(winner)
+b = subset(a, winner== "Baltimore Ravens"|winner=="Chicago Bears"|winner=="Denver Broncos"|winner=="Miami Dolphins"|winner=="New England Patriots")
+
+plot1<- ggplot(data= b, aes(year, n))+geom_line(aes(color=winner))+ xlab("Year")+ylab("Number of wins")+ggtitle("Number of games won by selected teams each year")
+
+ggplotly(plot1)
+```
+
+
+```{r}
+#Interactive scatterplot of points won vs yards won for selected teams
+m= subset(footballgames, winner== "Baltimore Ravens"|winner=="Chicago Bears"|winner=="Denver Broncos"|winner=="Miami Dolphins"|winner=="New England Patriots")
+
+plot2<-ggplot(data= m)+ geom_point(aes(pts_win, yds_win,color= winner)) +xlab("Points Won")+ ylab("Yards Win")
+
+ggplotly(plot2)
+```
+
 
 
 ## Conclusion
