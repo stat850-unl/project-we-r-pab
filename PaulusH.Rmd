@@ -42,10 +42,10 @@ broncosplays<-broncosgames %>%
   group_by(`year`) %>%
   summarise(number_of_games = n())
 
-#filtering out the games that Broncos won
+#filtering out the games that the Broncos won
 broncoswins<-filter(broncosgames, winner == "Denver Broncos")
 
-#number of games won by Broncos
+#number of games won by the Broncos
 broncosnumberofwins<-broncoswins %>%
   group_by(`year`) %>%
   summarise(number_of_wins = n())
@@ -62,11 +62,11 @@ ggplot(data = broncosnumbers, aes(x = year, y = winning_percentage)) +
          x = "Year",
          y = "Percentage of Wins") +
   geom_line(colour = 'orange') +
-  geom_point()
+  geom_point(colour = 'orange')
 ```
 
 ```{r}
-#filtering out broncos games
+#filtering out chiefs games
 chiefsgames<-filter(footballgames, home_team == "Kansas City Chiefs" | away_team == "Kansas City Chiefs")
 
 #number of games played each year
@@ -74,10 +74,10 @@ chiefsplays<-chiefsgames %>%
   group_by(`year`) %>%
   summarise(number_of_games = n())
 
-#filtering out the games that Broncos won
+#filtering out the games that the Chiefs won
 chiefswins<-filter(chiefsgames, winner == "Kansas City Chiefs")
 
-#number of games won by Broncos
+#number of games won by the Chiefs
 chiefsnumberofwins<-chiefswins %>%
   group_by(`year`) %>%
   summarise(number_of_wins = n())
@@ -94,6 +94,38 @@ ggplot(data = chiefsnumbers, aes(x = year, y = winning_percentage)) +
          x = "Year",
          y = "Percentage of Wins") +
   geom_line(colour = 'red') +
-  geom_point()
+  geom_point(colour = 'red')
+```
+
+```{r}
+#filtering out chiefs games
+chiefsgames<-filter(footballgames, home_team == "Kansas City Chiefs" | away_team == "Kansas City Chiefs")
+
+#number of games played each year
+chiefsplays<-chiefsgames %>%
+  group_by(`year`) %>%
+  summarise(number_of_games = n())
+
+#filtering out the games that the Chiefs won
+chiefswins<-filter(chiefsgames, winner == "Kansas City Chiefs")
+
+#number of games won by the Chiefs
+chiefsnumberofwins<-chiefswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting and adding the winning ratio
+chiefsnumbers<-inner_join(chiefsplays, chiefsnumberofwins)
+chiefsnumbers<- 
+  chiefsnumbers %>% 
+  mutate(winning_percentage = chiefsnumbers$number_of_wins/chiefsnumbers$number_of_games)
+
+#plotting the ratio as line and plotting the tables
+ggplot(data = chiefsnumbers, aes(x = year, y = winning_percentage)) +
+  labs(title = "Chiefs' Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins") +
+  geom_line(colour = 'red') +
+  geom_point(colour = 'red')
 ```
 
