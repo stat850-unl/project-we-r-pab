@@ -23,14 +23,14 @@ used for a tidytuesday project in 2020
 ([data](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-04/readme.md#gamescsv)) that 
 primarily focused on NFL attendance. The data used for this report was found using the tidytuesday link.
 
-This data originally contained 19 variables related to NFL game scores and outcomes. Out of these 19 variables, 11 were
-character variables, seven were numeric variables, and one was a time variable. In order to meet project specifications
-, a categorical variable was needed. To derive a categorical variable, a loop was utilized to replace values of "NA"
-with a string "0" in the tie column and replace team names with a string "1". This also helped to clean the data, since
-it does not make sense to list a team winner for a game that ended with a tie. After this loop, the strings of "0" and
-"1" were converted to a categorical variable. This process essentially created a categorical variable with a value of 0
-if an NFL game ended with one team winning and a value of 1 if an NFL game ended in a tie. The code for deriving this 
-variable is shown below.
+This data originally contained 19 variables related to NFL game scores and outcomes. Out of these 19 variables, 11
+were character variables, seven were numeric variables, and one was a time variable. In order to meet project
+specifications, a categorical variable was needed. To derive a categorical variable, a loop was utilized to replace
+values of "NA" with a string "0" in the tie column and replace team names with a string "1". This also helped to clean
+the data, since it does not make sense to list a team winner for a game that ended with a tie. After this loop, the
+strings of "0" and "1" were converted to a categorical variable. This process essentially created a categorical
+variable with a value of 0 if an NFL game ended with one team winning and a value of 1 if an NFL game ended in a tie.
+The code for deriving this variable is shown below.
 
 ```{r, echo = TRUE, results = 'hide'}
 ##### derive categorical variable #####
@@ -53,11 +53,34 @@ footballgames$tie <- as.factor(footballgames$tie)
 
 # get structure to check if tie is not a factor
 str(footballgames)
+
+footballgames
 ```
 
-After deriving the categorical variable, the data still had 19 variables, but with 10 character variables, seven
-numeric variables, one time variable, and one categorical variable. For more information about the data, please refer
-to the table below, which contains a list of variables, their descriptions, and their types.
+After deriving the categorical variable, additional data cleaning was needed. The "winner" variable contains the name
+of the winning team; however, this still contained the name of the "winning" team even if the game ended in a tie. To 
+clean this, another loop was utilized to replace the winning team's name with "tie" in the "winner" column, if the 
+game ended in a tie. The code for this is shown below.
+
+```{r, echo = TRUE, results = 'hide'}
+# replace ties with string 1 instead of string with team name
+for(i in 1:5324){
+  if(footballgames$tie[i] == 1){
+    footballgames$winner[i] <- "Tie"
+    i < i+1
+  }
+  else{
+    i <- i+1
+  }
+}
+
+footballgames
+```
+
+
+Once the data was cleaned, it still had 19 variables, but with 10 character variables, seven numeric variables, one
+time variable, and one categorical variable. For more information about the data, please refer to the table below,
+which contains a list of variables, their descriptions, and their types.
 
 Variable Name | Variable Description | Variable Type
 ------------- | -------------------- | -------------
