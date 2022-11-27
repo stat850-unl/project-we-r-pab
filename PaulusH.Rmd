@@ -31,7 +31,9 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 
 ```{r}
 library(dplyr)
-##trial
+library(ggplot2)
+library(stringr)
+#reading in dataset
 footballgames <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv')
 
 #filtering out broncos games
@@ -96,4 +98,34 @@ ggplot(data = chiefsnumbers, aes(x = year, y = winning_percentage)) +
   geom_line(colour = 'red') +
   geom_point(colour = 'red')
 ```
+```{r}
+#filtering out chiefs games
+chargersgames<-filter(footballgames, home_team == "San Diego Chargers" | away_team == "San Diego Chargers" | home_team == "Los Angeles Chargers" | away_team == "Los Angeles Chargers")
 
+#number of games played each year
+chargersplays<-chargersgames %>%
+  group_by(`year`) %>%
+  summarise(number_of_games = n())
+
+#filtering out the games that the Chiefs won
+chargerswins<-filter(chargersgames, winner == "Los Angeles Chargers" | winner == "San Diego Chargers")
+
+#number of games won by the Chiefs
+chargersnumberofwins<-chargerswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting and adding the winning ratio
+chargersnumbers<-inner_join(chargersplays, chargersnumberofwins)
+chargersnumbers<- 
+  chargersnumbers %>% 
+  mutate(winning_percentage = chargersnumbers$number_of_wins/chargersnumbers$number_of_games)
+
+#plotting the ratio as line and plotting the tables
+ggplot(data = chargersnumbers, aes(x = year, y = winning_percentage)) +
+  labs(title = "Chargers' Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins") +
+  geom_line(colour = 'blue') +
+  geom_point(colour = 'blue')
+```
