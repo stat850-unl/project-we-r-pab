@@ -99,7 +99,7 @@ ggplot(data = chiefsnumbers, aes(x = year, y = winning_percentage)) +
   geom_point(colour = 'red')
 ```
 ```{r}
-#filtering out chiefs games
+#filtering out chargers games
 chargersgames<-filter(footballgames, home_team == "San Diego Chargers" | away_team == "San Diego Chargers" | home_team == "Los Angeles Chargers" | away_team == "Los Angeles Chargers")
 
 #number of games played each year
@@ -107,7 +107,7 @@ chargersplays<-chargersgames %>%
   group_by(`year`) %>%
   summarise(number_of_games = n())
 
-#filtering out the games that the Chiefs won
+#filtering out the games that the Chargers won
 chargerswins<-filter(chargersgames, winner == "Los Angeles Chargers" | winner == "San Diego Chargers")
 
 #number of games won by the Chiefs
@@ -141,10 +141,10 @@ raidersplays<-raidersgames %>%
   group_by(`year`) %>%
   summarise(number_of_games = n())
 
-#filtering out the games that the Chiefs won
+#filtering out the games that the Raiders won
 raiderswins<-filter(raidersgames, winner == "Oakland Raiders")
 
-#number of games won by the Chiefs
+#number of games won by the Raiders
 raidersnumberofwins<-raiderswins %>%
   group_by(`year`) %>%
   summarise(number_of_wins = n())
