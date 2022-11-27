@@ -112,6 +112,7 @@ plots of summary statistics
 
 # Analysis
 
+#### What does number of wins trend looks like for a selected team?
 
 ```{r}
 library(tidyverse)
@@ -130,7 +131,7 @@ ggplotly(plot1)
 
 ```
 
-
+#### Is there any relation between points won vs yards won for some selected teams?
 
 ```{r}
 #Interactive scatterplot of points won vs yards won for selected teams
