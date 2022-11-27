@@ -142,7 +142,6 @@ plot2<-ggplot(data= m)+ geom_point(aes(pts_win, yds_win,color= winner)) +xlab("P
 ggplotly(plot2)
 ```
 
-
 #### Is there an Advantage to Playing at Home?
 
 It's a common belief that playing any sport (including football) at home stadiums gives the home team an advantage
@@ -191,6 +190,66 @@ footballgames %>%
 
 ```
 
+
+#### What does the win percentage at home looks like for AFC vs NFC teams?
+```{r}
+#AFC vs NFC teams list
+afc_teams<- c("Cleveland Browns","Baltimore Ravens","Pittsburgh Steelers","Cincinnati Bengals","Miami Dolphins","Buffalo Bills","New York Jets","New England Patriots", "Kansas City Chiefs","Los Angeles Chargers","Denver Broncos","Las Vegas Raiders","Tennessee Titans","Houston Texans","Indianapolis Colts","Jacksonville Jaguars")
+
+nfc_teams<-c("Minnesota Vikings","Chicago Bears","Detroit Lions","Green Bay Packers","New York Giants","Dallas Cowboys","Washington Redskins","Philadelphia Eagles","Arizona Cardinals","Los Angeles Rams","Seatlle Seahawks","San Franscisco 49ers","Atlanta Falcons","Tampa Bay","Carolina Panthers ","New Orlean Saints") 
+
+#Created a new column in original dataset called 'divison' the teams play in. 
+for(i in 1:5324){
+  if(footballgames$home_team[i] %in% afc_teams){
+    footballgames$divison[i]<- "AFC"
+    
+  }
+  else{
+    footballgames$divison[i]<- "NFC"
+    
+  }
+}
+
+#Percentage of game won at home by NFC teams whenever they played AFC teams.
+###First create a data with home team being NFC team and away team being AFC team. 
+homewin_nfc<-filter(footballgames, footballgames$home_team %in% nfc_teams & footballgames$away_team %in% afc_teams )
+
+###To find out which divison won when NFC played at home. 
+for(i in 1:364){
+  if(homewin_nfc$winner[i]%in% afc_teams){
+     homewin_nfc$win_div[i]<-"AFC_Win"
+     }
+  else{
+    homewin_nfc$win_div[i]<-"NFC_Win"  
+    }
+}
+
+#Calculate the percentage of game won by NFC team at home.
+(table(homewin_nfc$win_div)/364)*100
+
+#NFC_Win = 55.5%
+#AFC_Win = 44.5%
+
+#Percentage of game won at home by AFC teams whenever they played NFC teams.
+
+homewin_afc<-filter(footballgames, footballgames$home_team %in% afc_teams & footballgames$away_team %in% nfc_teams )
+
+###To find out which divison won when AFC played at home. 
+for(i in 1:364){
+  if(homewin_afc$winner[i]%in% afc_teams){
+     homewin_afc$win_div[i]<-"AFC_Win"
+     }
+  else{
+    homewin_afc$win_div[i]<-"NFC_Win"  
+    }
+}
+
+#Calculate the percentage of game won by NFC team at home.
+(table(homewin_afc$win_div)/364)*100
+
+#AFC_Win = 62.0%
+#NFC_Win = 38.0%
+```
 
 # Conclusion
 
