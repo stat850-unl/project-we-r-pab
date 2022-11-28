@@ -36,7 +36,20 @@ str(footballgames)
 
 ```
 
+```{r, echo = TRUE, results = 'hide'}
+# replace ties with string 1 instead of string with team name
+for(i in 1:5324){
+  if(footballgames$tie[i] == 1){
+    footballgames$winner[i] <- "Tie"
+    i < i+1
+  }
+  else{
+    i <- i+1
+  }
+}
 
+footballgames
+```
 
 ```{r}
 
@@ -80,6 +93,7 @@ ggplotly(plot3)
 
 
 ```{r}
+library(dplyr)
 #AFC vs NFC teams list
 afc_teams<- c("Cleveland Browns","Baltimore Ravens","Pittsburgh Steelers","Cincinnati Bengals","Miami Dolphins","Buffalo Bills","New York Jets","New England Patriots", "Kansas City Chiefs","Los Angeles Chargers","Denver Broncos","Las Vegas Raiders","Tennessee Titans","Houston Texans","Indianapolis Colts","Jacksonville Jaguars")
 
@@ -87,30 +101,58 @@ nfc_teams<-c("Minnesota Vikings","Chicago Bears","Detroit Lions","Green Bay Pack
 ```
 
 ```{r}
-#Created a new column in original dataset called 'divison' the teams play in. 
+#Created a new column in original dataset called 'division' the teams play in by home team.
+
 for(i in 1:5324){
   if(footballgames$home_team[i] %in% afc_teams){
     footballgames$divison[i]<- "AFC"
-    
+
   }
   else{
     footballgames$divison[i]<- "NFC"
-    
+
   }
 }
+```
 
+```{r}
+#Comparing the number of games won by AFC team vs NFC team. 
+for(i in 1:5324){
+  if(footballgames$winner[i]=="Tie"){
+     footballgames$won_by[i]<-"Tied"
+  }
+  else if(footballgames$winner[i]%in% afc_teams){
+    footballgames$won_by[i]<-"AFC_team_win"
+  }
+  else{
+    footballgames$won_by[i]<-"NFC_team_win"  
+    }
+}
+
+##Calculate the percentage of game won by NFC team at home.
+table(footballgames$won_by)
+
+
+```
+
+
+```{r}
 #Percentage of game won at home by NFC teams whenever they played AFC teams.
+
 ###First create a data with home team being NFC team and away team being AFC team. 
 homewin_nfc<-filter(footballgames, footballgames$home_team %in% nfc_teams & footballgames$away_team %in% afc_teams )
 
-###To find out which divison won when NFC played at home. 
+###To find out which division won when NFC played at home. 
 for(i in 1:364){
-  if(homewin_nfc$winner[i]%in% afc_teams){
-     homewin_nfc$win_div[i]<-"AFC_Win"
-     }
+  if(homewin_nfc$winner[i]=="Tie"){
+     footballgames$win_div[i]<-"Tied"
+  }
+  else if(homewin_nfc$winner[i]%in% afc_teams){
+    homewin_nfc$win_div[i]<-"AFC_Win"
+  }
   else{
     homewin_nfc$win_div[i]<-"NFC_Win"  
-    }
+  }
 }
 
 #Calculate the percentage of game won by NFC team at home.
@@ -123,23 +165,77 @@ for(i in 1:364){
 
 homewin_afc<-filter(footballgames, footballgames$home_team %in% afc_teams & footballgames$away_team %in% nfc_teams )
 
-###To find out which divison won when AFC played at home. 
-for(i in 1:364){
-  if(homewin_afc$winner[i]%in% afc_teams){
-     homewin_afc$win_div[i]<-"AFC_Win"
-     }
+###To find out which division won when AFC played at home. 
+for(i in 1:366){
+  if(homewin_afc$winner[i]=="Tie"){
+     homewin_afc$win_div[i]<-"Tied"
+  }
+  else if(homewin_afc$winner[i]%in% afc_teams){
+    homewin_afc$win_div[i]<-"AFC_Win"
+  }
   else{
     homewin_afc$win_div[i]<-"NFC_Win"  
-    }
+  }
+}
+#Calculate the percentage of game won by NFC team at home.
+(table(homewin_afc$win_div)/366)*100
+
+#AFC_Win = 61.0%
+#NFC_Win = 38.0%
+#Tied = 1%   
+```
+
+```{r}
+#Create a new column 'HT' to find whose home team was: AFC or NFC
+
+for (i in 1:5324){
+  if(footballgames$home_team[i] %in% afc_teams){
+    footballgames$HT[i]<- "AFC"
+  }
+  else{
+    footballgames$HT[i]<-"NFC"
+  }
 }
 
-#Calculate the percentage of game won by NFC team at home.
-(table(homewin_afc$win_div)/364)*100
+table(footballgames$HT)
 
-#AFC_Win = 62.0%
-#NFC_Win = 38.0%
-   
+
+#Create a new column 'AT' to find whose away team was: AFC or NFC
+for (i in 1:5324){
+  if(footballgames$away_team[i] %in% afc_teams){
+    footballgames$AT[i]<- "AFC"
+  }
+  else{
+    footballgames$AT[i]<-"NFC"
+  }
+}
+
+table(footballgames$AT)
+
+
+#Find the games AFC team vs NFC team, home and away. 
+
+afcvsnfc<- filter(footballgames, HT=="AFC" & AT=="NFC"| HT=="NFC" & AT=="AFC")
+
+#Find out who won against AFC vs NFC only, home and away. 
+for(i in 1:1536){
+  if(afcvsnfc$winner[i] %in% afc_teams){
+    afcvsnfc$win_team[i]<- "AFC"
+  }
+  else{
+    afcvsnfc$win_team[i]<- "NFC"
+  }  
+}
+
+#Calculate the percentage of games won by NFC and AFC teams.
+(table(afcvsnfc$win_team)/1536)*100
+
+#Whenever, AFC played NFC either home or away:
+#AFC won 53.6% of the games vs. NFC 46.4%
 ```
+
+
+
 
 
 
