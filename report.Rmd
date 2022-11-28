@@ -251,6 +251,140 @@ for(i in 1:364){
 #NFC_Win = 38.0%
 ```
 
+#####Out of the AFC West Teams, which teams should you root for?
+```{r}
+library(dplyr)
+library(ggplot2)
+library(stringr)
+#reading in dataset
+footballgames <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv')
+
+#filtering out broncos games
+broncosgames<-filter(footballgames, home_team == "Denver Broncos" | away_team == "Denver Broncos")
+
+#number of games played each year
+broncosplays<-broncosgames %>%
+  group_by(`year`) %>%
+  summarise(number_of_games = n())
+
+#filtering out the games that the Broncos won
+broncoswins<-filter(broncosgames, winner == "Denver Broncos")
+
+#number of games won by the Broncos
+broncosnumberofwins<-broncoswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting and adding the winning ratio
+broncosnumbers<-inner_join(broncosplays, broncosnumberofwins)
+broncosnumbers<- 
+  broncosnumbers %>% 
+  mutate(winning_percentage = broncosnumbers$number_of_wins/broncosnumbers$number_of_games)
+
+#plotting the ratio as line and plotting the tables
+ggplot(data = broncosnumbers, aes(x = year, y = winning_percentage)) +
+  labs(title = "Broncos' Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins") +
+  geom_line(colour = 'orange') +
+  geom_point(colour = 'orange')
+```
+
+```{r}
+#filtering out chiefs games
+chiefsgames<-filter(footballgames, home_team == "Kansas City Chiefs" | away_team == "Kansas City Chiefs")
+
+#number of games played each year
+chiefsplays<-chiefsgames %>%
+  group_by(`year`) %>%
+  summarise(number_of_games = n())
+
+#filtering out the games that the Chiefs won
+chiefswins<-filter(chiefsgames, winner == "Kansas City Chiefs")
+
+#number of games won by the Chiefs
+chiefsnumberofwins<-chiefswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting and adding the winning ratio
+chiefsnumbers<-inner_join(chiefsplays, chiefsnumberofwins)
+chiefsnumbers<- 
+  chiefsnumbers %>% 
+  mutate(winning_percentage = chiefsnumbers$number_of_wins/chiefsnumbers$number_of_games)
+
+#plotting the ratio as line and plotting the tables
+ggplot(data = chiefsnumbers, aes(x = year, y = winning_percentage)) +
+  labs(title = "Chiefs' Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins") +
+  geom_line(colour = 'red') +
+  geom_point(colour = 'red')
+```
+
+```{r}
+#filtering out chargers games
+chargersgames<-filter(footballgames, home_team == "San Diego Chargers" | away_team == "San Diego Chargers" | home_team == "Los Angeles Chargers" | away_team == "Los Angeles Chargers")
+
+#number of games played each year
+chargersplays<-chargersgames %>%
+  group_by(`year`) %>%
+  summarise(number_of_games = n())
+
+#filtering out the games that the Chargers won
+chargerswins<-filter(chargersgames, winner == "Los Angeles Chargers" | winner == "San Diego Chargers")
+
+#number of games won by the Chiefs
+chargersnumberofwins<-chargerswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting and adding the winning ratio
+chargersnumbers<-inner_join(chargersplays, chargersnumberofwins)
+chargersnumbers<- 
+  chargersnumbers %>% 
+  mutate(winning_percentage = chargersnumbers$number_of_wins/chargersnumbers$number_of_games)
+
+#plotting the ratio as line and plotting the tables
+ggplot(data = chargersnumbers, aes(x = year, y = winning_percentage)) +
+  labs(title = "Chargers' Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins") +
+  geom_line(colour = 'blue') +
+  geom_point(colour = 'blue')
+```
+
+```{r}
+#filtering out chiefs games
+raidersgames<-filter(footballgames, home_team == "Oakland Raiders" | away_team == "Oakland Raiders")
+
+#number of games played each year
+raidersplays<-raidersgames %>%
+  group_by(`year`) %>%
+  summarise(number_of_games = n())
+
+#filtering out the games that the Raiders won
+raiderswins<-filter(raidersgames, winner == "Oakland Raiders")
+
+#number of games won by the Raiders
+raidersnumberofwins<-raiderswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting and adding the winning ratio
+raidersnumbers<-inner_join(raidersplays, raidersnumberofwins)
+raidersnumbers<- 
+  raidersnumbers %>% 
+  mutate(winning_percentage = raidersnumbers$number_of_wins/raidersnumbers$number_of_games)
+
+#plotting the ratio as line and plotting the tables
+ggplot(data = raidersnumbers, aes(x = year, y = winning_percentage)) +
+  labs(title = "Raiders' Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins") +
+  geom_line(colour = 'black') +
+  geom_point(colour = 'black')
+```
 # Conclusion
 
 # Future Ideas
