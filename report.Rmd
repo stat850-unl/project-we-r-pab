@@ -385,6 +385,8 @@ ggplot(data = raidersnumbers, aes(x = year, y = winning_percentage)) +
   geom_line(colour = 'black') +
   geom_point(colour = 'black')
 ```
+
+
 # Conclusion
 
 # Future Ideas
