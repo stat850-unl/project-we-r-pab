@@ -36,7 +36,20 @@ str(footballgames)
 
 ```
 
+```{r, echo = TRUE, results = 'hide'}
+# replace ties with string 1 instead of string with team name
+for(i in 1:5324){
+  if(footballgames$tie[i] == 1){
+    footballgames$winner[i] <- "Tie"
+    i < i+1
+  }
+  else{
+    i <- i+1
+  }
+}
 
+footballgames
+```
 
 ```{r}
 
@@ -79,7 +92,7 @@ ggplotly(plot3)
 ```
 
 
-<<<<<<< HEAD
+
 ```{r}
 library(dplyr)
 #AFC vs NFC teams list
@@ -268,13 +281,4 @@ tapply(homewin_nfc$pts_win, homewin_nfc$win_div, summary)
 
 tapply(homewin_afc$pts_win, homewin_afc$win_div, summary)
 
-# filter(homewin_afc,winner!="Tie") %>% tapply(pts_win, win_div, summary)
-
 ```
-
-
-
-
-
-
-
