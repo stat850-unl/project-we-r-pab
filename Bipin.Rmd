@@ -280,7 +280,7 @@ tapply(homewin_nfc$pts_win, homewin_nfc$win_div, summary)
 
 tapply(homewin_afc$pts_win, homewin_afc$win_div, summary)
 
-filter(homewin_afc,winner!="Tie") %>% tapply(pts_win, win_div, summary)
+# filter(homewin_afc,winner!="Tie") %>% tapply(pts_win, win_div, summary)
 
 ```
 
