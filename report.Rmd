@@ -259,7 +259,7 @@ footballgames %>%
 
 
 #### What does the number of wins at home looks like for AFC vs NFC teams?
-Here we want to see who wins most games at home as a whole, NFC's teams or AFC's teams. In order to achieve this, first NFC teams home games are filtered out from the original data set. In this new dataset, a new column called 'win_div' is created that stores the result of the winning team's divison. Then, the number of games won by each division teams whenever NFC played at home is calculated and respective barplot is created. Similar steps are carried out whenever the AFC teams are playing at home. 
+Here we want to see who wins most games at home as a whole, NFC's teams or AFC's teams. In order to achieve this, first NFC teams home games are filtered out from the original data set. In this new dataset, a new column called 'win_div' is created that stores the result of the winning team's divison. Then, the number of games won by each division teams whenever NFC played at home is calculated. Similar steps are carried out whenever the AFC teams are playing at home. Finally, a side-by-side bar-plots are created for comparison. 
 ```{r}
 #Number of games won at home by NFC teams whenever they played AFC teams.
 
