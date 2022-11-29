@@ -488,6 +488,33 @@ ggplot(data = raidersnumbers, aes(x = year, y = winning_percentage)) +
   geom_point(colour = 'black')
 ```
 
+```{r}
+#joining the tables together for all the teams and creating interactive plot for the teams
+raidersnumbers<-raidersnumbers %>% 
+  mutate(team_name = "Oakland Raiders")
+chiefsnumbers<-chiefsnumbers %>% 
+  mutate(team_name = "Kansas City Chiefs")
+chargersnumbers<-chargersnumbers  %>% 
+  mutate(team_name = "Los Angeles Chargers")
+broncosnumbers<-broncosnumbers  %>% 
+  mutate(team_name = "Denver Broncos")
+combinedtables<-bind_rows(raidersnumbers, chiefsnumbers, chargersnumbers, broncosnumbers)
+
+library(plotly)
+library(ggthemes)                             
+finalplot<-ggplot(data = combinedtables, aes(x = year, color = team_name, y = winning_percentage)) +
+  labs(title = "AFC West Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins",
+       color = "Team Name") +
+  geom_line() +
+  geom_point() +
+  scale_colour_manual(values = c("Oakland Raiders" = "black", "Kansas City Chiefs" = "red", "Los Angeles Chargers" = "blue", "Denver Broncos" = "orange")) +
+  theme_stata()
+
+ggplotly(finalplot)
+
+```
 
 # Conclusion
 
