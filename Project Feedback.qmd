@@ -322,6 +322,7 @@ library(fable)
 library(lubridate)
 library(ggplot2)
 library(feasts)
+library(ggfortify)
 
 # Create a time series object 
 broncosts <- broncosnumbers %>% 
@@ -333,7 +334,7 @@ fitwinpercentages <- broncosts %>%
 report(fitwinpercentages)
 
 # Forecast and plot
-fitwinpercentages %>% forecast(h = 3) %>% autoplot(broncosts)
+fitwinpercentages %>% forecast(h = 3) %>% autoplot(broncosts, color = 'orange')
 ```
 
 
@@ -385,7 +386,7 @@ fitwinpercentages <- chiefsts %>%
 report(fitwinpercentages)
 
 # Forecast and plot
-fitwinpercentages %>% forecast(h = 3) %>% autoplot(chiefsts)
+fitwinpercentages %>% forecast(h = 3) %>% autoplot(chiefsts, color = 'red')
 ```
 
 ```{r, echo = FALSE, warning = FALSE}
@@ -434,7 +435,7 @@ fitwinpercentages <- chargersts %>%
 report(fitwinpercentages)
 
 # Forecast and plot
-fitwinpercentages %>% forecast(h = 3) %>% autoplot(chargersts)
+fitwinpercentages %>% forecast(h = 3) %>% autoplot(chargersts, color = 'blue')
 ```
 
 ```{r, echo = FALSE, warning = FALSE}
@@ -483,7 +484,7 @@ fitwinpercentages <- raidersts %>%
 report(fitwinpercentages)
 
 # Forecast and plot
-fitwinpercentages %>% forecast(h = 3) %>% autoplot(raidersts)
+fitwinpercentages %>% forecast(h = 3) %>% autoplot(raidersts, color = 'black')
 ```
 
 ```{r, echo = FALSE, warning = FALSE}
