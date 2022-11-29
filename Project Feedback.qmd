@@ -65,7 +65,7 @@ footballgames
 Once the data was cleaned, it still had 19 variables, but with 10 character variables, seven numeric variables, one time variable, and one categorical variable. For more information about the data, please refer to the table below, which contains a list of variables, their descriptions, and their types.
 
 | Variable Name  | Variable Description                                | Variable Type |
-|---------------------|------------------------------|---------------------|
+|----------------|-----------------------------------------------------|---------------|
 | year           | The year in which the game was played               | numeric       |
 | week           | The week of the season in which the game was played | character     |
 | home_team      | name of the team playing at their home stadium      | character     |

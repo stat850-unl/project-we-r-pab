@@ -352,7 +352,7 @@ tapply(homewin_afc$pts_win, homewin_afc$win_div, summary)
 
 ```
 
-#####Out of the AFC West Teams, which team should you root for?
+#####Which AFC West teams will do well in the next season?
 In order to obtain the winning percentages each year by each team, we started our lines of code by filtering all the games that the team participated in. We grouped the games by year and we counted the number of games they played that year. Next, we filtered out the games that they won, grouped those games by year, and counted the number of games they won that year. Now that we have two separate tables summarizing all the games played and won by year, we joined those tables and added a separate column for the winning percentage. Winning percentage is obtained from dividing the number of wins each year by the number of games each year. Finally, we decided to plot our results.
 ```{r}
 library(dplyr)
