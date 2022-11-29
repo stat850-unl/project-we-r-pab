@@ -174,7 +174,7 @@ footballgames %>%
 
 #### Which AFC West teams will do well in the next season?
 
-Fans and analysts are often trying to predict which games will be won and lost by their favorite teams. As we have seen from the previous sections, NFL teams are divided into two conferences: AFC and NFC. Since one of our team members is a fan of the Denver Broncos (an AFC West Team), combined with the fact that some AFC West division teams have played the Superbowl 4 times over the past decade (source: [link](https://en.wikipedia.org/wiki/List_of_Super_Bowl_champions); we decided to analyze the pattern of percentage of wins for all teams of AFC West division and plot them as a way to check if there is a trend. By looking at the trend over the past 20 years, we hope that people can assess the teams' past performance and try to predict future performances of AFC West teams.
+Fans and analysts are often trying to predict which games will be won and lost by their favorite teams. As we have seen from the previous sections, NFL teams are divided into two conferences: AFC and NFC. Since one of our team members is a fan of the Denver Broncos (an AFC West Team), combined with the fact that some AFC West division teams have played the Superbowl 4 times over the past decade (source: [link](https://en.wikipedia.org/wiki/List_of_Super_Bowl_champions)) we decided to analyze the pattern of percentage of wins for all teams of AFC West division and plot them as a way to check if there is a trend. By looking at the trend over the past 20 years, we hope that people can assess the teams' past performance and try to predict future performances of AFC West teams.
 
 \*INSERT PLOTS HERE MAYBE?\*
 
