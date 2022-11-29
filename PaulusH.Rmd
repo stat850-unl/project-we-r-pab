@@ -183,7 +183,6 @@ broncosnumbers<-broncosnumbers  %>%
 combinedtables<-bind_rows(raidersnumbers, chiefsnumbers, chargersnumbers, broncosnumbers)
 
 library(plotly)
-library(ggthemes)                             
 finalplot<-ggplot(data = combinedtables, aes(x = year, color = team_name, y = winning_percentage)) +
   labs(title = "AFC West Percentage of Wins through 2000 - 2019",
          x = "Year",
@@ -193,7 +192,6 @@ finalplot<-ggplot(data = combinedtables, aes(x = year, color = team_name, y = wi
   geom_point() +
   scale_colour_manual(values = c("Oakland Raiders" = "black", "Kansas City Chiefs" = "red", "Los Angeles Chargers" = "blue", "Denver Broncos" = "orange")) +
   theme_stata()
-
 ggplotly(finalplot)
 
 ```
