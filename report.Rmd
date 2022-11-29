@@ -193,6 +193,8 @@ footballgames %>%
 
 #### What does the win percentage at home looks like for AFC vs NFC teams?
 ```{r}
+library(dplyr)
+
 #AFC vs NFC teams list
 afc_teams<- c("Cleveland Browns","Baltimore Ravens","Pittsburgh Steelers","Cincinnati Bengals","Miami Dolphins","Buffalo Bills","New York Jets","New England Patriots", "Kansas City Chiefs","Los Angeles Chargers","Denver Broncos","Las Vegas Raiders","Tennessee Titans","Houston Texans","Indianapolis Colts","Jacksonville Jaguars")
 
