@@ -178,7 +178,7 @@ Fans and analysts are often trying to predict which games will be won and lost b
 
 \*INSERT PLOTS HERE MAYBE?\*
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 library(dplyr)
 library(ggplot2)
 library(stringr)
@@ -217,7 +217,7 @@ ggplot(data = broncosnumbers, aes(x = year, y = winning_percentage)) +
   theme_stata()
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 #filtering out chiefs games
 chiefsgames<-filter(footballgames, home_team == "Kansas City Chiefs" | away_team == "Kansas City Chiefs")
 
@@ -251,7 +251,7 @@ ggplot(data = chiefsnumbers, aes(x = year, y = winning_percentage)) +
 
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 #filtering out chargers games
 chargersgames<-filter(footballgames, home_team == "San Diego Chargers" | away_team == "San Diego Chargers" | home_team == "Los Angeles Chargers" | away_team == "Los Angeles Chargers")
 
@@ -284,7 +284,7 @@ ggplot(data = chargersnumbers, aes(x = year, y = winning_percentage)) +
   theme_stata()
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 #filtering out chiefs games
 raidersgames<-filter(footballgames, home_team == "Oakland Raiders" | away_team == "Oakland Raiders")
 
@@ -317,7 +317,7 @@ ggplot(data = raidersnumbers, aes(x = year, y = winning_percentage)) +
   theme_stata()
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 #joining the tables together for all the teams and creating interactive plot for the teams
 raidersnumbers<-raidersnumbers %>% 
   mutate(team_name = "Oakland Raiders")
