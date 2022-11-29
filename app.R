@@ -21,7 +21,6 @@ ui <- fluidPage(
                   label = "Choose team:",
                   choices = c("Denver Broncos", "Los Angeles Chargers", "Kansas City Chiefs", "Oakland Raiders", "San Diego Chargers"),
                   selected = "Denver Broncos"),
-      
     ),
     mainPanel(
       dataTableOutput("games"),
