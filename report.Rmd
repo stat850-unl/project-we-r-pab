@@ -112,6 +112,7 @@ plots of summary statistics
 
 # Analysis
 
+#### What does number of wins trend looks like for a selected team?
 
 ```{r}
 library(tidyverse)
@@ -130,7 +131,7 @@ ggplotly(plot1)
 
 ```
 
-
+#### Is there any relation between points won vs yards won for some selected teams?
 
 ```{r}
 #Interactive scatterplot of points won vs yards won for selected teams
@@ -140,7 +141,73 @@ plot2<-ggplot(data= m)+ geom_point(aes(pts_win, yds_win,color= winner)) +xlab("P
 
 ggplotly(plot2)
 ```
+#### AFC or NFC, who are winning the most?
 
+The National Football League (NFL) is a composition of two divisions AFC (American Football Conference) and NFC (National Football Conference). In total, there are 32 teams in NFL, 16 are from AFC and other 16 from NFC. Here, the objective is to find out who have won most games (Home and Away) whenever an AFC team meets with a NFC team. In order to this,  two new columns 'HT' and 'AT' is created to find out if the home and away playing team was AFC or NFC with reference from the list of AFC teams and NFC teams and the variables 'home_team' and 'away_team'. However, there were games that was played between AFC teams as well as NFC teams which we are not interested in. So, the data was filter out for only the matches between AFC and NFC teams. Out of 5324 games, only 1536 games were played between an AFC team and NFC team. The respective winning percentages for each division is then calculated and a bar plot of the same is created. 
+```{r}
+####Calculating the percentages of AFC and NFC wins whenever they face each other.
+
+library(dplyr)
+#AFC vs NFC teams list
+afc_teams<- c("Cleveland Browns","Baltimore Ravens","Pittsburgh Steelers","Cincinnati Bengals","Miami Dolphins","Buffalo Bills","New York Jets","New England Patriots", "Kansas City Chiefs","Los Angeles Chargers","Denver Broncos","Las Vegas Raiders","Tennessee Titans","Houston Texans","Indianapolis Colts","Jacksonville Jaguars")
+
+nfc_teams<-c("Minnesota Vikings","Chicago Bears","Detroit Lions","Green Bay Packers","New York Giants","Dallas Cowboys","Washington Redskins","Philadelphia Eagles","Arizona Cardinals","Los Angeles Rams","Seatlle Seahawks","San Franscisco 49ers","Atlanta Falcons","Tampa Bay","Carolina Panthers ","New Orlean Saints")
+
+#Create a new column 'HT' to find which was the home team: AFC or NFC
+
+for (i in 1:5324){
+  if(footballgames$home_team[i] %in% afc_teams){
+    footballgames$HT[i]<- "AFC"
+  }
+  else{
+    footballgames$HT[i]<-"NFC"
+  }
+}
+
+table(footballgames$HT)
+
+
+#Create a new column 'AT' to find which was the away team: AFC or NFC
+for (i in 1:5324){
+  if(footballgames$away_team[i] %in% afc_teams){
+    footballgames$AT[i]<- "AFC"
+  }
+  else{
+    footballgames$AT[i]<-"NFC"
+  }
+}
+
+table(footballgames$AT)
+
+
+#Find the games AFC team vs NFC team, home and away. 
+
+afcvsnfc<- filter(footballgames, HT=="AFC" & AT=="NFC"| HT=="NFC" & AT=="AFC")
+
+#Find out who won against AFC vs NFC only, home and away. 
+for(i in 1:1536){
+  if(afcvsnfc$winner[i]=="Tie"){
+    afcvsnfc$win_team[i]="Tied"
+    }
+    else if(afcvsnfc$winner[i] %in% afc_teams){
+    afcvsnfc$win_team[i]<- "AFC"
+    }
+    else{
+    afcvsnfc$win_team[i]<- "NFC"
+    }  
+}
+
+#Calculate the percentage of games won by NFC and AFC teams.
+(table(afcvsnfc$win_team)/1536)*100
+
+#Whenever, AFC played NFC either home or away:
+#AFC won 53.6% of the games vs. NFC 46.1%. 3% of the games were ended in a tie. 
+
+#Plot of AFC vs NFC playing each other only. 
+plot4<-ggplot(data = afcvsnfc) +
+  geom_bar(mapping = aes(x = win_team, fill=win_team,y = ..prop.., group=1, stat="identity"), stat="count")+xlab("Winning Team")+ylab("Winning Percentage %")+scale_y_continuous(labels = scales::percent, limits=c(0,1))
+ggplotly(plot4)
+```
 
 #### Is there an Advantage to Playing at Home?
 
@@ -191,6 +258,266 @@ footballgames %>%
 ```
 
 
+<<<<<<< HEAD
+=======
+#### What does the number of wins at home looks like for AFC vs NFC teams?
+Here we want to see who wins most games at home as a whole, NFC's teams or AFC's teams. In order to achieve this, first NFC teams home games are filtered out from the original data set. In this new dataset, a new column called 'win_div' is created that stores the result of the winning team's divison. Then, the number of games won by each division teams whenever NFC played at home is calculated. Similar steps are carried out whenever the AFC teams are playing at home. Finally, a side-by-side bar-plots are created for comparison. 
+```{r}
+library(grid)
+library(gridExtra)
+#Number of games won at home by NFC teams whenever they played AFC teams.
+
+###First create a data with home team being NFC team and away team being AFC team. 
+homewin_nfc<-filter(footballgames, footballgames$home_team %in% nfc_teams & footballgames$away_team %in% afc_teams )
+
+###To find out which division won when NFC played at home. 
+for(i in 1:364){
+  if(homewin_nfc$winner[i]=="Tie"){
+     footballgames$win_div[i]<-"Tied"
+  }
+  else if(homewin_nfc$winner[i]%in% afc_teams){
+    homewin_nfc$win_div[i]<-"AFC_Win"
+  }
+  else{
+    homewin_nfc$win_div[i]<-"NFC_Win"  
+  }
+}
+
+#Calculate the number of games won by NFC team at home.
+table(homewin_nfc$win_div)
+
+#Number of games won at home by AFC teams whenever they played NFC teams.
+
+homewin_afc<-filter(footballgames, footballgames$home_team %in% afc_teams & footballgames$away_team %in% nfc_teams )
+
+###To find out which division won when AFC played at home. 
+for(i in 1:366){
+  if(homewin_afc$winner[i]=="Tie"){
+     homewin_afc$win_div[i]<-"Tied"
+  }
+  else if(homewin_afc$winner[i]%in% afc_teams){
+    homewin_afc$win_div[i]<-"AFC_Win"
+  }
+  else{
+    homewin_afc$win_div[i]<-"NFC_Win"  
+  }
+}
+#Calculate the number of games won by AFC team at home.
+table(homewin_afc$win_div)
+
+
+#Bar plot for the number of games won by NFC team at home. 
+plot_nfc_home<-homewin_nfc %>%
+  ggplot(aes(x = win_div, fill = win_div)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by each divison's team when NFC played at home") +   xlab("Winning Division Team") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Div"))+
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win'))
+
+#Bar plot for the number of games won by AFC team at home. 
+plot_afc_home<-homewin_afc %>%
+  ggplot(aes(x = win_div, fill = win_div)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by each divison's team when AFC played at home") +
+  xlab("Winning Division Team") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Div"))
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win', 'Tied')) 
+
+grid.arrange(plot_nfc_home,plot_afc_home, ncol=2)
+```
+
+#### Comparison of points for AFC and NFC teams playing each other. 
+Here, the objective is to compare who scored more points (AFC team vs NFC team) playing in their respective homes. 
+In order to do this, first, dataset that contains only games played at home of NFC teams and away for AFC teams (using 'homewin_nfc' data) is used. Then, a box plot of the variable 'pts_win' is created based on 'win_div' for comparison. 
+Similar analyses is carried out for games played at home of AFC teams and away for NFC teams (using 'homewin_afc' data). The games that are 'tied' are not included in the analyses. 
+Afterwards, the two separate plots created are displayed in the same panel for side-by-side comparison.Finally, a summary table is also produced. 
+
+```{r}
+library(grid)
+library(gridExtra)
+
+pts_nfc_home<-ggplot(data=homewin_nfc, aes(x=win_div,y=pts_win, fill= win_div))+geom_boxplot() +xlab("Winning Division")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC teams at NFC's team home.")+ guides(fill=guide_legend(title="Win Div"))
+
+ggplotly(pts_nfc_home)
+
+pts_afc_home<- ggplot(data=filter(homewin_afc,winner!="Tie"))+geom_boxplot(aes(x=win_div,y=pts_win, fill= win_div))+xlab("Winning Division")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC teams at AFC's team home.")+ guides(fill=guide_legend(title="Win Div"))
+
+ggplotly(pts_afc_home)
+
+grid.arrange(pts_nfc_home, pts_afc_home ,ncol=2)
+
+tapply(homewin_nfc$pts_win, homewin_nfc$win_div, summary)
+
+tapply(homewin_afc$pts_win, homewin_afc$win_div, summary)
+
+# filter(homewin_afc,winner!="Tie") %>% tapply(pts_win, win_div, summary)
+
+```
+
+#####Which AFC West teams will do well in the next season?
+In order to obtain the winning percentages each year by each team, we started our lines of code by filtering all the games that the team participated in. We grouped the games by year and we counted the number of games they played that year. Next, we filtered out the games that they won, grouped those games by year, and counted the number of games they won that year. Now that we have two separate tables summarizing all the games played and won by year, we joined those tables and added a separate column for the winning percentage. Winning percentage is obtained from dividing the number of wins each year by the number of games each year. Finally, we decided to plot our results.
+```{r}
+library(dplyr)
+library(ggplot2)
+library(stringr)
+#reading in dataset
+footballgames <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv')
+
+#filtering out broncos games
+broncosgames<-filter(footballgames, home_team == "Denver Broncos" | away_team == "Denver Broncos")
+
+#number of games played each year
+broncosplays<-broncosgames %>%
+  group_by(`year`) %>%
+  summarise(number_of_games = n())
+
+#filtering out the games that the Broncos won
+broncoswins<-filter(broncosgames, winner == "Denver Broncos")
+
+#number of games won by the Broncos
+broncosnumberofwins<-broncoswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting and adding the winning ratio
+broncosnumbers<-inner_join(broncosplays, broncosnumberofwins)
+broncosnumbers<- 
+  broncosnumbers %>% 
+  mutate(winning_percentage = broncosnumbers$number_of_wins/broncosnumbers$number_of_games)
+
+#plotting the ratio as line and plotting the tables
+ggplot(data = broncosnumbers, aes(x = year, y = winning_percentage)) +
+  labs(title = "Broncos' Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins") +
+  geom_line(colour = 'orange') +
+  geom_point(colour = 'orange')
+```
+
+```{r}
+#filtering out chiefs games
+chiefsgames<-filter(footballgames, home_team == "Kansas City Chiefs" | away_team == "Kansas City Chiefs")
+
+#number of games played each year
+chiefsplays<-chiefsgames %>%
+  group_by(`year`) %>%
+  summarise(number_of_games = n())
+
+#filtering out the games that the Chiefs won
+chiefswins<-filter(chiefsgames, winner == "Kansas City Chiefs")
+
+#number of games won by the Chiefs
+chiefsnumberofwins<-chiefswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting and adding the winning ratio
+chiefsnumbers<-inner_join(chiefsplays, chiefsnumberofwins)
+chiefsnumbers<- 
+  chiefsnumbers %>% 
+  mutate(winning_percentage = chiefsnumbers$number_of_wins/chiefsnumbers$number_of_games)
+
+#plotting the ratio as line and plotting the tables
+ggplot(data = chiefsnumbers, aes(x = year, y = winning_percentage)) +
+  labs(title = "Chiefs' Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins") +
+  geom_line(colour = 'red') +
+  geom_point(colour = 'red')
+```
+
+```{r}
+#filtering out chargers games
+chargersgames<-filter(footballgames, home_team == "San Diego Chargers" | away_team == "San Diego Chargers" | home_team == "Los Angeles Chargers" | away_team == "Los Angeles Chargers")
+
+#number of games played each year
+chargersplays<-chargersgames %>%
+  group_by(`year`) %>%
+  summarise(number_of_games = n())
+
+#filtering out the games that the Chargers won
+chargerswins<-filter(chargersgames, winner == "Los Angeles Chargers" | winner == "San Diego Chargers")
+
+#number of games won by the Chiefs
+chargersnumberofwins<-chargerswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting and adding the winning ratio
+chargersnumbers<-inner_join(chargersplays, chargersnumberofwins)
+chargersnumbers<- 
+  chargersnumbers %>% 
+  mutate(winning_percentage = chargersnumbers$number_of_wins/chargersnumbers$number_of_games)
+
+#plotting the ratio as line and plotting the tables
+ggplot(data = chargersnumbers, aes(x = year, y = winning_percentage)) +
+  labs(title = "Chargers' Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins") +
+  geom_line(colour = 'blue') +
+  geom_point(colour = 'blue')
+```
+
+```{r}
+#filtering out chiefs games
+raidersgames<-filter(footballgames, home_team == "Oakland Raiders" | away_team == "Oakland Raiders")
+
+#number of games played each year
+raidersplays<-raidersgames %>%
+  group_by(`year`) %>%
+  summarise(number_of_games = n())
+
+#filtering out the games that the Raiders won
+raiderswins<-filter(raidersgames, winner == "Oakland Raiders")
+
+#number of games won by the Raiders
+raidersnumberofwins<-raiderswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting and adding the winning ratio
+raidersnumbers<-inner_join(raidersplays, raidersnumberofwins)
+raidersnumbers<- 
+  raidersnumbers %>% 
+  mutate(winning_percentage = raidersnumbers$number_of_wins/raidersnumbers$number_of_games)
+
+#plotting the ratio as line and plotting the tables
+ggplot(data = raidersnumbers, aes(x = year, y = winning_percentage)) +
+  labs(title = "Raiders' Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins") +
+  geom_line(colour = 'black') +
+  geom_point(colour = 'black')
+```
+
+```{r}
+#joining the tables together for all the teams and creating interactive plot for the teams
+raidersnumbers<-raidersnumbers %>% 
+  mutate(team_name = "Oakland Raiders")
+chiefsnumbers<-chiefsnumbers %>% 
+  mutate(team_name = "Kansas City Chiefs")
+chargersnumbers<-chargersnumbers  %>% 
+  mutate(team_name = "Los Angeles Chargers")
+broncosnumbers<-broncosnumbers  %>% 
+  mutate(team_name = "Denver Broncos")
+combinedtables<-bind_rows(raidersnumbers, chiefsnumbers, chargersnumbers, broncosnumbers)
+
+library(plotly)
+library(ggthemes)                             
+finalplot<-ggplot(data = combinedtables, aes(x = year, color = team_name, y = winning_percentage)) +
+  labs(title = "AFC West Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins",
+       color = "Team Name") +
+  geom_line() +
+  geom_point() +
+  scale_colour_manual(values = c("Oakland Raiders" = "black", "Kansas City Chiefs" = "red", "Los Angeles Chargers" = "blue", "Denver Broncos" = "orange")) +
+  theme_stata()
+
+ggplotly(finalplot)
+
+```
+>>>>>>> cf89c9a5dd99b3cddf65dbe10f79e0c559a2ed9f
 
 # Conclusion
 
