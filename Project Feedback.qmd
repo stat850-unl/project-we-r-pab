@@ -178,6 +178,172 @@ Fans and analysts are often trying to predict which games will be won and lost b
 
 \*INSERT PLOTS HERE MAYBE?\*
 
+```{r, echo = FALSE}
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(ggthemes)                             
+
+
+#filtering out broncos games
+broncosgames<-filter(footballgames, home_team == "Denver Broncos" | away_team == "Denver Broncos")
+
+#number of games played each year
+broncosplays<-broncosgames %>%
+  group_by(`year`) %>%
+  summarise(number_of_games = n())
+
+#filtering out the games that the Broncos won
+broncoswins<-filter(broncosgames, winner == "Denver Broncos")
+
+#number of games won by the Broncos
+broncosnumberofwins<-broncoswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting and adding the winning ratio
+broncosnumbers<-inner_join(broncosplays, broncosnumberofwins)
+broncosnumbers<- 
+  broncosnumbers %>% 
+  mutate(winning_percentage = broncosnumbers$number_of_wins/broncosnumbers$number_of_games)
+
+#plotting the ratio as line and plotting the tables
+ggplot(data = broncosnumbers, aes(x = year, y = winning_percentage)) +
+  labs(title = "Broncos' Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins") +
+  geom_line(colour = 'orange') +
+  geom_point(colour = 'orange') + 
+  theme_stata()
+```
+
+```{r, echo = FALSE}
+#filtering out chiefs games
+chiefsgames<-filter(footballgames, home_team == "Kansas City Chiefs" | away_team == "Kansas City Chiefs")
+
+#number of games played each year
+chiefsplays<-chiefsgames %>%
+  group_by(`year`) %>%
+  summarise(number_of_games = n())
+
+#filtering out the games that the Chiefs won
+chiefswins<-filter(chiefsgames, winner == "Kansas City Chiefs")
+
+#number of games won by the Chiefs
+chiefsnumberofwins<-chiefswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting and adding the winning ratio
+chiefsnumbers<-inner_join(chiefsplays, chiefsnumberofwins)
+chiefsnumbers<- 
+  chiefsnumbers %>% 
+  mutate(winning_percentage = chiefsnumbers$number_of_wins/chiefsnumbers$number_of_games)
+
+#plotting the ratio as line and plotting the tables
+ggplot(data = chiefsnumbers, aes(x = year, y = winning_percentage)) +
+  labs(title = "Chiefs' Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins") +
+  geom_line(colour = 'red') +
+  geom_point(colour = 'red') +
+  theme_stata()
+
+```
+
+```{r, echo = FALSE}
+#filtering out chargers games
+chargersgames<-filter(footballgames, home_team == "San Diego Chargers" | away_team == "San Diego Chargers" | home_team == "Los Angeles Chargers" | away_team == "Los Angeles Chargers")
+
+#number of games played each year
+chargersplays<-chargersgames %>%
+  group_by(`year`) %>%
+  summarise(number_of_games = n())
+
+#filtering out the games that the Chargers won
+chargerswins<-filter(chargersgames, winner == "Los Angeles Chargers" | winner == "San Diego Chargers")
+
+#number of games won by the Chiefs
+chargersnumberofwins<-chargerswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting and adding the winning ratio
+chargersnumbers<-inner_join(chargersplays, chargersnumberofwins)
+chargersnumbers<- 
+  chargersnumbers %>% 
+  mutate(winning_percentage = chargersnumbers$number_of_wins/chargersnumbers$number_of_games)
+
+#plotting the ratio as line and plotting the tables
+ggplot(data = chargersnumbers, aes(x = year, y = winning_percentage)) +
+  labs(title = "Chargers' Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins") +
+  geom_line(colour = 'blue') +
+  geom_point(colour = 'blue') +
+  theme_stata()
+```
+
+```{r, echo = FALSE}
+#filtering out chiefs games
+raidersgames<-filter(footballgames, home_team == "Oakland Raiders" | away_team == "Oakland Raiders")
+
+#number of games played each year
+raidersplays<-raidersgames %>%
+  group_by(`year`) %>%
+  summarise(number_of_games = n())
+
+#filtering out the games that the Raiders won
+raiderswins<-filter(raidersgames, winner == "Oakland Raiders")
+
+#number of games won by the Raiders
+raidersnumberofwins<-raiderswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting and adding the winning ratio
+raidersnumbers<-inner_join(raidersplays, raidersnumberofwins)
+raidersnumbers<- 
+  raidersnumbers %>% 
+  mutate(winning_percentage = raidersnumbers$number_of_wins/raidersnumbers$number_of_games)
+
+#plotting the ratio as line and plotting the tables
+ggplot(data = raidersnumbers, aes(x = year, y = winning_percentage)) +
+  labs(title = "Raiders' Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins") +
+  geom_line(colour = 'black') +
+  geom_point(colour = 'black') +
+  theme_stata()
+```
+
+```{r, echo = FALSE}
+#joining the tables together for all the teams and creating interactive plot for the teams
+raidersnumbers<-raidersnumbers %>% 
+  mutate(team_name = "Oakland Raiders")
+chiefsnumbers<-chiefsnumbers %>% 
+  mutate(team_name = "Kansas City Chiefs")
+chargersnumbers<-chargersnumbers  %>% 
+  mutate(team_name = "Los Angeles Chargers")
+broncosnumbers<-broncosnumbers  %>% 
+  mutate(team_name = "Denver Broncos")
+combinedtables<-bind_rows(raidersnumbers, chiefsnumbers, chargersnumbers, broncosnumbers)
+
+library(plotly)
+finalplot<-ggplot(data = combinedtables, aes(x = year, color = team_name, y = winning_percentage)) +
+  labs(title = "AFC West Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins",
+       color = "Team Name") +
+  geom_line() +
+  geom_point() +
+  scale_colour_manual(values = c("Oakland Raiders" = "black", "Kansas City Chiefs" = "red", "Los Angeles Chargers" = "blue", "Denver Broncos" = "orange")) +
+  theme_stata()
+ggplotly(finalplot)
+
+```
+
+
 If we were to use 30% as our cutoff percentage to determine whether the year is a bad year, then we see that all four teams have at least one "bad year" where they won less than 30% of the games in each year, throughout 2000-2019. For the Broncos, 2010 was their worst performing year, with 25% games won within that year. However, they win at least 30% of their games for the other nineteen years. For the Chargers, they had gone through three bad years, where they won less than 30% of their games in 2000, 2003, and 2015. For the Raiders, they have had 7 "bad" years over the course of 2000-2019; while the Chiefs had 4 individual years where they won less than 30% of their games (2007, 2008, 2009 and 2012).
 
 Moving on to the "highs", we will look at years in which the teams win at least 60% of the games throughout 2000-2019. From this point on, the focus will be to dissect each team's performance over the course of 20 years. The Broncos had a good year in 2000, where they won more around 65% of their games, then started performing pretty decently (within 50%-60% games won) from 2001-2004. They won approximately 78% of the games they played in 2005, and even won the Divisional Round. However, it appears that their performance sharply declined within the next 5 years, leading up to their lowest year in 2010 where they won only 25% of the games in that year. They successfully bounced back and had an impressive trajectory over the next 5 years, starting in 2011 when they won 50% of their games, then to consistently, over the next four years, won at least 70% of their games. In 2013 and 2015, the Broncos managed to pull off victories in approximately 79% of their games; which are also signified by the team moving on to play the Superbowl in both years. After winning the Superbowl in 2015, unfortunately, they did not have any good years from 2016-2019.
