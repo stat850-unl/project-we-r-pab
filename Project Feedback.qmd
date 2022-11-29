@@ -335,6 +335,13 @@ report(fitwinpercentages)
 
 # Forecast and plot
 fitwinpercentages %>% forecast(h = 3) %>% autoplot(broncosts, color = 'orange')
+
+fitwinpercentagestrend <- broncosts %>%
+model(TSLM(winning_percentage ~ trend()))
+report(fitwinpercentagestrend)
+
+# forecast and plot
+fitwinpercentagestrend %>% forecast(h = 3) %>% autoplot(broncosts, color = 'orange')
 ```
 
 
@@ -387,6 +394,13 @@ report(fitwinpercentages)
 
 # Forecast and plot
 fitwinpercentages %>% forecast(h = 3) %>% autoplot(chiefsts, color = 'red')
+
+fitwinpercentagestrend <- chiefsts %>%
+model(TSLM(winning_percentage ~ trend()))
+report(fitwinpercentagestrend)
+
+# forecast and plot
+fitwinpercentagestrend %>% forecast(h = 3) %>% autoplot(chiefsts, color = 'red')
 ```
 
 ```{r, echo = FALSE, warning = FALSE}
@@ -436,6 +450,13 @@ report(fitwinpercentages)
 
 # Forecast and plot
 fitwinpercentages %>% forecast(h = 3) %>% autoplot(chargersts, color = 'blue')
+
+fitwinpercentagestrend <- chargersts %>%
+model(TSLM(winning_percentage ~ trend()))
+report(fitwinpercentagestrend)
+
+# forecast and plot
+fitwinpercentagestrend %>% forecast(h = 3) %>% autoplot(chargersts, color = 'blue')
 ```
 
 ```{r, echo = FALSE, warning = FALSE}
@@ -485,6 +506,13 @@ report(fitwinpercentages)
 
 # Forecast and plot
 fitwinpercentages %>% forecast(h = 3) %>% autoplot(raidersts, color = 'black')
+
+fitwinpercentagestrend <- raidersts %>%
+model(TSLM(winning_percentage ~ trend()))
+report(fitwinpercentagestrend)
+
+# forecast and plot
+fitwinpercentagestrend %>% forecast(h = 3) %>% autoplot(raidersts, color = 'black')
 ```
 
 ```{r, echo = FALSE, warning = FALSE}
