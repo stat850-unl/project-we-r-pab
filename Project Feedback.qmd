@@ -45,7 +45,9 @@ str(footballgames)
 footballgames
 ```
 
-After deriving the categorical variable, additional data cleaning was needed. The "winner" variable contains the name of the winning team; however, this still contained the name of the "winning" team even if the game ended in a tie. To clean this, another loop was utilized to replace the winning team's name with "tie" in the "winner" column, if the game ended in a tie. The code for this is shown below.
+After deriving the categorical variable, additional data cleaning was needed. The "winner" variable contains the name of the winning team; however, this still contained the name of the "winning" team even if the game ended in a tie.
+To clean this, another loop was utilized to replace the winning team's name with "tie" in the "winner" column, if the game ended in a tie.
+The code for this is shown below.
 
 ```{r, echo = TRUE, results = 'hide'}
 # replace ties with string 1 instead of string with team name
@@ -62,7 +64,8 @@ for(i in 1:5324){
 footballgames
 ```
 
-Once the data was cleaned, it still had 19 variables, but with 10 character variables, seven numeric variables, one time variable, and one categorical variable. For more information about the data, please refer to the table below, which contains a list of variables, their descriptions, and their types.
+Once the data was cleaned, it still had 19 variables, but with 10 character variables, seven numeric variables, one time variable, and one categorical variable.
+For more information about the data, please refer to the table below, which contains a list of variables, their descriptions, and their types.
 
 | Variable Name  | Variable Description                                | Variable Type |
 |----------------|-----------------------------------------------------|---------------|
@@ -125,7 +128,14 @@ ggplotly(plot2)
 
 **AFC or NFC, who are winning the most?**
 
-The National Football League (NFL) is a composition of two divisions AFC (American Football Conference) and NFC (National Football Conference). In total, there are 32 teams in NFL, 16 are from AFC and other 16 from NFC. Here, the objective is to find out who have won most games (Home and Away) whenever an AFC team meets with a NFC team. In order to this, two new columns 'HT' and 'AT' is created to find out if the home and away playing team was AFC or NFC with reference from the list of AFC teams and NFC teams and the variables 'home_team' and 'away_team'. However, there were games that was played between AFC teams as well as NFC teams which we are not interested in. So, the data was filter out for only the matches between AFC and NFC teams. Out of 5324 games, only 1536 games were played between an AFC team and NFC team. The respective winning percentages for each division is then calculated and a bar plot of the same is created.
+The National Football League (NFL) is a composition of two divisions AFC (American Football Conference) and NFC (National Football Conference).
+In total, there are 32 teams in NFL, 16 are from AFC and other 16 from NFC.
+Here, the objective is to find out who have won most games (Home and Away) whenever an AFC team meets with a NFC team.
+In order to this, two new columns 'HT' and 'AT' is created to find out if the home and away playing team was AFC or NFC with reference from the list of AFC teams and NFC teams and the variables 'home_team' and 'away_team'.
+However, there were games that was played between AFC teams as well as NFC teams which we are not interested in.
+So, the data was filter out for only the matches between AFC and NFC teams.
+Out of 5324 games, only 1536 games were played between an AFC team and NFC team. 
+The respective winning percentages for each division is then calculated and a bar plot of the same is created.
 
 ```{r, echo = FALSE, warning=FALSE}
 ####Calculating the percentages of AFC and NFC wins whenever they face each other.
@@ -199,7 +209,15 @@ Compare number of games won by the home team to number of games won by the away 
 
 #### Is there an Advantage to Playing at Home?
 
-It's a common belief that playing any sport (including football) at home stadiums gives the home team an advantage over the visiting team. The results below aim to assess this belief. First, the number of games won by the home team and the number of games won by the road team are tallied. Based off this tally, there were 3,045 NFL games won by the home team from 2000-2019. Over this same stretch of time, there were 2,279 NFL games won by the away team. Clearly, the home team wins more often than the road team, but it is helpful to provide additional context. Since there were 5,324 games played, the home team has won 3,045/5,324 games for a percentage of 57%. This suggests that the home team wins NFL games about 57% of the time. It must be noted however, that these counts are not exact since the data lists a home team, even for games played at a neutral site.
+It's a common belief that playing any sport (including football) at home stadiums gives the home team an advantage over the visiting team.
+The results below aim to assess this belief.
+First, the number of games won by the home team and the number of games won by the road team are tallied.
+Based off this tally, there were 3,045 NFL games won by the home team from 2000-2019.
+Over this same stretch of time, there were 2,279 NFL games won by the away team.
+Clearly, the home team wins more often than the road team, but it is helpful to provide additional context.
+Since there were 5,324 games played, the home team has won 3,045/5,324 games for a percentage of 57%.
+This suggests that the home team wins NFL games about 57% of the time. 
+It must be noted however, that these counts are not exact since the data lists a home team, even for games played at a neutral site.
 
 ```{r, echo = FALSE, warning=FALSE}
 ### Comparing the number of games won by the home team to the number of games won by the away team ###
@@ -244,7 +262,10 @@ footballgames %>%
 
 Which AFC West teams will do well in the next season?
 
-Fans and analysts are often trying to predict which games will be won and lost by their favorite teams. As we have seen from the previous sections, NFL teams are divided into two conferences: AFC and NFC. Since one of our team members is a fan of the Denver Broncos (an AFC West Team), combined with the fact that some AFC West division teams have played the Superbowl 4 times over the past decade (source: https://en.wikipedia.org/wiki/List_of_Super_Bowl_champions); we decided to analyze the pattern of percentage of wins for all teams of AFC West division and plot them as a way to check if there is a trend. By looking at the trend over the past 20 years, we hope that people can assess their past performance and try to predict their future performances.
+Fans and analysts are often trying to predict which games will be won and lost by their favorite teams.
+As we have seen from the previous sections, NFL teams are divided into two conferences: AFC and NFC.
+Since one of our team members is a fan of the Denver Broncos (an AFC West Team), combined with the fact that some AFC West division teams have played the Superbowl 4 times over the past decade (source: https://en.wikipedia.org/wiki/List_of_Super_Bowl_champions); we decided to analyze the pattern of percentage of wins for all teams of AFC West division and plot them as a way to check if there is a trend.
+By looking at the trend over the past 20 years, we hope that people can assess their past performance and try to predict their future performances.
 
 \*INSERT PLOTS HERE MAYBE?\*
 
