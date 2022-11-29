@@ -320,7 +320,6 @@ plot_afc_home<-homewin_afc %>%
     scale_fill_discrete(labels=c('AFC Win', 'NFC Win', 'Tied')) 
 
 grid.arrange(plot_nfc_home,plot_afc_home, ncol=2)
-    
 ```
 
 #####Out of the AFC West Teams, which team should you root for?
