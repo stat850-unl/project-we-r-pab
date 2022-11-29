@@ -342,6 +342,14 @@ report(fitwinpercentagestrend)
 
 # forecast and plot
 fitwinpercentagestrend %>% forecast(h = 3) %>% autoplot(broncosts, color = 'orange')
+
+# Time plot of winning percentage and predicted winning percentage with a trend model
+augment(fitwinpercentagestrend) %>%
+  ggplot(aes(x = year)) +
+  geom_line(aes(y = winning_percentage, colour = "Data")) +
+  geom_line(aes(y = .fitted, colour = "Fitted")) +
+  labs(x = "Year", y = "Winning Percentage",
+       title = "Winning Percentage vs Trended Winning Percentage")
 ```
 
 
