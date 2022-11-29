@@ -98,6 +98,7 @@ ggplot(data = chiefsnumbers, aes(x = year, y = winning_percentage)) +
   geom_line(colour = 'red') +
   geom_point(colour = 'red')
 ```
+
 ```{r}
 #filtering out chargers games
 chargersgames<-filter(footballgames, home_team == "San Diego Chargers" | away_team == "San Diego Chargers" | home_team == "Los Angeles Chargers" | away_team == "Los Angeles Chargers")
@@ -129,8 +130,6 @@ ggplot(data = chargersnumbers, aes(x = year, y = winning_percentage)) +
   geom_line(colour = 'blue') +
   geom_point(colour = 'blue')
 ```
-
-
 
 ```{r}
 #filtering out chiefs games
