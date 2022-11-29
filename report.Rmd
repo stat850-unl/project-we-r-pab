@@ -258,66 +258,69 @@ footballgames %>%
 ```
 
 
-#### What does the win percentage at home looks like for AFC vs NFC teams?
+#### What does the number of wins at home looks like for AFC vs NFC teams?
+Here we want to see who wins most games at home as a whole, NFC's teams or AFC's teams. In order to achieve this, first NFC teams home games are filtered out from the original data set. In this new dataset, a new column called 'win_div' is created that stores the result of the winning team's divison. Then, the number of games won by each division teams whenever NFC played at home is calculated and respective barplot is created. Similar steps are carried out whenever the AFC teams are playing at home. 
 ```{r}
-library(dplyr)
+#Number of games won at home by NFC teams whenever they played AFC teams.
 
-#AFC vs NFC teams list
-afc_teams<- c("Cleveland Browns","Baltimore Ravens","Pittsburgh Steelers","Cincinnati Bengals","Miami Dolphins","Buffalo Bills","New York Jets","New England Patriots", "Kansas City Chiefs","Los Angeles Chargers","Denver Broncos","Las Vegas Raiders","Tennessee Titans","Houston Texans","Indianapolis Colts","Jacksonville Jaguars")
-
-nfc_teams<-c("Minnesota Vikings","Chicago Bears","Detroit Lions","Green Bay Packers","New York Giants","Dallas Cowboys","Washington Redskins","Philadelphia Eagles","Arizona Cardinals","Los Angeles Rams","Seatlle Seahawks","San Franscisco 49ers","Atlanta Falcons","Tampa Bay","Carolina Panthers ","New Orlean Saints") 
-
-#Created a new column in original dataset called 'divison' the teams play in. 
-for(i in 1:5324){
-  if(footballgames$home_team[i] %in% afc_teams){
-    footballgames$divison[i]<- "AFC"
-    
-  }
-  else{
-    footballgames$divison[i]<- "NFC"
-    
-  }
-}
-
-#Percentage of game won at home by NFC teams whenever they played AFC teams.
 ###First create a data with home team being NFC team and away team being AFC team. 
 homewin_nfc<-filter(footballgames, footballgames$home_team %in% nfc_teams & footballgames$away_team %in% afc_teams )
 
-###To find out which divison won when NFC played at home. 
+###To find out which division won when NFC played at home. 
 for(i in 1:364){
-  if(homewin_nfc$winner[i]%in% afc_teams){
-     homewin_nfc$win_div[i]<-"AFC_Win"
-     }
+  if(homewin_nfc$winner[i]=="Tie"){
+     footballgames$win_div[i]<-"Tied"
+  }
+  else if(homewin_nfc$winner[i]%in% afc_teams){
+    homewin_nfc$win_div[i]<-"AFC_Win"
+  }
   else{
     homewin_nfc$win_div[i]<-"NFC_Win"  
-    }
+  }
 }
 
-#Calculate the percentage of game won by NFC team at home.
-(table(homewin_nfc$win_div)/364)*100
+#Calculate the number of games won by NFC team at home.
+table(homewin_nfc$win_div)
 
-#NFC_Win = 55.5%
-#AFC_Win = 44.5%
-
-#Percentage of game won at home by AFC teams whenever they played NFC teams.
+#Number of games won at home by AFC teams whenever they played NFC teams.
 
 homewin_afc<-filter(footballgames, footballgames$home_team %in% afc_teams & footballgames$away_team %in% nfc_teams )
 
-###To find out which divison won when AFC played at home. 
-for(i in 1:364){
-  if(homewin_afc$winner[i]%in% afc_teams){
-     homewin_afc$win_div[i]<-"AFC_Win"
-     }
+###To find out which division won when AFC played at home. 
+for(i in 1:366){
+  if(homewin_afc$winner[i]=="Tie"){
+     homewin_afc$win_div[i]<-"Tied"
+  }
+  else if(homewin_afc$winner[i]%in% afc_teams){
+    homewin_afc$win_div[i]<-"AFC_Win"
+  }
   else{
     homewin_afc$win_div[i]<-"NFC_Win"  
-    }
+  }
 }
+#Calculate the number of games won by AFC team at home.
+table(homewin_afc$win_div)
 
-#Calculate the percentage of game won by NFC team at home.
-(table(homewin_afc$win_div)/364)*100
 
-#AFC_Win = 62.0%
-#NFC_Win = 38.0%
+#Bar plot for the number of games won by NFC team at home. 
+plot_nfc_home<-homewin_nfc %>%
+  ggplot(aes(x = win_div, fill = win_div)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by each divison's team when NFC played at home") +   xlab("Winning Division Team") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Div"))+
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win'))
+
+#Bar plot for the number of games won by AFC team at home. 
+plot_afc_home<-homewin_afc %>%
+  ggplot(aes(x = win_div, fill = win_div)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by each divison's team when AFC played at home") +
+  xlab("Winning Division Team") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Div"))
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win', 'Tied')) 
+
+grid.arrange(plot_nfc_home,plot_afc_home, ncol=2)
+    
 ```
 
 #####Out of the AFC West Teams, which teams should you root for?
