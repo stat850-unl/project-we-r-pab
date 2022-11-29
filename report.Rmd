@@ -145,7 +145,7 @@ ggplotly(plot2)
 
 The National Football League (NFL) is a composition of two divisions AFC (American Football Conference) and NFC (National Football Conference). In total, there are 32 teams in NFL, 16 are from AFC and other 16 from NFC. Here, the objective is to find out who have won most games (Home and Away) whenever an AFC team meets with a NFC team. In order to this,  two new columns 'HT' and 'AT' is created to find out if the home and away playing team was AFC or NFC with reference from the list of AFC teams and NFC teams and the variables 'home_team' and 'away_team'. However, there were games that was played between AFC teams as well as NFC teams which we are not interested in. So, the data was filter out for only the matches between AFC and NFC teams. Out of 5324 games, only 1536 games were played between an AFC team and NFC team. The respective winning percentages for each division is then calculated and a bar plot of the same is created. 
 ```{r}
-####Calculating the percentages of AFC and NFC whenever they face each other.
+####Calculating the percentages of AFC and NFC wins whenever they face each other.
 
 library(dplyr)
 #AFC vs NFC teams list
@@ -205,7 +205,7 @@ for(i in 1:1536){
 
 #Plot of AFC vs NFC playing each other only. 
 plot4<-ggplot(data = afcvsnfc) +
-  geom_bar(mapping = aes(x = win_team, y = ..prop.., group=1, stat="identity"), stat="count")+xlab("Winning Team")+ylab("Winning Percentage %")+scale_y_continuous(labels = scales::percent, limits=c(0,1))
+  geom_bar(mapping = aes(x = win_team, fill=win_team,y = ..prop.., group=1, stat="identity"), stat="count")+xlab("Winning Team")+ylab("Winning Percentage %")+scale_y_continuous(labels = scales::percent, limits=c(0,1))
 ggplotly(plot4)
 ```
 
@@ -259,7 +259,7 @@ footballgames %>%
 
 
 #### What does the number of wins at home looks like for AFC vs NFC teams?
-Here we want to see who wins most games at home as a whole, NFC's teams or AFC's teams. In order to achieve this, first NFC teams home games are filtered out from the original data set. In this new dataset, a new column called 'win_div' is created that stores the result of the winning team's divison. Then, the number of games won by each division teams whenever NFC played at home is calculated and respective barplot is created. Similar steps are carried out whenever the AFC teams are playing at home. 
+Here we want to see who wins most games at home as a whole, NFC's teams or AFC's teams. In order to achieve this, first NFC teams home games are filtered out from the original data set. In this new dataset, a new column called 'win_div' is created that stores the result of the winning team's divison. Then, the number of games won by each division teams whenever NFC played at home is calculated. Similar steps are carried out whenever the AFC teams are playing at home. Finally, a side-by-side bar-plots are created for comparison. 
 ```{r}
 #Number of games won at home by NFC teams whenever they played AFC teams.
 
@@ -320,7 +320,12 @@ plot_afc_home<-homewin_afc %>%
     scale_fill_discrete(labels=c('AFC Win', 'NFC Win', 'Tied')) 
 
 grid.arrange(plot_nfc_home,plot_afc_home, ncol=2)
-    
+```
+
+#### Comparison of points for AFC and NFC teams playing each other. 
+```{r}
+
+
 ```
 
 #####Out of the AFC West Teams, which team should you root for?
