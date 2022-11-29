@@ -88,7 +88,11 @@ Once the data was cleaned, it still had 19 variables, but with 10 character vari
 
 ## Exploratory Data Analysis
 
-structure of the data summary statistics plots of summary statistics
+structure of the data
+
+summary statistics
+
+plots of summary statistics
 
 ## Analysis
 
