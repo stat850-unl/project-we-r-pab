@@ -258,8 +258,6 @@ footballgames %>%
 ```
 
 
-<<<<<<< HEAD
-=======
 #### What does the number of wins at home looks like for AFC vs NFC teams?
 Here we want to see who wins most games at home as a whole, NFC's teams or AFC's teams. In order to achieve this, first NFC teams home games are filtered out from the original data set. In this new dataset, a new column called 'win_div' is created that stores the result of the winning team's divison. Then, the number of games won by each division teams whenever NFC played at home is calculated. Similar steps are carried out whenever the AFC teams are playing at home. Finally, a side-by-side bar-plots are created for comparison. 
 ```{r}
@@ -350,11 +348,11 @@ tapply(homewin_nfc$pts_win, homewin_nfc$win_div, summary)
 
 tapply(homewin_afc$pts_win, homewin_afc$win_div, summary)
 
-# filter(homewin_afc,winner!="Tie") %>% tapply(pts_win, win_div, summary)
+#filter(homewin_afc, homewin_afc$winner!="Tie") %>% group_by(win_div)
 
 ```
 
-#####Which AFC West teams will do well in the next season?
+#####Out of the AFC West Teams, which team should you root for?
 In order to obtain the winning percentages each year by each team, we started our lines of code by filtering all the games that the team participated in. We grouped the games by year and we counted the number of games they played that year. Next, we filtered out the games that they won, grouped those games by year, and counted the number of games they won that year. Now that we have two separate tables summarizing all the games played and won by year, we joined those tables and added a separate column for the winning percentage. Winning percentage is obtained from dividing the number of wins each year by the number of games each year. Finally, we decided to plot our results.
 ```{r}
 library(dplyr)
@@ -490,34 +488,6 @@ ggplot(data = raidersnumbers, aes(x = year, y = winning_percentage)) +
   geom_point(colour = 'black')
 ```
 
-```{r}
-#joining the tables together for all the teams and creating interactive plot for the teams
-raidersnumbers<-raidersnumbers %>% 
-  mutate(team_name = "Oakland Raiders")
-chiefsnumbers<-chiefsnumbers %>% 
-  mutate(team_name = "Kansas City Chiefs")
-chargersnumbers<-chargersnumbers  %>% 
-  mutate(team_name = "Los Angeles Chargers")
-broncosnumbers<-broncosnumbers  %>% 
-  mutate(team_name = "Denver Broncos")
-combinedtables<-bind_rows(raidersnumbers, chiefsnumbers, chargersnumbers, broncosnumbers)
-
-library(plotly)
-library(ggthemes)                             
-finalplot<-ggplot(data = combinedtables, aes(x = year, color = team_name, y = winning_percentage)) +
-  labs(title = "AFC West Percentage of Wins through 2000 - 2019",
-         x = "Year",
-         y = "Percentage of Wins",
-       color = "Team Name") +
-  geom_line() +
-  geom_point() +
-  scale_colour_manual(values = c("Oakland Raiders" = "black", "Kansas City Chiefs" = "red", "Los Angeles Chargers" = "blue", "Denver Broncos" = "orange")) +
-  theme_stata()
-
-ggplotly(finalplot)
-
-```
->>>>>>> cf89c9a5dd99b3cddf65dbe10f79e0c559a2ed9f
 
 # Conclusion
 
