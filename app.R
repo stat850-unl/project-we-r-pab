@@ -19,7 +19,7 @@ ui <- fluidPage(
       helpText("Games played by AFC West Teams"),
       selectInput("teams", 
                   label = "Choose team:",
-                  choices = c("Denver Broncos", "Los Angeles Chargers", "Kansas City Chiefs", "Oakland Raiders"),
+                  choices = c("Denver Broncos", "Los Angeles Chargers", "Kansas City Chiefs", "Oakland Raiders", "San Diego Chargers"),
                   selected = "Denver Broncos"),
       
     ),
