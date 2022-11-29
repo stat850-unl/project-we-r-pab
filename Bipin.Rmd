@@ -220,7 +220,7 @@ afcvsnfc<- filter(footballgames, HT=="AFC" & AT=="NFC"| HT=="NFC" & AT=="AFC")
 #Find out who won against AFC vs NFC only, home and away. 
 for(i in 1:1536){
   if(afcvsnfc$winner[i]=="Tie"){
-    afcvsnfc$winner[i]=="Tied"
+    afcvsnfc$win_team[i]=="Tied"
     }
     else if(afcvsnfc$winner[i] %in% afc_teams){
     afcvsnfc$win_team[i]<- "AFC"
@@ -234,12 +234,12 @@ for(i in 1:1536){
 (table(afcvsnfc$win_team)/1536)*100
 
 #Whenever, AFC played NFC either home or away:
-#AFC won 53.6% of the games vs. NFC 46.4%
+#AFC won 53.6% of the games vs. NFC 46.1%. 3% of the games were ended in a tie.
 
 #Plot of AFC vs NFC playing each other only. 
 plot4<-ggplot(data = afcvsnfc) +
-  geom_bar(mapping = aes(x = win_team, y = ..prop.., group=1), stat="count")+xlab("Winning Team")+ylab("Winning Percentage %")
-plot4
+  geom_bar(mapping = aes(x = win_team, y = ..prop.., group=1, stat="identity"), stat="count")+xlab("Winning Team")+ylab("Winning Percentage %")+scale_y_continuous(labels = scales::percent, limits=c(0,1))
+ggplotly(plot4)
 ```
 
 

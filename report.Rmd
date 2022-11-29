@@ -141,6 +141,73 @@ plot2<-ggplot(data= m)+ geom_point(aes(pts_win, yds_win,color= winner)) +xlab("P
 
 ggplotly(plot2)
 ```
+#### AFC or NFC, who are winning the most?
+
+The National Football League (NFL) is a composition of two divisions AFC (American Football Conference) and NFC (National Football Conference). In total, there are 32 teams in NFL, 16 are from AFC and other 16 from NFC. Here, the objective is to find out who have won most games (Home and Away) whenever an AFC team meets with a NFC team. In order to this,  two new columns 'HT' and 'AT' is created to find out if the home and away playing team was AFC or NFC with reference from the list of AFC teams and NFC teams and the variables 'home_team' and 'away_team'. However, there were games that was played between AFC teams as well as NFC teams which we are not interested in. So, the data was filter out for only the matches between AFC and NFC teams. Out of 5324 games, only 1536 games were played between an AFC team and NFC team. The respective winning percentages for each division is then calculated and a bar plot of the same is created. 
+```{r}
+####Calculating the percentages of AFC and NFC whenever they face each other.
+
+library(dplyr)
+#AFC vs NFC teams list
+afc_teams<- c("Cleveland Browns","Baltimore Ravens","Pittsburgh Steelers","Cincinnati Bengals","Miami Dolphins","Buffalo Bills","New York Jets","New England Patriots", "Kansas City Chiefs","Los Angeles Chargers","Denver Broncos","Las Vegas Raiders","Tennessee Titans","Houston Texans","Indianapolis Colts","Jacksonville Jaguars")
+
+nfc_teams<-c("Minnesota Vikings","Chicago Bears","Detroit Lions","Green Bay Packers","New York Giants","Dallas Cowboys","Washington Redskins","Philadelphia Eagles","Arizona Cardinals","Los Angeles Rams","Seatlle Seahawks","San Franscisco 49ers","Atlanta Falcons","Tampa Bay","Carolina Panthers ","New Orlean Saints")
+
+#Create a new column 'HT' to find which was the home team: AFC or NFC
+
+for (i in 1:5324){
+  if(footballgames$home_team[i] %in% afc_teams){
+    footballgames$HT[i]<- "AFC"
+  }
+  else{
+    footballgames$HT[i]<-"NFC"
+  }
+}
+
+table(footballgames$HT)
+
+
+#Create a new column 'AT' to find which was the away team: AFC or NFC
+for (i in 1:5324){
+  if(footballgames$away_team[i] %in% afc_teams){
+    footballgames$AT[i]<- "AFC"
+  }
+  else{
+    footballgames$AT[i]<-"NFC"
+  }
+}
+
+table(footballgames$AT)
+
+
+#Find the games AFC team vs NFC team, home and away. 
+
+afcvsnfc<- filter(footballgames, HT=="AFC" & AT=="NFC"| HT=="NFC" & AT=="AFC")
+
+#Find out who won against AFC vs NFC only, home and away. 
+for(i in 1:1536){
+  if(afcvsnfc$winner[i]=="Tie"){
+    afcvsnfc$win_team[i]="Tied"
+    }
+    else if(afcvsnfc$winner[i] %in% afc_teams){
+    afcvsnfc$win_team[i]<- "AFC"
+    }
+    else{
+    afcvsnfc$win_team[i]<- "NFC"
+    }  
+}
+
+#Calculate the percentage of games won by NFC and AFC teams.
+(table(afcvsnfc$win_team)/1536)*100
+
+#Whenever, AFC played NFC either home or away:
+#AFC won 53.6% of the games vs. NFC 46.1%. 3% of the games were ended in a tie. 
+
+#Plot of AFC vs NFC playing each other only. 
+plot4<-ggplot(data = afcvsnfc) +
+  geom_bar(mapping = aes(x = win_team, y = ..prop.., group=1, stat="identity"), stat="count")+xlab("Winning Team")+ylab("Winning Percentage %")+scale_y_continuous(labels = scales::percent, limits=c(0,1))
+ggplotly(plot4)
+```
 
 #### Is there an Advantage to Playing at Home?
 
