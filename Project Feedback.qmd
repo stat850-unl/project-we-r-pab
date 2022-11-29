@@ -316,6 +316,29 @@ ggplot(data = broncosnumbers, aes(x = year, y = winning_percentage)) +
 ```
 
 ```{r, echo = FALSE, warning = FALSE}
+library(tsibble)
+library(tidyverse)
+library(fable)
+library(lubridate)
+library(ggplot2)
+library(feasts)
+
+# Create a time series object 
+broncosts <- broncosnumbers %>% 
+  as_tsibble(index = year)
+
+# Select the best ARIMA model automatically
+fitwinpercentages <- broncosts %>%
+  model(ARIMA(winning_percentage ~ PDQ(0,0,0)))
+report(fitwinpercentages)
+
+# Forecast and plot
+fitwinpercentages %>% forecast(h = 3) %>% autoplot(broncosts)
+```
+
+
+
+```{r, echo = FALSE, warning = FALSE}
 #filtering out chiefs games
 chiefsgames<-filter(footballgames, home_team == "Kansas City Chiefs" | away_team == "Kansas City Chiefs")
 
@@ -347,6 +370,22 @@ ggplot(data = chiefsnumbers, aes(x = year, y = winning_percentage)) +
   geom_point(colour = 'red') +
   theme_stata()
 
+```
+
+```{r, echo = FALSE, warning = FALSE}
+# packages already loaded in
+
+# Create a time series object 
+chiefsts <- chiefsnumbers %>% 
+  as_tsibble(index = year)
+
+# Select the best ARIMA model automatically
+fitwinpercentages <- chiefsts %>%
+  model(ARIMA(winning_percentage ~ PDQ(0,0,0)))
+report(fitwinpercentages)
+
+# Forecast and plot
+fitwinpercentages %>% forecast(h = 3) %>% autoplot(chiefsts)
 ```
 
 ```{r, echo = FALSE, warning = FALSE}
@@ -383,6 +422,22 @@ ggplot(data = chargersnumbers, aes(x = year, y = winning_percentage)) +
 ```
 
 ```{r, echo = FALSE, warning = FALSE}
+# packages already loaded in
+
+# Create a time series object 
+chargersts <- chargersnumbers %>% 
+  as_tsibble(index = year)
+
+# Select the best ARIMA model automatically
+fitwinpercentages <- chargersts %>%
+  model(ARIMA(winning_percentage ~ PDQ(0,0,0)))
+report(fitwinpercentages)
+
+# Forecast and plot
+fitwinpercentages %>% forecast(h = 3) %>% autoplot(chargersts)
+```
+
+```{r, echo = FALSE, warning = FALSE}
 #filtering out chiefs games
 raidersgames<-filter(footballgames, home_team == "Oakland Raiders" | away_team == "Oakland Raiders")
 
@@ -413,6 +468,22 @@ ggplot(data = raidersnumbers, aes(x = year, y = winning_percentage)) +
   geom_line(colour = 'black') +
   geom_point(colour = 'black') +
   theme_stata()
+```
+
+```{r, echo = FALSE, warning = FALSE}
+# packages already loaded in
+
+# Create a time series object 
+raidersts <- raidersnumbers %>% 
+  as_tsibble(index = year)
+
+# Select the best ARIMA model automatically
+fitwinpercentages <- raidersts %>%
+  model(ARIMA(winning_percentage ~ PDQ(0,0,0)))
+report(fitwinpercentages)
+
+# Forecast and plot
+fitwinpercentages %>% forecast(h = 3) %>% autoplot(raidersts)
 ```
 
 ```{r, echo = FALSE, warning = FALSE}
