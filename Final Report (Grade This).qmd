@@ -65,7 +65,7 @@ footballgames
 Once the data was cleaned, it still had 19 variables, but with 10 character variables, seven numeric variables, one time variable, and one categorical variable. For more information about the data, please refer to the table below, which contains a list of variables, their descriptions, and their types.
 
 | Variable Name  | Variable Description                                | Variable Type |
-|------------------|-------------------------------------|------------------|
+|-------------------|------------------------------------|-------------------|
 | year           | The year in which the game was played               | numeric       |
 | week           | The week of the season in which the game was played | character     |
 | home_team      | name of the team playing at their home stadium      | character     |
@@ -223,13 +223,9 @@ footballgames %>%
 
 ```
 
-#### 
-
-Which AFC West teams will do well in the next season?
+#### Which AFC West teams will do well in the next season?
 
 Fans and analysts are often trying to predict which games will be won and lost by their favorite teams. As we have seen from the previous sections, NFL teams are divided into two conferences: AFC and NFC. Since one of our team members is a fan of the Denver Broncos (an AFC West Team), combined with the fact that some AFC West division teams have played the Superbowl 4 times over the past decade (source: https://en.wikipedia.org/wiki/List_of_Super_Bowl_champions); we decided to analyze the pattern of percentage of wins for all teams of AFC West division and plot them as a way to check if there is a trend. By looking at the trend over the past 20 years, we hope that people can assess their past performance and try to predict their future performances.
-
-\*INSERT PLOTS HERE MAYBE?\*
 
 If we were to use 30% as our cutoff percentage to determine whether the year is a bad year (or not), then we see that all four teams have at least one "bad year" where they won less than 30% of the games in each year, throughout 2000-2019. For the Broncos, 2010 was their worst performing year, with 25% games won within that year. However, they win at least 30% of their games for the other nineteen years. For the Chargers, they had gone through three bad years, where they won less than 30% of their games in 2000, 2003, and 2015. For the Raiders, they have had 7 "bad" years over the course of 2000-2019; while the Chiefs had 4 individual years where they won less than 30% of their games (2007, 2008, 2009 and 2012).
 
