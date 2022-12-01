@@ -264,6 +264,7 @@ pts_nfc_home<-ggplot(data=homewin_nfc, aes(x=win_div,y=pts_win, fill= win_div))+
 
 ggplotly(pts_nfc_home)
 
+
 pts_afc_home<- ggplot(data=filter(homewin_afc,winner!="Tie"))+geom_boxplot(aes(x=win_div,y=pts_win, fill= win_div))+xlab("Winning Division")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC teams at AFC's team home.")+ guides(fill=guide_legend(title="Win Div"))
 
 ggplotly(pts_afc_home)
@@ -272,6 +273,8 @@ grid.arrange(pts_nfc_home, pts_afc_home ,ncol=2)
 
 tapply(homewin_nfc$pts_win, homewin_nfc$win_div, summary)
 
-tapply(homewin_afc$pts_win, homewin_afc$win_div, summary)
+homewin_afc_1<- filter(homewin_afc, win_div != "Tied")
+
+tapply(homewin_afc_1$pts_win, homewin_afc_1$win_div, summary)
 
 ```
