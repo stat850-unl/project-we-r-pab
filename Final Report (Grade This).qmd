@@ -65,7 +65,7 @@ footballgames
 Once the data was cleaned, it still had 19 variables, but with 10 character variables, seven numeric variables, one time variable, and one categorical variable. For more information about the data, please refer to the table below, which contains a list of variables, their descriptions, and their types.
 
 | Variable Name  | Variable Description                                | Variable Type |
-|-----------------|---------------------------------------|-----------------|
+|------------------|-------------------------------------|------------------|
 | year           | The year in which the game was played               | numeric       |
 | week           | The week of the season in which the game was played | character     |
 | home_team      | name of the team playing at their home stadium      | character     |
@@ -604,8 +604,11 @@ ggplotly(pts_afc_home)
 
 grid.arrange(pts_nfc_home, pts_afc_home ,ncol=2)
 
+####Summary statistics of points when played at NFC home
+
 tapply(homewin_nfc$pts_win, homewin_nfc$win_div, summary)
 
+####Summary statistics of points when played at AFC home
 homewin_afc_1<- filter(homewin_afc, win_div != "Tied")
 
 tapply(homewin_afc_1$pts_win, homewin_afc_1$win_div, summary)
