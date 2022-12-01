@@ -580,7 +580,35 @@ plot_afc_home<-homewin_afc %>%
     scale_fill_discrete(labels=c('AFC Win', 'NFC Win', 'Tied')) 
 
 grid.arrange(plot_nfc_home,plot_afc_home, ncol=2)
+```
 
+**Comparison of points for AFC and NFC teams playing each other.**
+
+Here, the objective is to compare who scored more points (AFC team vs NFC team) playing in their respective homes.
+
+In order to do this, first, dataset that contains only games played at home of NFC teams and away for AFC teams (using 'homewin_nfc' data) is used. Then, a box plot of the variable 'pts_win' is created based on 'win_div' for comparison.
+
+Similar analyses is carried out for games played at home of AFC teams and away for NFC teams (using 'homewin_afc' data). The games that are 'tied' are not included in the analyses.
+
+Afterwards, the two separate plots created are displayed in the same panel for side-by-side comparison.Finally, a summary table is also produced.
+
+```{r,echo = FALSE, warning = FALSE}}
+pts_nfc_home<-ggplot(data=homewin_nfc, aes(x=win_div,y=pts_win, fill= win_div))+geom_boxplot() +xlab("Winning Division")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC teams at NFC's team home.")+ guides(fill=guide_legend(title="Win Div"))
+
+ggplotly(pts_nfc_home)
+
+
+pts_afc_home<- ggplot(data=filter(homewin_afc,winner!="Tie"))+geom_boxplot(aes(x=win_div,y=pts_win, fill= win_div))+xlab("Winning Division")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC teams at AFC's team home.")+ guides(fill=guide_legend(title="Win Div"))
+
+ggplotly(pts_afc_home)
+
+grid.arrange(pts_nfc_home, pts_afc_home ,ncol=2)
+
+tapply(homewin_nfc$pts_win, homewin_nfc$win_div, summary)
+
+homewin_afc_1<- filter(homewin_afc, win_div != "Tied")
+
+tapply(homewin_afc_1$pts_win, homewin_afc_1$win_div, summary)
 ```
 
 ## Conclusion
