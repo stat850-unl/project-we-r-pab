@@ -65,7 +65,7 @@ footballgames
 Once the data was cleaned, it still had 19 variables, but with 10 character variables, seven numeric variables, one time variable, and one categorical variable. For more information about the data, please refer to the table below, which contains a list of variables, their descriptions, and their types.
 
 | Variable Name  | Variable Description                                | Variable Type |
-|---------------------|------------------------------|---------------------|
+|-----------------|---------------------------------------|-----------------|
 | year           | The year in which the game was played               | numeric       |
 | week           | The week of the season in which the game was played | character     |
 | home_team      | name of the team playing at their home stadium      | character     |
@@ -248,12 +248,7 @@ Fans and analysts are often trying to predict which games will be won and lost b
 
 \*INSERT PLOTS HERE MAYBE?\*
 
-
-If we were to use 30% as our cutoff percentage to determine whether the year is a bad year (or not), then we see that all four teams have at least one "bad year" where they won less than 30% of the games in each year, throughout 2000-2019.
-For the Broncos, 2010 was their worst performing year, with 25% games won within that year. 
-However, they win at least 30% of their games for the other nineteen years. 
-For the Chargers, they had gone through three bad years, where they won less than 30% of their games in 2000, 2003, and 2015. 
-For the Raiders, they have had 7 "bad" years over the course of 2000-2019; while the Chiefs had 4 individual years where they won less than 30% of their games (2007, 2008, 2009 and 2012).
+If we were to use 30% as our cutoff percentage to determine whether the year is a bad year (or not), then we see that all four teams have at least one "bad year" where they won less than 30% of the games in each year, throughout 2000-2019. For the Broncos, 2010 was their worst performing year, with 25% games won within that year. However, they win at least 30% of their games for the other nineteen years. For the Chargers, they had gone through three bad years, where they won less than 30% of their games in 2000, 2003, and 2015. For the Raiders, they have had 7 "bad" years over the course of 2000-2019; while the Chiefs had 4 individual years where they won less than 30% of their games (2007, 2008, 2009 and 2012).
 
 ```{r, echo = FALSE}
 library(dplyr)
@@ -419,8 +414,6 @@ finalplot<-ggplot(data = combinedtables, aes(x = year, color = team_name, y = wi
 ggplotly(finalplot)
 
 ```
-
-
 
 Moving on to the "highs", we will look at years in which the teams win at least 60% of the games throughout 2000-2019. From this point on, the focus will be to dissect each team's performance over the course of 20 years. The Broncos had a good year in 2000, where they won more around 65% of their games, then started performing pretty decently (within 50%-60% games won) from 2001-2004. They won approximately 78% of the games they played in 2005, and even won the Divisional Round. However, it appears that their performance sharply declined within the next 5 years, leading up to their lowest year in 2010 where they won only 25% of the games in that year. They successfully bounced back and had an impressive trajectory over the next 5 years, starting in 2011 when they won 50% of their games, then to consistently, over the next four years, won at least 70% of their games. In 2013 and 2015, the Broncos managed to pull off victories in approximately 79% of their games; which are also signified by the team moving on to play the Superbowl in both years. After winning the Superbowl in 2015, unfortunately, they did not have any good years from 2016-2019.
 
