@@ -514,7 +514,7 @@ Lastly, the Raiders possess what could be seen as the least impressive track rec
 
 Overall, we realize that it is difficult to predict wins based on trends of winning percentages, as there are other factors in place that are affecting team performances such as: players getting traded (roster changes), coaching styles (some coaches are more oriented towards offense/defense), game schedules, weather conditions, etc. Furthermore, every team's performance on the AFC West Division has been extremely volatile, making it more difficult for their wins to be predictable and to observe stability of their performance in future years. However, one team that stuck out the most from our observation is the Chiefs. The plot above shows that the team has maintained high winning percentages over the past 6 years, which could have potentially been able to predict their win for the 2020 Superbowl ([source](https://en.wikipedia.org/wiki/List_of_Super_Bowl_champions)).
 
-**What does the number of wins at home looks like for AFC vs NFC teams?**
+#### What does the number of wins at home looks like for AFC vs NFC teams?
 
 Here we want to see who wins most games at home as a whole, NFC's teams or AFC's teams. In order to achieve this, first NFC teams home games are filtered out from the original data set. In this new dataset, a new column called 'win_div' is created that stores the result of the winning team's divison. Then, the number of games won by each division teams whenever NFC played at home is calculated. Similar steps are carried out whenever the AFC teams are playing at home. Finally, a side-by-side bar-plots are created for comparison.
 
@@ -582,7 +582,7 @@ plot_afc_home<-homewin_afc %>%
 grid.arrange(plot_nfc_home,plot_afc_home, ncol=2)
 ```
 
-**Comparison of points for AFC and NFC teams playing each other.**
+#### Comparison of points for AFC and NFC teams playing each other.
 
 Here, the objective is to compare who scored more points (AFC team vs NFC team) playing in their respective homes.
 
