@@ -7,18 +7,22 @@ editor: visual
 
 ## Introduction
 
+In the field of sports analytics, experts use data and other quantitative methods to measure performance within the sport of interest in order to make decisions. Through analyzing sports data, sports analytics can inform players and coaches on how to strategize for future games. Sports organizations also often use sports analysis for business decisions, while for the public, the information can be utilized as reasoning to support their favorite team, and even for betting purposes. On account of the fact that American Football is the most dominant sports in the country, in this paper, we will try to analyze the sports performance of NFL Teams.
+
+To provide a little bit of context, the National Football League (NFL) is an American Football League, consisting of 32 teams. Each team belongs to either AFC (American Football Conference), or NFC (National Football Conference); and there are 16 teams in each conference. Every season starts a three-week preseason in the month of August, followed by 18 weeks of regular season. The regular season games run from early September to early January. During a regular season, each team plays 17 games and has one bye week (one week during the course of the season where they do not play a game). After the regular season concludes, seven teams from each conference (four division winners and three wild card teams) would advance to the playoffs round. The playoffs are a single elimination tournament that determine the two teams that will play the Super Bowl. The Super Bowl is the last match between the AFC and NFC champions.
+
+### Data
+
+The data was originally gathered by Pro Football Reference. The data was stored in NFL Scores Main Page under All Game Scores ([data](https://www.pro-football-reference.com/boxscores/game-scores.htm)). The data was used for a tidytuesday project in 2020 ([data](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-04/readme.md#gamescsv)) that primarily focused on NFL attendance. The data used for this report was found using the tidytuesday link.
+
+The data we are using in this project comes in the format of a csv file. The spreadsheet contains the football games played by NFL teams from year 2000-2019. This data originally contained 19 variables related to NFL game scores and outcomes. Out of these 19 variables, 11 were character variables, seven were numeric variables, and one was a time variable. In order to meet project specifications, a categorical variable was needed. To derive a categorical variable, a loop was utilized to replace values of "NA" with a string "0" in the tie column and replace team names with a string "1". This also helped to clean the data, since it does not make sense to list a team winner for a game that ended with a tie. After this loop, the strings of "0" and "1" were converted to a categorical variable. This process essentially created a categorical variable with a value of 0 if an NFL game ended with one team winning and a value of 1 if an NFL game ended in a tie. The code for deriving this variable is shown below.
+
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
 # load in the data
 footballgames <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv')
 ```
-
-### Data
-
-The data was originally gathered by Pro Football Reference. The data was stored in NFL Scores Main Page under All Game Scores ([data](https://www.pro-football-reference.com/boxscores/game-scores.htm)). The data was used for a tidytuesday project in 2020 ([data](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-04/readme.md#gamescsv)) that primarily focused on NFL attendance. The data used for this report was found using the tidytuesday link.
-
-This data originally contained 19 variables related to NFL game scores and outcomes. Out of these 19 variables, 11 were character variables, seven were numeric variables, and one was a time variable. In order to meet project specifications, a categorical variable was needed. To derive a categorical variable, a loop was utilized to replace values of "NA" with a string "0" in the tie column and replace team names with a string "1". This also helped to clean the data, since it does not make sense to list a team winner for a game that ended with a tie. After this loop, the strings of "0" and "1" were converted to a categorical variable. This process essentially created a categorical variable with a value of 0 if an NFL game ended with one team winning and a value of 1 if an NFL game ended in a tie. The code for deriving this variable is shown below.
 
 ```{r, echo = TRUE, results = 'hide'}
 ##### derive categorical variable #####
@@ -65,7 +69,7 @@ footballgames
 Once the data was cleaned, it still had 19 variables, but with 10 character variables, seven numeric variables, one time variable, and one categorical variable. For more information about the data, please refer to the table below, which contains a list of variables, their descriptions, and their types.
 
 | Variable Name  | Variable Description                                | Variable Type |
-|-------------------|------------------------------------|-------------------|
+|-------------------|----------------------------------|-------------------|
 | year           | The year in which the game was played               | numeric       |
 | week           | The week of the season in which the game was played | character     |
 | home_team      | name of the team playing at their home stadium      | character     |
@@ -106,7 +110,7 @@ library(ggplot2)
 library(plotly)
 ```
 
-####AFC or NFC, who are winning the most?
+#### AFC or NFC, who is winning the most?
 
 The National Football League (NFL) is a composition of two divisions AFC (American Football Conference) and NFC (National Football Conference). Here, the objective is to find out who have won most games (Home and Away) whenever an AFC team meets with a NFC team. In order to this, two new columns 'HT' and 'AT' is created to find out if the home and away playing team was AFC or NFC with reference from the list of AFC teams and NFC teams and the variables 'home_team' and 'away_team'. However, there were games that was played between AFC teams as well as NFC teams which we are not interested in. So, the data was filter out for only the matches between AFC and NFC teams. Out of 5324 games, only 1536 games were played between an AFC team and NFC team. The respective winning percentages for each division is then calculated and a bar plot of the same is created.
 
