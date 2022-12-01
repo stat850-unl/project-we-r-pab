@@ -182,7 +182,7 @@ ggplotly(plot4)
 
 Other Ideas for Analysis:
 
-Compare number of games won by the home team to number of games won by the away team Derive winning percentage variable for teams, can compare winning percentage to number of super bowls won compare games won by Broncos to average number of games won for all teams
+Compare number of games won by the home team to number of games won by the away team, can compare winning percentage to number of super bowls won compare games won by Broncos to average number of games won for all teams
 
 #### Is there an Advantage to Playing at Home?
 
