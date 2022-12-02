@@ -821,28 +821,6 @@ plot_Superbowl_win_div
 Wildcard_week<- filter(footballgames, week =="WildCard")
 dim(Wildcard_week)
 
-###To find out which division won in Superbowl. 
-for(i in 1:80){
-  if(Wildcard_week$winner[i] %in% afc_teams){
-    Wildcard_week$win_div[i]="AFC Team"
-  }
-  else{
-    Wildcard_week$win_div[i]="NFC Team"
-  }
-}  
-#Calculate the number of Superbowls Won by AFC and NFC team.
-table(Wildcard_week$win_div)
-
-#Barplot of Superbowl winners.
-plot_Wildcard_win_div<-Wildcard_week %>%
-  ggplot(aes(x = win_div, fill = win_div)) + 
-  geom_bar() + 
-  geom_text(stat='count', aes(label=..count..), vjust=0) + 
-  ggtitle("Number of games won by each divison's team in Wildcard") +
-  xlab("Winning Division Team") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Div"))
-    scale_fill_discrete(labels=c('AFC Win', 'NFC Win')) 
-
-plot_Wildcard_win_div 
 
 ```
 
