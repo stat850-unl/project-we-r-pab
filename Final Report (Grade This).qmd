@@ -846,7 +846,7 @@ homewin_afc_1<- filter(homewin_afc, win_div != "Tied")
 tapply(homewin_afc_1$pts_win, homewin_afc_1$win_div, summary)
 ```
 
-#### Who are winning the most number of SuperBowl from 2000 to 2019?
+#### Who was winning the most number of SuperBowl from 2000 to 2019? AFC or NFC?
 ```{r}
 #Who are winning the most number of SuperBowl from 2000 to 2019?
 
@@ -854,7 +854,7 @@ Superbowl_week<- filter(footballgames, week =="SuperBowl")
 dim(Superbowl_week)
 
 ###To find out which division won in Superbowl. 
-for(i in 1:366){
+for(i in 1:20){
   if(Superbowl_week$winner[i] %in% afc_teams){
     Superbowl_week$win_div[i]="AFC Team"
   }
@@ -875,6 +875,37 @@ plot_Superbowl_win_div<-Superbowl_week %>%
     scale_fill_discrete(labels=c('AFC Win', 'NFC Win')) 
 
 plot_Superbowl_win_div 
+```
+
+#### Who was winning the most number of 'WildCard' games from 2000 to 2019? AFC or NFC?
+
+```{r,echo = FALSE, warning = FALSE}
+Wildcard_week<- filter(footballgames, week =="WildCard")
+dim(Wildcard_week)
+
+###To find out which division won in Superbowl. 
+for(i in 1:80){
+  if(Wildcard_week$winner[i] %in% afc_teams){
+    Wildcard_week$win_div[i]="AFC Team"
+  }
+  else{
+    Wildcard_week$win_div[i]="NFC Team"
+  }
+}  
+#Calculate the number of Superbowls Won by AFC and NFC team.
+table(Wildcard_week$win_div)
+
+#Barplot of Superbowl winners.
+plot_Wildcard_win_div<-Wildcard_week %>%
+  ggplot(aes(x = win_div, fill = win_div)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by each divison's team in Wildcard") +
+  xlab("Winning Division Team") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Div"))
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win')) 
+
+plot_Wildcard_win_div 
+
 ```
 ## Conclusion
 
