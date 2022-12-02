@@ -515,7 +515,7 @@ plot_Superbowl_win_div<-Superbowl_week %>%
   xlab("Winning Division Team") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Div"))
     scale_fill_discrete(labels=c('AFC Win', 'NFC Win')) 
 
-plot_Superbowl_win_div 
+plot_Superbowl_win_div  
 ```
 # Conclusion
 
