@@ -149,14 +149,6 @@ Once the data was cleaned, it still had 19 variables, but with 10 character vari
 
 ## Analysis
 
-```{r, echo = FALSE, warning=FALSE, results = 'hide'}
-library(tidyverse)
-library(magrittr)
-library(dplyr)
-library(ggplot2)
-library(plotly)
-```
-
 #### AFC or NFC, who is winning the most?
 
 The National Football League (NFL) is a composition of two divisions AFC (American Football Conference) and NFC (National Football Conference). Here, the objective is to find out who have won most games (Home and Away) whenever an AFC team meets with a NFC team. In order to this, two new columns 'HT' and 'AT' is created to find out if the home and away playing team was AFC or NFC with reference from the list of AFC teams and NFC teams and the variables 'home_team' and 'away_team'. However, there were games that was played between AFC teams as well as NFC teams which we are not interested in. So, the data was filter out for only the matches between AFC and NFC teams. Out of 5324 games, only 1536 games were played between an AFC team and NFC team. The respective winning percentages for each division is then calculated and a bar plot of the same is created.
@@ -165,6 +157,10 @@ The National Football League (NFL) is a composition of two divisions AFC (Americ
 ####Calculating the percentages of AFC and NFC wins whenever they face each other.
 
 library(dplyr)
+library(ggplot2)
+library(plotly)
+library(magrittr)
+library(tidyverse)
 #AFC vs NFC teams list
 afc_teams<- c("Cleveland Browns","Baltimore Ravens","Pittsburgh Steelers","Cincinnati Bengals","Miami Dolphins","Buffalo Bills","New York Jets","New England Patriots", "Kansas City Chiefs","Los Angeles Chargers","Denver Broncos","Las Vegas Raiders","Tennessee Titans","Houston Texans","Indianapolis Colts","Jacksonville Jaguars")
 
