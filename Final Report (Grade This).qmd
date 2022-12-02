@@ -153,7 +153,7 @@ Once the data was cleaned, it still had 19 variables, but with 10 character vari
 
 The National Football League (NFL) is a composition of two divisions AFC (American Football Conference) and NFC (National Football Conference). Here, the objective is to find out who have won most games (Home and Away) whenever an AFC team meets with a NFC team. In order to this, two new columns 'HT' and 'AT' is created to find out if the home and away playing team was AFC or NFC with reference from the list of AFC teams and NFC teams and the variables 'home_team' and 'away_team'. However, there were games that was played between AFC teams as well as NFC teams which we are not interested in. So, the data was filter out for only the matches between AFC and NFC teams. Out of 5324 games, only 1536 games were played between an AFC team and NFC team. The respective winning percentages for each division is then calculated and a bar plot of the same is created.
 
-```{r, echo = FALSE, warning=FALSE}
+```{r, echo = FALSE, warning=FALSE, message = FALSE}
 ####Calculating the percentages of AFC and NFC wins whenever they face each other.
 
 library(dplyr)
@@ -433,7 +433,7 @@ For the Broncos, 2010 was their worst performing year, with 25% games won within
 For the Chargers, they had gone through three bad years, where they won less than 30% of their games in 2000, 2003, and 2015.
 For the Raiders, they have had 7 "bad" years over the course of 2000-2019; while the Chiefs had 4 individual years where they won less than 30% of their games (2007, 2008, 2009 and 2012).
 
-```{r, echo = FALSE, warning = FALSE}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(dplyr)
 library(ggplot2)
 library(stringr)
@@ -472,7 +472,7 @@ ggplot(data = broncosnumbers, aes(x = year, y = winning_percentage)) +
   theme_stata()
 ```
 
-```{r, echo = FALSE, warning = FALSE}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(tsibble)
 library(tidyverse)
 library(fable)
@@ -509,7 +509,7 @@ augment(fitwinpercentagestrend) %>%
        title = "Winning Percentage vs Trended Winning Percentage")
 ```
 
-```{r, echo = FALSE, warning = FALSE}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 #filtering out chiefs games
 chiefsgames<-filter(footballgames, home_team == "Kansas City Chiefs" | away_team == "Kansas City Chiefs")
 
@@ -543,7 +543,7 @@ ggplot(data = chiefsnumbers, aes(x = year, y = winning_percentage)) +
 
 ```
 
-```{r, echo = FALSE, warning = FALSE}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # packages already loaded in
 
 # Create a time series object 
@@ -566,7 +566,7 @@ report(fitwinpercentagestrend)
 fitwinpercentagestrend %>% forecast(h = 3) %>% autoplot(chiefsts, color = 'red')
 ```
 
-```{r, echo = FALSE, warning = FALSE}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 #filtering out chargers games
 chargersgames<-filter(footballgames, home_team == "San Diego Chargers" | away_team == "San Diego Chargers" | home_team == "Los Angeles Chargers" | away_team == "Los Angeles Chargers")
 
@@ -599,7 +599,7 @@ ggplot(data = chargersnumbers, aes(x = year, y = winning_percentage)) +
   theme_stata()
 ```
 
-```{r, echo = FALSE, warning = FALSE}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # packages already loaded in
 
 # Create a time series object 
@@ -622,7 +622,7 @@ report(fitwinpercentagestrend)
 fitwinpercentagestrend %>% forecast(h = 3) %>% autoplot(chargersts, color = 'blue')
 ```
 
-```{r, echo = FALSE, warning = FALSE}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 #filtering out chiefs games
 raidersgames<-filter(footballgames, home_team == "Oakland Raiders" | away_team == "Oakland Raiders")
 
@@ -655,7 +655,7 @@ ggplot(data = raidersnumbers, aes(x = year, y = winning_percentage)) +
   theme_stata()
 ```
 
-```{r, echo = FALSE, warning = FALSE}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # packages already loaded in
 
 # Create a time series object 
@@ -678,7 +678,7 @@ report(fitwinpercentagestrend)
 fitwinpercentagestrend %>% forecast(h = 3) %>% autoplot(raidersts, color = 'black')
 ```
 
-```{r, echo = FALSE, warning = FALSE}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 #joining the tables together for all the teams and creating interactive plot for the teams
 raidersnumbers<-raidersnumbers %>% 
   mutate(team_name = "Oakland Raiders")
@@ -754,7 +754,7 @@ In this new dataset, a new column called 'win_div' is created that stores the re
 Then, the number of games won by each division teams whenever NFC played at home is calculated.
 Similar steps are carried out whenever the AFC teams are playing at home. Finally, a side-by-side bar-plots are created for comparison.
 
-```{r,echo = FALSE, warning = FALSE}
+```{r,echo = FALSE, warning = FALSE, message = FALSE}
 library(grid)
 library(gridExtra)
 #Number of games won at home by NFC teams whenever they played AFC teams.
