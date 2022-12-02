@@ -286,23 +286,40 @@ We can also compare how well teams perform when playing at home and on the road 
 
 ```{r}
 # create for loop to create vector for home points and away points
+# also create vectors for home and away turnovers and home and away yards
 footballgames$homepts <- rep(c(0), 5324)
 footballgames$awaypts <- rep(c(0), 5324)
+footballgames$hometurnovers <- rep(c(0), 5324)
+footballgames$awayturnovers <- rep(c(0), 5324)
+footballgames$homeyds <- rep(c(0), 5324)
+footballgames$awayyds <- rep(c(0), 5324)
 
 for(i in 1:5324){
   if(footballgames$home_team[i] == footballgames$winner[i]){
     footballgames$homepts[i] <- footballgames$pts_win[i]
     footballgames$awaypts[i] <- footballgames$pts_loss[i]
+    footballgames$hometurnovers[i] <- footballgames$turnovers_win[i]
+    footballgames$awayturnovers[i] <- footballgames$turnovers_loss[i]
+    footballgames$homeyds[i] <- footballgames$yds_win[i]
+    footballgames$awayyds[i] <- footballgames$yds_loss[i]
     i <- i + 1
   }
   else if(footballgames$away_team[i] == footballgames$winner[i]){
     footballgames$homepts[i] <- footballgames$pts_loss[i]
     footballgames$awaypts[i] <- footballgames$pts_win[i]
+    footballgames$hometurnovers[i] <- footballgames$turnovers_loss[i]
+    footballgames$awayturnovers[i] <- footballgames$turnovers_win[i]
+    footballgames$homeyds[i] <- footballgames$yds_loss[i]
+    footballgames$awayyds[i] <- footballgames$yds_win[i]
     i <- i + 1
   }
   else{
     footballgames$homepts[i] <- footballgames$pts_win[i]
     footballgames$awaypts[i] <- footballgames$pts_loss[i]
+    footballgames$hometurnovers[i] <- NA
+    footballgames$awayturnovers[i] <- NA
+    footballgames$homeyds[i] <- NA
+    footballgames$awayyds[i] <- NA
   }
 }
 ```
