@@ -6,11 +6,11 @@ editor: visual
 ---
 
 ## Introduction
-Have you ever seen a baseball player smack a home run on t.v., with the launch angle, distance traveled, and exit velocity immediately depicted on screen?
+Have you ever seen a baseball player smack a home run on tv, with the launch angle, distance traveled, and exit velocity immediately depicted on screen?
 Have you ever wondered how ESPN comes up with interesting statistics and factoids to display on screen?
 Or maybe you've seen betting odds for sporting events and questioned how those odds are set.
 Even if you're not interested in sports, chances are, you've encountered some type of data related to or pertaining to sports.
-If not, chances are you will at some point. The world of data is constantly getting bigger and bigger, with increasing numbers of applications, including in sports.
+If not, it's highly likely that you'll encounter sports data in the future. The world of data is constantly getting bigger and bigger, with increasing numbers of applications, including in sports.
 In fact, using data or employing quantitative methods in sports is so popular, there's an entire field of statistics dedicated to it, called sports analytics.
 In the field of sports analytics, experts, often statisticians or data scientists, use data and employ quantitative methods to evaluate player performance, analyze player safety, predict outcomes of games, set betting odds, and develop in-game strategies, among other things.
 Sports teams and organizations also use analysis to make business decisions, while the public, can use the sports analytics to play fantasy sports, make bets, or provide evidence to help win arguments about whose favorite team is better.
@@ -245,7 +245,7 @@ It's a common belief that playing any sport (including football) at home stadium
 
 ```{r, echo = FALSE, warning=FALSE}
 ### Comparing the number of games won by the home team to the number of games won by the away team ###
-
+library(tidyverse)
 # create a vector of 0's
 locationofwin <- rep(c(0), 5324)
 
@@ -280,6 +280,31 @@ footballgames %>%
   ggtitle("Comparing Games Won by Away Teams to Games Won by the Home Team") +
     scale_fill_discrete(labels=c('Away Team Won', 'Home Team Won')) 
 
+```
+
+We can also compare how well teams perform when playing at home and on the road using other statistics.
+
+```{r}
+# create for loop to create vector for home points and away points
+footballgames$homepts <- rep(c(0), 5324)
+footballgames$awaypts <- rep(c(0), 5324)
+
+for(i in 1:5324){
+  if(footballgames$home_team[i] == footballgames$winner[i]){
+    footballgames$homepts[i] <- footballgames$pts_win[i]
+    footballgames$awaypts[i] <- footballgames$pts_loss[i]
+    i <- i + 1
+  }
+  else if(footballgames$away_team[i] == footballgames$winner[i]){
+    footballgames$homepts[i] <- footballgames$pts_loss[i]
+    footballgames$awaypts[i] <- footballgames$pts_win[i]
+    i <- i + 1
+  }
+  else{
+    footballgames$homepts[i] <- footballgames$pts_win[i]
+    footballgames$awaypts[i] <- footballgames$pts_loss[i]
+  }
+}
 ```
 
 #### Which AFC West teams will do well in the next season?
