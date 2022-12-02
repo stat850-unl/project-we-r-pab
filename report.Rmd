@@ -488,7 +488,35 @@ ggplot(data = raidersnumbers, aes(x = year, y = winning_percentage)) +
   geom_point(colour = 'black')
 ```
 
+```{r}
+#Who are winning the most number of SuperBowl from 2000 to 2019?
 
+Superbowl_week<- filter(footballgames, week =="SuperBowl")
+dim(Superbowl_week)
+
+###To find out which division won in Superbowl. 
+for(i in 1:366){
+  if(Superbowl_week$winner[i] %in% afc_teams){
+    Superbowl_week$win_div[i]="AFC Team"
+  }
+  else{
+    Superbowl_week$win_div[i]="NFC Team"
+  }
+}  
+#Calculate the number of Superbowls Won by AFC and NFC team.
+table(Superbowl_week$win_div)
+
+#Barplot of Superbowl winners.
+plot_Superbowl_win_div<-Superbowl_week %>%
+  ggplot(aes(x = win_div, fill = win_div)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by each divison's team in Superbowl") +
+  xlab("Winning Division Team") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Div"))
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win')) 
+
+plot_Superbowl_win_div
+```
 # Conclusion
 
 # Future Ideas
