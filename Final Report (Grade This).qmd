@@ -149,7 +149,7 @@ Once the data was cleaned, it still had 19 variables, but with 10 character vari
 
 ## Analysis
 
-```{r, echo = FALSE, warning=FALSE}
+```{r, echo = FALSE, warning=FALSE, results = 'hide'}
 library(tidyverse)
 library(magrittr)
 library(dplyr)
