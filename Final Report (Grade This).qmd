@@ -282,9 +282,9 @@ footballgames %>%
 
 ```
 
-We can also compare how well teams perform when playing at home and on the road using other statistics.
+We can also compare how well teams perform when playing at home and on the road using other statistics in this data set, such as yards gained, points scored, and turnovers committed.
 
-```{r, echo = FALSE, warning = FALSE}
+```{r, echo = FALSE, warning = FALSE, results = 'hide'}
 # create for loop to create vector for home points and away points
 # also create vectors for home and away turnovers and home and away yards
 footballgames$homepts <- rep(c(0), 5324)
@@ -343,6 +343,9 @@ turnovers$homeawayvec <- as.factor(turnovers$homeawayvec)
 yds %>% na.omit()
 turnovers %>% na.omit()
 
+```
+
+```{r, echo = FALSE, warning = FALSE}
 # boxplot of yards gained by home and away teams
 yds %>%
   ggplot(aes(y = yds, fill = homeawayvec)) + 
@@ -350,11 +353,33 @@ yds %>%
   ggtitle("Comparing Yards Gained by Away Teams to Yards Gained by the Home Team") +
     scale_fill_discrete(labels=c('Away Team', 'Home Team')) +
       xlab("Home or Away Team")
+```
 
+Gaining yards is definitely a positive result in football, since an offense needs to gain yards in order to score points. Gaining more yards also increases the probability of scoring a touchdown (worth six points) instead of kicking a field goal (worth three points).
+Shown above are boxplots of the number of yards gained by the away team and the number of yards gained by the home team.
+Based on the boxplots, it appears that home teams have a higher average number of yards gained, compared to away teams.
+Additionally, the minimum amount of yards gained occurred for a road team instead of a home team, and the maximum amount of yards gained occurred for a home team.
+It appears that the first quartile, median, and third quartile are all higher for home teams rather than away teams.
+All in all, these boxplots support the belief that home teams have an advantage over road teams, but we should check these results as well.
+
+A t test was conducted to compare the mean yards gained by home teams and the mean yards gained by away teams, with the results shown below.
+This t test resulted in a p-value less than a significance level of 0.05.
+This suggests that there's a difference in mean yards gained between home teams and away teams, at a 5% significance level.
+```{r, echo = FALSE, warning = FALSE}
 # conduct a t test to compare means
 t.test(yds$yds ~ yds$homeawayvec)
+```
 
+While gaining yards is still a positive, yards don't always tell the full story of a football game.
+Usually, gaining more yards than the other team is indicative of being a superior team, but it's always possible that a team outgains the other team, but still loses.
+This is possible if one team's offense drives down the field and commits turnovers or scores a lot of field goals instead of touchdowns, as an example.
 
+For this reason, we can also examine the number of points scored by home teams and away teams. Points are correlated with winning, but it still might reveal some interesting information about the number of points teams score at home and on the road.
+Shown below are boxplots of points scored by home teams compared to points scored by away teams.
+The first quartile, median, and third quartile all appear higher for home teams, and the mean points scored for home teams is higher than the mean points scored for road teams.
+The maximum number of points scored in a football game from 2000-2019 was accomplished by a home team, but there are several 50 point games for both home and away teams.
+
+```{r, echo = FALSE, warning = FALSE}
 # boxplot of points scored by home and away teams
 pts %>%
   ggplot(aes(y = pts, fill = homeawayvec)) + 
@@ -362,10 +387,25 @@ pts %>%
   ggtitle("Comparing Points Scored by the Away Team to Points Scored by the Home Team") +
     scale_fill_discrete(labels=c('Away Team', 'Home Team')) +
       xlab("Home or Away Team")
+```
 
+A t test was also conducted to compare the mean points scored for home teams to the mean points scored for away teams.
+The results of this test are shown below.
+Based on the results of this test, the p-value was less than our predetermined significance level of 0.05.
+Thus, this suggests there's a difference in the mean number of points scored by home teams compared to away teams, at a 5% significance level.
+
+```{r, echo = FALSE, warning = FALSE}
 # conduct a t test to compare means
 t.test(pts$pts ~ pts$homeawayvec)
+```
 
+It might have been easy to guess that home teams generally win more often than road teams, along with gaining more yards and scoring more points.
+Committing turnovers could be a little different though.
+Turnovers are a negative statistic in football, because turning the ball over ends an offense's possession of the ball and gives the other team possession.
+Two types of turnovers are considered here; interceptions (the quarterback throws the ball, and the ball is caught by the defense), and fumbles (a player drops the ball before being tackled, and the opposing team picks it up).
+Since turnovers are negative, we expect the mean number of turnovers committed to be lower for home teams than for away teams.
+
+```{r, echo = FALSE, warning = FALSE}
 # boxplot of turnovers committed by home and away teams
 turnovers %>%
   ggplot(aes(y = turnovers, fill = homeawayvec)) + 
@@ -373,11 +413,26 @@ turnovers %>%
   ggtitle("Comparing Turnovers Committed by the Away Team to Turnovers Committed by the Home Team") +
     scale_fill_discrete(labels=c('Away Team', 'Home Team')) +
       xlab("Home or Away Team")
+```
 
+Shown above are boxplots of the number of turnovers committed for home teams and away teams. This boxplot looks much different than the previous boxplots.
+The quartiles, mean, and median don't appear to be higher or lower for home or away teams, and there aren't any clear maximum or minimum values as in the other boxplots.
+This could be due to the inherently low number of turnovers in a game, compared to points and yards, so the boxplots are checked with another t test.
+
+Based on the results of this test (shown below), the p-value is 0.0101.
+This is still less than our predetermined p-value of 0.05, which suggests there's a difference in the mean number of turnovers committed for home teams and away teams, at a 5% significance level.
+Taking a look at the means reveals that the mean turnovers committed by road teams is 1.658073 while the mean turnovers committed by home teams is 1.590327.
+While there was a statistically significant difference in the mean number of turnovers committed by home and away teams, there isn't much practical difference in these values.
+This indicates that being the home or road team probably isn't the main reason why teams commit turnovers.
+Instead, it could be the quality of team, the quality of several key players, or turnovers could just balance out between different teams, more indicative of luck than skill or talent.
+
+```{r, echo = FALSE, warning = FALSE}
 # conduct a t test to compare means
 t.test(turnovers$turnovers ~ turnovers$homeawayvec)
-
 ```
+
+
+
 
 #### Which AFC West teams will do well in the next season?
 
