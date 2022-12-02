@@ -277,14 +277,14 @@ footballgames %>%
   ggplot(aes(x = locationofwin, fill = locationofwin)) + 
   geom_bar() + 
   geom_text(stat='count', aes(label=..count..), vjust=0) + 
-  ggtitle("Comparing Games Won by Away Teams to Games Won by the Home Team") +
+  ggtitle("Comparing Games Won by the Away Team to Games Won by the Home Team") +
     scale_fill_discrete(labels=c('Away Team Won', 'Home Team Won')) 
 
 ```
 
 We can also compare how well teams perform when playing at home and on the road using other statistics.
 
-```{r}
+```{r, echo = FALSE, warning = FALSE}
 # create for loop to create vector for home points and away points
 # also create vectors for home and away turnovers and home and away yards
 footballgames$homepts <- rep(c(0), 5324)
@@ -322,6 +322,61 @@ for(i in 1:5324){
     footballgames$awayyds[i] <- NA
   }
 }
+
+# create vectors to allow for plotting
+homeawayvec <- c(rep(c("home"),5324),rep(c("away"),5324))
+pts <- c(footballgames$homepts, footballgames$awaypts)
+yds <- c(footballgames$homeyds, footballgames$awayyds)
+turnovers <- c(footballgames$hometurnovers, footballgames$awayturnovers)
+
+# create data frames for plotting
+pts <- data.frame(pts, homeawayvec)
+yds <- data.frame(yds, homeawayvec)
+turnovers <- data.frame(turnovers, homeawayvec)
+
+# treat vector of home and away as categorical
+pts$homeawayvec <- as.factor(pts$homeawayvec)
+yds$homeawayvec <- as.factor(yds$homeawayvec)
+turnovers$homeawayvec <- as.factor(turnovers$homeawayvec)
+
+# remove NA's
+yds %>% na.omit()
+turnovers %>% na.omit()
+
+# boxplot of yards gained by home and away teams
+yds %>%
+  ggplot(aes(y = yds, fill = homeawayvec)) + 
+  geom_boxplot() + 
+  ggtitle("Comparing Yards Gained by Away Teams to Yards Gained by the Home Team") +
+    scale_fill_discrete(labels=c('Away Team', 'Home Team')) +
+      xlab("Home or Away Team")
+
+# conduct a t test to compare means
+t.test(yds$yds ~ yds$homeawayvec)
+
+
+# boxplot of points scored by home and away teams
+pts %>%
+  ggplot(aes(y = pts, fill = homeawayvec)) + 
+  geom_boxplot() + 
+  ggtitle("Comparing Points Scored by the Away Team to Points Scored by the Home Team") +
+    scale_fill_discrete(labels=c('Away Team', 'Home Team')) +
+      xlab("Home or Away Team")
+
+# conduct a t test to compare means
+t.test(pts$pts ~ pts$homeawayvec)
+
+# boxplot of turnovers committed by home and away teams
+turnovers %>%
+  ggplot(aes(y = turnovers, fill = homeawayvec)) + 
+  geom_boxplot() + 
+  ggtitle("Comparing Turnovers Committed by the Away Team to Turnovers Committed by the Home Team") +
+    scale_fill_discrete(labels=c('Away Team', 'Home Team')) +
+      xlab("Home or Away Team")
+
+# conduct a t test to compare means
+t.test(turnovers$turnovers ~ turnovers$homeawayvec)
+
 ```
 
 #### Which AFC West teams will do well in the next season?
