@@ -1,0 +1,80 @@
+---
+title: "project_presentation"
+author: "Paulus Hermanto"
+date: "2022-12-02"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction
+
+- What is sports analytics?
+- Why did we choose this topic?
+
+## What is the NFL?
+
+!['NFL Logo'](NFL_Logo.png)
+!['NFL Teams'](NFL_teams.gif)
+- AFC vs NFC
+- Divisions
+- Structure of schedules every season
+
+## Data
+
+![data](https://www.pro-football-reference.com/boxscores/game-scores.htm)).  ![data](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-04/readme.md#gamescsv))
+
+## Outputs
+
+```{r cars, echo = TRUE}
+summary(cars)
+```
+
+## Slide with Plot
+
+```{r pressure}
+plot(pressure)
+```
+
+---
+title: "Introduction"
+author: "Paulus Hermanto"
+date: "2022-10-25"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction to ME!
+Hello. I'm Paul. I will be introducing myself on subsequent slides, but promise you'll never ever share this with anyone??? Ok??? Ok.
+
+## A little bit about myself
+
+- Name: Paulus Hermanto
+- Birthday: 10/02/1998 
+- Where I grew up: Bogor, Indonesia
+- What program you're in: MS in Statistics
+- When you expect to graduate: I honestly do not know if I can even graduate at this point.
+
+## My Favorite Animal
+
+!['Here is a beluga whale'](beluga.jpeg)
+
+## My Favorite Plot
+```{r, warning=FALSE, message=FALSE}
+library(ggplot2)
+library(ggthemes)
+a<-read.csv('penguins.csv')
+ggplot(data = a, aes(x = bill_depth_mm, y = body_mass_g))+ 
+stat_density2d(aes(fill = after_stat(density)), 
+              geom = "tile",  
+              contour = F) +
+  scale_fill_distiller(palette = 'Pastel2')+
+  labs(x = "Body Mass in grams", y = "Bill depth in mm")+
+  ggtitle("Bill Depth and Body Mass Density Plot")+
+  theme_solarized()
+```
