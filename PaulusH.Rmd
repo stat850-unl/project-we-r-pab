@@ -259,3 +259,20 @@ ggplot(data = raidersnumbers, aes(x = year, y = winning_percentage)) +
   geom_line(colour = 'black') +
   geom_point(colour = 'black')
 ```
+
+```{r}
+superbowlgames<-filter(footballgames, week == "SuperBowl") %>%
+  group_by(`winner`) %>%
+  summarise(number_of_wins = n()) %>%
+  slice_max(order_by = number_of_wins, n=3)
+
+
+ggplot(data = superbowlgames, aes(x = reorder(winner, -number_of_wins), y = number_of_wins, fill=winner)) +
+  labs(title = "Frequency of SuperBowl Wins",
+         x = "Team",
+         y = "Percentage of Wins") +
+  geom_bar(stat = "identity") +
+  theme_stata()
+
+```
+
