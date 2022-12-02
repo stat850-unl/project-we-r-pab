@@ -43,6 +43,11 @@ Conferences are further broken down into divisions (North, South, East, and West
 | Houston Texans       | Carolina Panthers     |
 | Jacksonville Jaguars | Tampa Bay Buccaneers  |
 
+**Note:** The data set covers the years 2000 through 2019. In that span, the Houston Texans were added as a team (2002), and there have been multiple changes of location.
+This includes the Los Angeles Chargers (formerly San Diego Chargers), Las Vegas Raiders (formerly Oakland Raiders), and the Los Angeles Rams (formerly St. Louis Rams).
+
+**Note:** This current format with conferences and divisions was implemented beginning in the 2002 season with the addition of the Houston Texans.
+
 Every season starts with a three-week preseason in the month of August, followed by 18 weeks of regular season. The regular season games run from early September to early January.
 During a regular season, each team plays 17 games and has one bye week (one week during the course of the season where they do not play a game). 
 After the regular season concludes, seven teams from each conference (four division winners and three wild card teams) would advance to the playoffs round.
