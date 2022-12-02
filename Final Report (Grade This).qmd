@@ -416,9 +416,6 @@ Instead, it could be the quality of team, the quality of several key players, or
 t.test(turnovers$turnovers ~ turnovers$homeawayvec)
 ```
 
-
-
-
 #### Which AFC West teams will do well in the next season?
 
 Fans and analysts are often trying to predict which games will be won and lost by their favorite teams.
