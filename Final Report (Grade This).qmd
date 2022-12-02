@@ -157,8 +157,13 @@ The National Football League (NFL) is a composition of two divisions AFC (Americ
 
 ```{r, echo = FALSE, warning=FALSE, message = FALSE}
 ####Calculating the percentages of AFC and NFC wins whenever they face each other.
-
+library(tidyverse)
+library(magrittr)
 library(dplyr)
+library(ggplot2)
+library(plotly)
+library(dplyr)
+
 #AFC vs NFC teams list
 afc_teams<- c("Cleveland Browns","Baltimore Ravens","Pittsburgh Steelers","Cincinnati Bengals","Miami Dolphins","Buffalo Bills","New York Jets","New England Patriots", "Kansas City Chiefs","Los Angeles Chargers","San Diego Chargers","Denver Broncos","Oakland Raiders","Tennessee Titans","Houston Texans","Indianapolis Colts","Jacksonville Jaguars")
 
@@ -190,9 +195,9 @@ for (i in 1:5324){
 #Find the games AFC team vs NFC team, home and away. 
 
 afcvsnfc<- filter(footballgames, week!= "SuperBowl", HT=="AFC" & AT=="NFC"| HT=="NFC" & AT=="AFC")
-
+dim(afcvsnfc)
 #Find out who won against AFC vs NFC only, home and away. 
-for(i in 1:1517){
+for(i in 1:1288){
   if(afcvsnfc$winner[i]=="Tie"){
     afcvsnfc$win_team[i]="Tied"
     }
@@ -741,6 +746,14 @@ The achievement, nevertheless, failed to last as their percentages plummeted aga
 Overall, we realize that it is difficult to predict wins solely based on visually looking trends of winning percentages, as there are other factors in place that are affecting team performances such as: players getting traded (roster changes), coaching styles (some coaches are more oriented towards offense/defense), game schedules, weather conditions, etc.
 Furthermore, every team's performance on the AFC West Division has been extremely volatile, making it more difficult for their wins to be predictable and to observe stability of their performance in future years. Therefore, we decided to **CONTINUE ON THE TIME SERIES PART**
 
+#### AFC West teams pts_win vs yds_win scatter plot.
+```{r, echo = FALSE, warning = FALSE, message = FALSE} 
+afc_west_teams= c("Denver Broncos", "Kansas City Chiefs", "Las Vegas Raiders","Los Angeles Chargers", "San Diego Chargers")
+
+
+
+
+```
 
 #### What does the number of wins at home looks like for AFC vs NFC teams?
 
@@ -756,10 +769,12 @@ library(gridExtra)
 #Number of games won at home by NFC teams whenever they played AFC teams.
 
 ###First create a data with home team being NFC team and away team being AFC team. 
-homewin_nfc<-filter(footballgames, footballgames$home_team %in% nfc_teams & footballgames$away_team %in% afc_teams )
+homewin_nfc<-filter(footballgames, week!= "SuperBowl", footballgames$home_team %in% nfc_teams & footballgames$away_team %in% afc_teams )
+
+dim(homewin_nfc)
 
 ###To find out which division won when NFC played at home. 
-for(i in 1:364){
+for(i in 1:405){
   if(homewin_nfc$winner[i]=="Tie"){
      footballgames$win_div[i]<-"Tied"
   }
@@ -776,10 +791,12 @@ table(homewin_nfc$win_div)
 
 #Number of games won at home by AFC teams whenever they played NFC teams.
 
-homewin_afc<-filter(footballgames, footballgames$home_team %in% afc_teams & footballgames$away_team %in% nfc_teams )
+homewin_afc<-filter(footballgames, week!= "SuperBowl", footballgames$home_team %in% afc_teams & footballgames$away_team %in% nfc_teams )
+
+dim(homewin_afc)
 
 ###To find out which division won when AFC played at home. 
-for(i in 1:366){
+for(i in 1:406){
   if(homewin_afc$winner[i]=="Tie"){
      homewin_afc$win_div[i]<-"Tied"
   }
@@ -812,6 +829,14 @@ plot_afc_home<-homewin_afc %>%
     scale_fill_discrete(labels=c('AFC Win', 'NFC Win', 'Tied')) 
 
 grid.arrange(plot_nfc_home,plot_afc_home, ncol=2)
+
+
+plot_scatter_nfc_home<- homewin_nfc %>% ggplot(aes(x=yds_win, y= pts_win, color= win_div))+ geom_point()
+plot_scatter_nfc_home
+
+plot_scatter_afc_home<- homewin_afc %>% ggplot(aes(x=yds_win, y= pts_win, color= win_div))+ geom_point()
+plot_scatter_afc_home
+
 ```
 
 #### Comparison of points for AFC and NFC teams playing each other.
