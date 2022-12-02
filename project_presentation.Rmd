@@ -1,6 +1,6 @@
 ---
 title: "project_presentation"
-author: "Paulus Hermanto"
+author: "Andrew Ker, Bipin Poudel, Paulus Hermanto"
 date: "2022-12-02"
 output: beamer_presentation
 ---
