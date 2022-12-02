@@ -48,11 +48,23 @@ This includes the Los Angeles Chargers (formerly San Diego Chargers), Las Vegas 
 
 **Note:** This current format with conferences and divisions was implemented beginning in the 2002 season with the addition of the Houston Texans.
 
-Every season starts with a three-week preseason in the month of August, followed by 18 weeks of regular season. The regular season games run from early September to early January.
-During a regular season, each team plays 17 games and has one bye week (one week during the course of the season where they do not play a game). 
-After the regular season concludes, seven teams from each conference (four division winners and three wild card teams) would advance to the playoffs round.
-The playoffs are a single elimination tournament that determine the two teams that will play the Super Bowl.
-The Super Bowl is the last match between the AFC and NFC champions.
+For the majority of the time this data set spans, the NFL season consisted of four weeks of a preseason in which games don't count in the standings.
+The preseason was followed by a 17-week regular season, where teams played 16 games and had one bye week (one week during the course of the season where they don't play a game).
+After the end of the regular season, six teams from each conference (four division winners in each conference and two wild card teams) advance to the playoffs.
+The teams were seeded 1-6 in each conference, where the four division winners constituted seeds 1-4, and the wild card teams constituting seeds 5 and 6.
+The first round of the playoffs is called the wild card round. In this round of the playoffs, the 6 seed plays on the road against the 3 seed in each conference, and the 5 seed plays on the road against the 4 seed in each conference.
+Seeds 1 and 2 in each conference received a bye week for the wild card round.
+The next round of the playoffs is the divisional round, in which the winners of the wild card round visit the 1 and 2 seeds, with the lowest-seeded wild card winner playing the 1 seed and the highest-seeded wild card winner playing the 2 seed.
+The winners of the divisional round then play each other in the conference championships, hosted by the highest remaining seed.
+The winners of conference championships then play each other in the Super Bowl, which is played at a predetermined neutral location.
+
+**Note:** In 2021, the NFL implemented several changes to the season.
+The current regular season now consists of a three-week preseason, followed by 18 weeks of the regular season.
+Teams now play 17 games during the regular season.
+The playoff format was also changed, to add an extra wild card team and remove the bye week for the 2 seed in each conference.
+This added an extra wild card round game between the 7 seed visiting the 2 seed.
+
+**Note:** In 2000 and 2001, the NFL had different conferences and divisions, so the playoffs included the three division winners in each conference and three wild card rounds.
 
 ### Data
 
