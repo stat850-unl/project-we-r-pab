@@ -6,10 +6,48 @@ editor: visual
 ---
 
 ## Introduction
+Have you ever seen a baseball player smack a home run on t.v., with the launch angle, distance traveled, and exit velocity immediately depicted on screen?
+Have you ever wondered how ESPN comes up with interesting statistics and factoids to display on screen?
+Or maybe you've seen betting odds for sporting events and questioned how those odds are set.
+Even if you're not interested in sports, chances are, you've encountered some type of data related to or pertaining to sports.
+If not, chances are you will at some point. The world of data is constantly getting bigger and bigger, with increasing numbers of applications, including in sports.
+In fact, using data or employing quantitative methods in sports is so popular, there's an entire field of statistics dedicated to it, called sports analytics.
+In the field of sports analytics, experts, often statisticians or data scientists, use data and employ quantitative methods to evaluate player performance, analyze player safety, predict outcomes of games, set betting odds, and develop in-game strategies, among other things.
+Sports teams and organizations also use analysis to make business decisions, while the public, can use the sports analytics to play fantasy sports, make bets, or provide evidence to help win arguments about whose favorite team is better.
+On account of the fact that American football is the most popular sport in the U.S., in this paper, we will try to analyze the performance of NFL Teams.
 
-In the field of sports analytics, experts use data and other quantitative methods to measure performance within the sport of interest in order to make decisions. Through analyzing sports data, sports analytics can inform players and coaches on how to strategize for future games. Sports organizations also often use sports analysis for business decisions, while for the public, the information can be utilized as reasoning to support their favorite team, and even for betting purposes. On account of the fact that American Football is the most dominant sports in the country, in this paper, we will try to analyze the sports performance of NFL Teams.
+To provide a little bit of context, the National Football League (NFL) is an American football league, consisting of 32 teams.
+Each team belongs to either AFC (American Football Conference), or NFC (National Football Conference); and there are 16 teams in each conference.
+Conferences are further broken down into divisions (North, South, East, and West). For a full list of current teams, please see the table below.
 
-To provide a little bit of context, the National Football League (NFL) is an American Football League, consisting of 32 teams. Each team belongs to either AFC (American Football Conference), or NFC (National Football Conference); and there are 16 teams in each conference. Every season starts with a three-week preseason in the month of August, followed by 18 weeks of regular season. The regular season games run from early September to early January. During a regular season, each team plays 17 games and has one bye week (one week during the course of the season where they do not play a game). After the regular season concludes, seven teams from each conference (four division winners and three wild card teams) would advance to the playoffs round. The playoffs are a single elimination tournament that determine the two teams that will play the Super Bowl. The Super Bowl is the last match between the AFC and NFC champions.
+| AFC                  |   NFC                 |
+|----------------------|-----------------------|
+| **East**             |         **East **     |
+| New England Patriots |   Dallas Cowboys      |
+|New York Jets         |   Philadelphia Eagles |
+|Miami Dolphins        | Washington Commanders |
+|Buffalo Bills         | New York Giants       |
+|**North**             |          **North**    |
+| Cincinnati Bengals   |   Green Bay Packers   |
+| Pittsburgh Steelers  | Chicago Bears         |
+| Baltimore Ravens     | Minnesota Vikings     |
+| Cleveland Browns     | Detroit Lions         |
+| **West**             | **West**              |
+| Denver Broncos       | Seattle Seahawks      |
+| Kansas City Chiefs   | San Francisco 49ers   |
+| Los Angeles Chargers | Los Angeles Rams      |
+| Las Vegas Raiders    | Arizona Cardinals     |
+|**South **            | **South**             |
+| Indianapolis Colts   | New Orleans Saints    |
+| Tennessee Titans     | Atlanta Falcons       |
+| Houston Texans       | Carolina Panthers     |
+| Jacksonville Jaguars | Tampa Bay Buccaneers  |
+
+Every season starts with a three-week preseason in the month of August, followed by 18 weeks of regular season. The regular season games run from early September to early January.
+During a regular season, each team plays 17 games and has one bye week (one week during the course of the season where they do not play a game). 
+After the regular season concludes, seven teams from each conference (four division winners and three wild card teams) would advance to the playoffs round.
+The playoffs are a single elimination tournament that determine the two teams that will play the Super Bowl.
+The Super Bowl is the last match between the AFC and NFC champions.
 
 ### Data
 
@@ -593,7 +631,7 @@ Similar analyses is carried out for games played at home of AFC teams and away f
 
 Afterwards, the two separate plots created are displayed in the same panel for side-by-side comparison.Finally, a summary table is also produced.
 
-```{r,echo = FALSE, warning = FALSE}}
+```{r,echo = FALSE, warning = FALSE}
 pts_nfc_home<-ggplot(data=homewin_nfc, aes(x=win_div,y=pts_win, fill= win_div))+geom_boxplot() +xlab("Winning Division")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC teams at NFC's team home.")+ guides(fill=guide_legend(title="Win Div"))
 
 ggplotly(pts_nfc_home)
