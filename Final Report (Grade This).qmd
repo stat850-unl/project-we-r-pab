@@ -132,7 +132,11 @@ Once the data was cleaned, it still had 19 variables, but with 10 character vari
 
 #### AFC or NFC, who is winning the most?
 
-The National Football League (NFL) is a composition of two divisions AFC (American Football Conference) and NFC (National Football Conference). Here, the objective is to find out who have won most games (Home and Away) whenever an AFC team meets with a NFC team. In order to this, two new columns 'HT' and 'AT' is created to find out if the home and away playing team was AFC or NFC with reference from the list of AFC teams and NFC teams and the variables 'home_team' and 'away_team'. However, there were games that was played between AFC teams as well as NFC teams which we are not interested in. Also, the Superbowl games are played in the neutral venue, so it would not make sense to have them included here.So, the data was filter out for only the matches between AFC and NFC teams. Out of 5324 games, only 1517 games were played between an AFC team and NFC team either home or away. The respective number of wins for each division is then calculated and a bar plot of the same is created.
+The National Football League (NFL) is a composition of two conferences AFC (American Football Conference) and NFC (National Football Conference). 
+Here, the objective is to find out who have won most games (Home and Away) whenever an AFC team meets with a NFC team. Additionally, to see the distribution of the points won by each conference. 
+In order to do this, two new columns 'HT' and 'AT' is created to find out if the home and away playing team was AFC or NFC with reference from the list of AFC teams and NFC teams and the variables 'home_team' and 'away_team'. However, there were games that was played between two AFC teams as well as two NFC teams which we are not interested in. Also, the Superbowl games are played in the neutral venue, so it would not make sense to have them included here. Then,the data was filter out for only the matches between AFC and NFC teams. 
+There are 5324 matches in the dataset. Out of 5324 games, only 1288 matches were played between an AFC team and NFC team either home or away. 
+The respective number of wins for each conference is then calculated and a bar plot of the same is created.Further, a box plot of distribution of points won for each conference is created. 
 
 ```{r, echo = FALSE, warning=FALSE, message = FALSE}
 ####Calculating the percentages of AFC and NFC wins whenever they face each other.
@@ -148,6 +152,9 @@ afc_teams<- c("Cleveland Browns","Baltimore Ravens","Pittsburgh Steelers","Cinci
 
 nfc_teams<-c("Minnesota Vikings","Chicago Bears","Detroit Lions","Green Bay Packers","New York Giants","Dallas Cowboys","Washington Redskins","Philadelphia Eagles","Arizona Cardinals","Los Angeles Rams","Seattlle Seahawks","San Francisco 49ers","Atlanta Falcons","Tampa Bay Buccaneers","Carolina Panthers ","New Orleans Saints", "St. Louis Rams")
 
+```
+
+```{r,echo = FALSE, warning=FALSE, message = FALSE} 
 #Create a new column 'HT' to find which was the home team: AFC or NFC
 
 for (i in 1:5324){
@@ -178,31 +185,40 @@ dim(afcvsnfc)
 #Find out who won against AFC vs NFC only, home and away. 
 for(i in 1:1288){
   if(afcvsnfc$winner[i]=="Tie"){
-    afcvsnfc$win_team[i]="Tied"
+    afcvsnfc$win_conf[i]="Tied"
     }
     else if(afcvsnfc$winner[i] %in% afc_teams){
-    afcvsnfc$win_team[i]<- "AFC"
+    afcvsnfc$win_conf[i]<- "AFC"
     }
     else{
-    afcvsnfc$win_team[i]<- "NFC"
+    afcvsnfc$win_conf[i]<- "NFC"
     }  
 }
 
 #Calculate the percentage of games won by NFC and AFC teams.
-table(afcvsnfc$win_team)
+table(afcvsnfc$win_conf)
 #Whenever, AFC played NFC either home or away:
-#AFC won 811 of the games vs. NFC 702. 4 of the games ended in a tie. 
+#AFC won 663 of the games vs. NFC 625.
+```
 
-#Plot of AFC vs NFC playing each other only. 
+```{r, echo = FALSE, warning=FALSE, message = FALSE}
+#Barplot of number of games won, AFC vs NFC playing each other only. 
 plot_afcvsnfc_total_win<-afcvsnfc %>%
-  ggplot(aes(x = win_team, fill = win_team)) + 
+  ggplot(aes(x = win_conf, fill = win_conf)) + 
   geom_bar() + 
   geom_text(stat='count', aes(label=..count..), vjust=0) + 
   ggtitle("Number of games won by respective divison playing home and away ") +
-  xlab("Winning Division Team") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Div"))
+  xlab("Winning Division Team") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))
     scale_fill_discrete(labels=c('AFC Win', 'NFC Win','Tied')) 
 
 plot_afcvsnfc_total_win 
+```
+
+```{r,echo = FALSE, warning=FALSE, message = FALSE}
+pts_afcvsnfc<- ggplot(data=afcvsnfc)+geom_boxplot(aes(x=win_conf,y=pts_win, fill= win_conf))+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC teams at playing each other.")+ guides(fill=guide_legend(title="Win Conf."))
+
+pts_afcvsnfc
+
 ```
 
 #### Is there an Advantage to Playing at Home?
