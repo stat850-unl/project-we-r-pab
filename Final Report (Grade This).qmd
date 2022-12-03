@@ -783,7 +783,7 @@ The actual model fit was an ARIMA(0,0,1) model.
 According to the forecasts in the plot, the 80% prediction interval contained the Raiders' actual percentage of games won, but the model still tended to underestimate.
 
 
-```{r, echo = False, warning = FALSE, message = FALSE}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 fitwinpercentagestrend <- raidersts %>%
 model(TSLM(winning_percentage ~ trend()))
 report(fitwinpercentagestrend)
