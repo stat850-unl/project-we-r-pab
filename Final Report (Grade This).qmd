@@ -862,7 +862,7 @@ Then, the number of games won by each division teams whenever NFC played at home
 Similar steps are carried out whenever the AFC teams are playing at home. 
 Finally, a side-by-side bar-plots are created for comparison.
 
-```{r,echo = FALSE, warning = FALSE, message = FALSE}
+```{r,echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
 library(grid)
 library(gridExtra)
 #Number of games won at home by NFC teams whenever they played AFC teams.
@@ -966,7 +966,7 @@ grid.arrange(plot_pts_nfc_home, plot_pts_afc_home ,ncol=2)
 
 In this section, we can check if there is any team that won the SuperBowl multiple times over the 20-year range. We decided to create a data frame consisting of the winners of the Superbowl and display the corresponding number of wins. We then drew a bar plot to help visualize the number of wins. We found out that New England Patriot won the most with 6 games won. Next up, we found that there are three teams that won the same amount of time (2 times): Baltimore Ravens, New York Giants, and Pittsburgh Steelers. Unfortunately, other teams that have won the SuperBowl from 2000-2019 only won once. 
 
-```{r}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 superbowlgames<-filter(footballgames, week == "SuperBowl") %>%
   group_by(`winner`) %>%
   summarise(number_of_wins = n()) %>%
@@ -987,7 +987,7 @@ For this, a subset of original data where 'week' is 'Superbowl' only is filtered
 Then, the winning conference on each of these games is identified with reference from the list 'afc_teams' and stored in a new variable 'win_conf'.
 Finally, a bar plot is created for the number of Superbowls won by each conference. 
 
-```{r}
+```{r, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
 #Who are winning the most number of SuperBowl from 2000 to 2019?
 
 Superbowl_week<- filter(footballgames, week =="SuperBowl")
