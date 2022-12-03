@@ -541,7 +541,7 @@ ggplot(data = chiefsnumbers, aes(x = year, y = winning_percentage)) +
 
 ```
 
-The plot of the Chiefs' winning percentage over time reall stands out.
+The plot of the Chiefs' winning percentage over time really stands out.
 For the first 13 years, the Chiefs only had two years in which we consider to be good years: 2003 and 2005.
 In both of those years, they managed to pull off winning percentages of 76% and 63%.
 Other than those triumphant years, the team was either performing moderately, or extremely terribly, with winning percentages below 20% in 2008 and 2012.
@@ -553,6 +553,11 @@ More impressively, the Chiefs even managed to win more than 70% of games in 2016
 The year 2019 was also the year that the team won Superbowl LIV ([source](https://en.wikipedia.org/wiki/List_of_Super_Bowl_champions)).
 While our data only shows games up to 2019, in reality, the team had a very strong track record throughout 2020-2022 as well ([source](https://www.espn.com/nfl/standings)), which some might have predicted from the successful streak in those previous years.
 
+To see if we can predict the Chiefs' winning percentage in 2020 and 2021, we fit an ARIMA(0,0,1) model to the historical data and forecast it over three years.
+The plot of the Chiefs' winning percentages over time, along with forecasted winning percentages is shown below.
+Based on this plot, the model predicted the Chiefs would have winning percentages of 59% and 51% in 2020 and 2021.
+The Chiefs actual winning percentages were much higher than this, so the model tends to underestimate.
+The model did however capture the Chiefs' winning percentages within the 80% prediction interval.
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # packages already loaded in
@@ -572,6 +577,13 @@ fitwinpercentagesfc <- fitwinpercentages %>% forecast(h = 3)
 
 ```
 
+We can also fit a trend to the Chiefs' winning percentages from 2000-2019 and use this to predict the Chiefs' winning percentages in 2020 and 2021.
+A plot of the Chiefs' winning percentages from 2000-2019 is shown below, with forecasts using the fitted trend shown in red.
+Based on this plot, the model predicted the Chiefs would win about 64% and 65% of their games in 2020 and 2021, respectively.
+The Chiefs' actual winning percentages was higher in these years, so the trend appears to underestimate.
+Again, the actual winning percentages in 2020 and 2021 were captured by the 80% prediction interval.
+
+
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # fit trended model
 fitwinpercentagestrend <- chiefsts %>%
@@ -582,6 +594,12 @@ report(fitwinpercentagestrend)
 fitwinpercentagestrend %>% forecast(h = 3) %>% autoplot(chiefsts, color = 'red')
 fitwinpercentagestrendfc <- fitwinpercentagestrend %>% forecast(h = 3)
 ```
+
+We can use the fitted trend to plot the trend line against the Chiefs' historical winning percentages from 2000-2019. 
+This plot is depicted below.
+Overall, we can see that there's a moderate positive trend in the Chiefs' winning percentage over time.
+It's incredibly unlikely this trend continues much longer since it's rare for NFL teams to win over 90%, let alone 100% of their games.
+That being said, it's evident the Chiefs have been a consistently good, if not great team from 2000-2019.
 
 ```{r, echo = FALSE, warning = FALSE, messsage = FALSE}
 # Time plot of winning percentage and predicted winning percentage with a trend model
