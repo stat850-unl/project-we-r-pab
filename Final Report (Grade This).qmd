@@ -1,5 +1,5 @@
 ---
-title: "Project Feedback"
+title: "Tackling NFL Game Data with Statistical Computing"
 author: "Andrew Ker, Bipin Poudel, Paulus Hermanto"
 format: html
 editor: source
@@ -10,9 +10,17 @@ editor_options:
 ## Introduction
 
 Have you ever seen a baseball player smack a home run on tv, with the launch angle, distance traveled, and exit velocity immediately depicted on screen?
-Have you ever wondered how ESPN comes up with interesting statistics and factoids to display on screen? Or maybe you've seen betting odds for sporting events and questioned how those odds are set. Even if you're not interested in sports, chances are, you've encountered some type of data related to or pertaining to sports. If not, it's highly likely that you'll encounter sports data in the future. The world of data is constantly getting bigger and bigger, with increasing numbers of applications, including in sports. In fact, using data or employing quantitative methods in sports is so popular, there's an entire field of statistics dedicated to it, called sports analytics. In the field of sports analytics, experts, often statisticians or data scientists, use data and employ quantitative methods to evaluate player performance, analyze player safety, predict outcomes of games, set betting odds, and develop in-game strategies, among other things. Sports teams and organizations also use analysis to make business decisions, while the public, can use the sports analytics to play fantasy sports, make bets, or provide evidence to help win arguments about whose favorite team is better. On account of the fact that American football is the most popular sport in the U.S., in this paper, we will try to analyze the performance of NFL Teams.
+Have you ever wondered how ESPN comes up with interesting statistics and factoids to display on screen? Or maybe you've seen betting odds for sporting events and questioned how those odds are set.
+Even if you're not interested in sports, chances are, you've encountered some type of data related to or pertaining to sports.
+If not, it's highly likely that you'll encounter sports data in the future. The world of data is constantly getting bigger and bigger, with increasing numbers of applications, including in sports.
+In fact, using data or employing quantitative methods in sports is so popular, there's an entire field of statistics dedicated to it, called sports analytics.
+In the field of sports analytics, experts, often statisticians or data scientists, use data and employ quantitative methods to evaluate player performance, analyze player safety, predict outcomes of games, set betting odds, and develop in-game strategies, among other things.
+Sports teams and organizations also use analysis to make business decisions, while the public, can use the sports analytics to play fantasy sports, make bets, or provide evidence to help win arguments about whose favorite team is better.
+On account of the fact that American football is the most popular sport in the U.S., in this paper, we will try to analyze the performance of NFL Teams.
 
-To provide a little bit of context, the National Football League (NFL) is an American football league, consisting of 32 teams. Each team belongs to either AFC (American Football Conference), or NFC (National Football Conference); and there are 16 teams in each conference. Conferences are further broken down into divisions (North, South, East, and West). For a full list of current teams, please see the table below.
+To provide a little bit of context, the National Football League (NFL) is an American football league, consisting of 32 teams.
+Each team belongs to either AFC (American Football Conference), or NFC (National Football Conference); and there are 16 teams in each conference.
+Conferences are further broken down into divisions (North, South, East, and West). For a full list of current teams, please see the table below.
 
 | AFC                  | NFC                   |
 |----------------------|-----------------------|
@@ -37,21 +45,43 @@ To provide a little bit of context, the National Football League (NFL) is an Ame
 | Houston Texans       | Carolina Panthers     |
 | Jacksonville Jaguars | Tampa Bay Buccaneers  |
 
-**Note:** The data set covers the years 2000 through 2019. In that span, the Houston Texans were added as a team (2002), and there have been multiple changes of location. This includes the Los Angeles Chargers (formerly San Diego Chargers), Las Vegas Raiders (formerly Oakland Raiders), and the Los Angeles Rams (formerly St. Louis Rams).
+**Note:** The data set covers the years 2000 through 2019. In that span, the Houston Texans were added as a team (2002), and there have been multiple changes of location.
+This includes the Los Angeles Chargers (formerly San Diego Chargers), Las Vegas Raiders (formerly Oakland Raiders), and the Los Angeles Rams (formerly St. Louis Rams).
 
 **Note:** This current format with conferences and divisions was implemented beginning in the 2002 season with the addition of the Houston Texans.
 
-For the majority of the time this data set spans, the NFL season consisted of four weeks of a preseason in which games don't count in the standings. The preseason was followed by a 17-week regular season, where teams played 16 games and had one bye week (one week during the course of the season where they don't play a game). After the end of the regular season, six teams from each conference (four division winners in each conference and two wild card teams) advance to the playoffs. The teams were seeded 1-6 in each conference, where the four division winners constituted seeds 1-4, and the wild card teams constituting seeds 5 and 6. The first round of the playoffs is called the wild card round. In this round of the playoffs, the 6 seed plays on the road against the 3 seed in each conference, and the 5 seed plays on the road against the 4 seed in each conference. Seeds 1 and 2 in each conference received a bye week for the wild card round. The next round of the playoffs is the divisional round, in which the winners of the wild card round visit the 1 and 2 seeds, with the lowest-seeded wild card winner playing the 1 seed and the highest-seeded wild card winner playing the 2 seed. The winners of the divisional round then play each other in the conference championships, hosted by the highest remaining seed. The winners of conference championships then play each other in the Super Bowl, which is played at a predetermined neutral location.
+For the majority of the time this data set spans, the NFL season consisted of four weeks of a preseason in which games don't count in the standings.
+The preseason was followed by a 17-week regular season, where teams played 16 games and had one bye week (one week during the course of the season where they don't play a game).
+After the end of the regular season, six teams from each conference (four division winners in each conference and two wild card teams) advance to the playoffs.
+The teams were seeded 1-6 in each conference, where the four division winners constituted seeds 1-4, and the wild card teams constituting seeds 5 and 6.
+The first round of the playoffs is called the wild card round.
+In this round of the playoffs, the 6 seed plays on the road against the 3 seed in each conference, and the 5 seed plays on the road against the 4 seed in each conference.
+Seeds 1 and 2 in each conference received a bye week for the wild card round.
+The next round of the playoffs is the divisional round, in which the winners of the wild card round visit the 1 and 2 seeds, with the lowest-seeded wild card winner playing the 1 seed and the highest-seeded wild card winner playing the 2 seed.
+The winners of the divisional round then play each other in the conference championships, hosted by the highest remaining seed.
+The winners of conference championships then play each other in the Super Bowl, which is played at a predetermined neutral location.
 
-**Note:** In 2021, the NFL implemented several changes to the season. The current regular season now consists of a three-week preseason, followed by 18 weeks of the regular season. Teams now play 17 games during the regular season. The playoff format was also changed, to add an extra wild card team and remove the bye week for the 2 seed in each conference. This added an extra wild card round game between the 7 seed visiting the 2 seed.
+**Note:** In 2021, the NFL implemented several changes to the season.
+The current regular season now consists of a three-week preseason, followed by 18 weeks of the regular season. Teams now play 17 games during the regular season.
+The playoff format was also changed, to add an extra wild card team and remove the bye week for the 2 seed in each conference.
+This added an extra wild card round game between the 7 seed visiting the 2 seed.
 
 **Note:** In 2000 and 2001, the NFL had different conferences and divisions, so the playoffs included the three division winners in each conference and three wild card rounds.
 
 ### Data
 
-The data was originally gathered by Pro Football Reference. The data was stored in NFL Scores Main Page under All Game Scores ([data](https://www.pro-football-reference.com/boxscores/game-scores.htm)). The data was used for a tidytuesday project in 2020 ([data](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-04/readme.md#gamescsv)) that primarily focused on NFL attendance. The data used for this report was found using the tidytuesday link.
+The data was originally gathered by Pro Football Reference.
+The data was stored in NFL Scores Main Page under All Game Scores ([data](https://www.pro-football-reference.com/boxscores/game-scores.htm)).
+The data was used for a tidytuesday project in 2020 ([data](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-04/readme.md#gamescsv)) that primarily focused on NFL attendance.
+The data used for this report was found using the tidytuesday link.
 
-The data we are using in this project comes in the format of a .csv file. The spreadsheet contains football games played by NFL teams from year 2000-2019. This data originally contained 19 variables related to NFL game scores and outcomes. Out of these 19 variables, 11 were character variables, seven were numeric variables, and one was a time variable. In order to meet project specifications, a categorical variable was needed. To derive a categorical variable, a loop was utilized to replace values of "NA" with a string "0" in the tie column and replace team names with a string "1". This also helped to clean the data, since it does not make sense to list a team winner for a game that ended with a tie. After this loop, the strings of "0" and "1" were converted to a categorical variable. This process essentially created a categorical variable with a value of 0 if an NFL game ended with one team winning and a value of 1 if an NFL game ended in a tie.
+The data we are using in this project comes in the format of a .csv file.
+The spreadsheet contains football games played by NFL teams from year 2000-2019.
+This data originally contained 19 variables related to NFL game scores and outcomes.
+Out of these 19 variables, 11 were character variables, seven were numeric variables, and one was a time variable. In order to meet project specifications, a categorical variable was needed.
+To derive a categorical variable, a loop was utilized to replace values of "NA" with a string "0" in the tie column and replace team names with a string "1".
+This also helped to clean the data, since it does not make sense to list a team winner for a game that ended with a tie.
+After this loop, the strings of "0" and "1" were converted to a categorical variable. This process essentially created a categorical variable with a value of 0 if an NFL game ended with one team winning and a value of 1 if an NFL game ended in a tie.
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -85,7 +115,9 @@ str(footballgames)
 footballgames
 ```
 
-After deriving the categorical variable, additional data cleaning was needed. The "winner" variable contains the name of the winning team; however, this still contained the name of the "winning" team even if the game ended in a tie. To clean this, another loop was utilized to replace the winning team's name with "tie" in the "winner" column, if the game ended in a tie. The code for this is shown below.
+After deriving the categorical variable, additional data cleaning was needed.
+The "winner" variable contains the name of the winning team; however, this still contained the name of the "winning" team even if the game ended in a tie.
+To clean this, another loop was utilized to replace the winning team's name with "tie" in the "winner" column, if the game ended in a tie.
 
 ```{r, echo = FALSE, warning = FALSE, results = 'hide'}
 # replace ties with string 1 instead of string with team name
@@ -102,7 +134,8 @@ for(i in 1:5324){
 footballgames
 ```
 
-Once the data was cleaned, it still had 19 variables, but with 10 character variables, seven numeric variables, one time variable, and one categorical variable. For more information about the data, please refer to the table below, which contains a list of variables, their descriptions, and their types.
+Once the data was cleaned, it still had 19 variables, but with 10 character variables, seven numeric variables, one time variable, and one categorical variable.
+For more information about the data, please refer to the table below, which contains a list of variables, their descriptions, and their types.
 
 | Variable Name  | Variable Description                                | Variable Type |
 |-------------------|----------------------------------|-------------------|
@@ -337,18 +370,31 @@ yds %>%
       xlab("Home or Away Team")
 ```
 
-Gaining yards is definitely a positive result in football, since an offense needs to gain yards in order to score points. Gaining more yards also increases the probability of scoring a touchdown (worth six points) instead of kicking a field goal (worth three points). Shown above are boxplots of the number of yards gained by the away team and the number of yards gained by the home team. Based on the boxplots, it appears that home teams have a higher average number of yards gained, compared to away teams. Additionally, the minimum amount of yards gained occurred for a road team instead of a home team, and the maximum amount of yards gained occurred for a home team. It appears that the first quartile, median, and third quartile are all higher for home teams rather than away teams. All in all, these boxplots support the belief that home teams have an advantage over road teams, but we should check these results as well.
+Gaining yards is definitely a positive result in football, since an offense needs to gain yards in order to score points.
+Gaining more yards also increases the probability of scoring a touchdown (worth six points) instead of kicking a field goal (worth three points).
+Shown above are boxplots of the number of yards gained by the away team and the number of yards gained by the home team. Based on the boxplots, it appears that home teams have a higher average number of yards gained, compared to away teams.
+Additionally, the minimum amount of yards gained occurred for a road team instead of a home team, and the maximum amount of yards gained occurred for a home team.
+It appears that the first quartile, median, and third quartile are all higher for home teams rather than away teams.
+All in all, these boxplots support the belief that home teams have an advantage over road teams, but we should check these results as well.
 
-A t test was conducted to compare the mean yards gained by home teams and the mean yards gained by away teams, with the results shown below. This t test resulted in a p-value less than a significance level of 0.05. This suggests that there's a difference in mean yards gained between home teams and away teams, at a 5% significance level.
+A t test was conducted to compare the mean yards gained by home teams and the mean yards gained by away teams, with the results shown below.
+This t test resulted in a p-value less than a significance level of 0.05.
+This suggests that there's a difference in mean yards gained between home teams and away teams, at a 5% significance level.
 
 ```{r, echo = FALSE, warning = FALSE}
 # conduct a t test to compare means
 t.test(yds$yds ~ yds$homeawayvec)
 ```
 
-While gaining yards is still a positive, yards don't always tell the full story of a football game. Usually, gaining more yards than the other team is indicative of being a superior team, but it's always possible that a team outgains the other team, but still loses. This is possible if one team's offense drives down the field and commits turnovers or scores a lot of field goals instead of touchdowns, as an example.
+While gaining yards is still a positive, yards don't always tell the full story of a football game.
+Usually, gaining more yards than the other team is indicative of being a superior team, but it's always possible that a team outgains the other team, but still loses.
+This is possible if one team's offense drives down the field and commits turnovers or scores a lot of field goals instead of touchdowns, as an example.
 
-For this reason, we can also examine the number of points scored by home teams and away teams. Points are correlated with winning, but it still might reveal some interesting information about the number of points teams score at home and on the road. Shown below are boxplots of points scored by home teams compared to points scored by away teams. The first quartile, median, and third quartile all appear higher for home teams, and the mean points scored for home teams is higher than the mean points scored for road teams. The maximum number of points scored in a football game from 2000-2019 was accomplished by a home team, but there are several 50 point games for both home and away teams.
+For this reason, we can also examine the number of points scored by home teams and away teams.
+Points are correlated with winning, but it still might reveal some interesting information about the number of points teams score at home and on the road.
+Shown below are boxplots of points scored by home teams compared to points scored by away teams.
+The first quartile, median, and third quartile all appear higher for home teams, and the mean points scored for home teams is higher than the mean points scored for road teams.
+The maximum number of points scored in a football game from 2000-2019 was accomplished by a home team, but there are several 50 point games for both home and away teams.
 
 ```{r, echo = FALSE, warning = FALSE}
 # boxplot of points scored by home and away teams
@@ -360,14 +406,19 @@ pts %>%
       xlab("Home or Away Team")
 ```
 
-A t test was also conducted to compare the mean points scored for home teams to the mean points scored for away teams. The results of this test are shown below. Based on the results of this test, the p-value was less than our predetermined significance level of 0.05. Thus, this suggests there's a difference in the mean number of points scored by home teams compared to away teams, at a 5% significance level.
+A t test was also conducted to compare the mean points scored for home teams to the mean points scored for away teams. The results of this test are shown below.
+Based on the results of this test, the p-value was less than our predetermined significance level of 0.05.
+Thus, this suggests there's a difference in the mean number of points scored by home teams compared to away teams, at a 5% significance level.
 
 ```{r, echo = FALSE, warning = FALSE}
 # conduct a t test to compare means
 t.test(pts$pts ~ pts$homeawayvec)
 ```
 
-It might have been easy to guess that home teams generally win more often than road teams, along with gaining more yards and scoring more points. Committing turnovers could be a little different though. Turnovers are a negative statistic in football, because turning the ball over ends an offense's possession of the ball and gives the other team possession. Two types of turnovers are considered here; interceptions (the quarterback throws the ball, and the ball is caught by the defense), and fumbles (a player drops the ball before being tackled, and the opposing team picks it up). Since turnovers are negative, we expect the mean number of turnovers committed to be lower for home teams than for away teams.
+It might have been easy to guess that home teams generally win more often than road teams, along with gaining more yards and scoring more points.
+Committing turnovers could be a little different though. Turnovers are a negative statistic in football, because turning the ball over ends an offense's possession of the ball and gives the other team possession.
+Two types of turnovers are considered here; interceptions (the quarterback throws the ball, and the ball is caught by the defense), and fumbles (a player drops the ball before being tackled, and the opposing team picks it up).
+Since turnovers are negative, we expect the mean number of turnovers committed to be lower for home teams than for away teams.
 
 ```{r, echo = FALSE, warning = FALSE}
 # boxplot of turnovers committed by home and away teams
@@ -379,9 +430,17 @@ turnovers %>%
       xlab("Home or Away Team")
 ```
 
-Shown above are boxplots of the number of turnovers committed for home teams and away teams. This boxplot looks much different than the previous boxplots. The quartiles, mean, and median don't appear to be higher or lower for home or away teams, and there aren't any clear maximum or minimum values as in the other boxplots. This could be due to the inherently low number of turnovers in a game, compared to points and yards, so the boxplots are checked with another t test.
+Shown above are boxplots of the number of turnovers committed for home teams and away teams.
+This boxplot looks much different than the previous boxplots.
+The quartiles, mean, and median don't appear to be higher or lower for home or away teams, and there aren't any clear maximum or minimum values as in the other boxplots.
+This could be due to the inherently low number of turnovers in a game, compared to points and yards, so the boxplots are checked with another t test.
 
-Based on the results of this test (shown below), the p-value is 0.0101. This is still less than our predetermined p-value of 0.05, which suggests there's a difference in the mean number of turnovers committed for home teams and away teams, at a 5% significance level. Taking a look at the means reveals that the mean turnovers committed by road teams is 1.658073 while the mean turnovers committed by home teams is 1.590327. While there was a statistically significant difference in the mean number of turnovers committed by home and away teams, there isn't much practical difference in these values. This indicates that being the home or road team probably isn't the main reason why teams commit turnovers. Instead, it could be the quality of team, the quality of several key players, or turnovers could just balance out between different teams, more indicative of luck than skill or talent.
+Based on the results of this test (shown below), the p-value is 0.0101.
+This is still less than our predetermined p-value of 0.05, which suggests there's a difference in the mean number of turnovers committed for home teams and away teams, at a 5% significance level.
+Taking a look at the means reveals that the mean turnovers committed by road teams is 1.658073 while the mean turnovers committed by home teams is 1.590327.
+While there was a statistically significant difference in the mean number of turnovers committed by home and away teams, there isn't much practical difference in these values.
+This indicates that being the home or road team probably isn't the main reason why teams commit turnovers.
+Instead, it could be the quality of team, the quality of several key players, or turnovers could just balance out between different teams, more indicative of luck than skill or talent.
 
 ```{r, echo = FALSE, warning = FALSE}
 # conduct a t test to compare means
@@ -390,7 +449,12 @@ t.test(turnovers$turnovers ~ turnovers$homeawayvec)
 
 #### Which AFC West teams will do well in the next season?
 
-Fans and analysts are often trying to predict which games will be won and lost by their favorite teams. As we have seen from the previous sections, NFL teams are divided into two conferences: AFC and NFC. Both conferences are also divided into 4 divisions: North, South, West, and East. Since one of our team members is a fan of the Denver Broncos (an AFC West Team), combined with the fact that some AFC West teams have played in the Superbowl four times over the past decade ([source](https://en.wikipedia.org/wiki/List_of_Super_Bowl_champions)); we decided to analyze the pattern of percentage of wins for all teams of AFC West division and plot it over time, to see if there is a trend. The games played by AFC West teams can be found here ([source](https://phermanto2.shinyapps.io/project-we-r-pab/)). By looking at the trend over the past 20 years, we hope that people can assess their past performance and try to predict their future performances.
+Fans and analysts are often trying to predict which games will be won and lost by their favorite teams.
+As we have seen from the previous sections, NFL teams are divided into two conferences: AFC and NFC.
+Both conferences are also divided into 4 divisions: North, South, West, and East.
+Since one of our team members is a fan of the Denver Broncos (an AFC West Team), combined with the fact that some AFC West teams have played in the Superbowl four times over the past decade ([source](https://en.wikipedia.org/wiki/List_of_Super_Bowl_champions)); we decided to analyze the pattern of percentage of wins for all teams of AFC West division and plot it over time, to see if there is a trend.
+The games played by AFC West teams can be found here ([source](https://phermanto2.shinyapps.io/project-we-r-pab/)).
+By looking at the trend over the past 20 years, we hope that people can assess their past performance and try to predict their future performances.
 
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
