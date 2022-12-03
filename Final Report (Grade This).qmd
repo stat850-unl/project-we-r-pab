@@ -871,17 +871,9 @@ plot_Superbowl_win_conf<-Superbowl_week %>%
   xlab("Winning Conference") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf"))
     scale_fill_discrete(labels=c('AFC Win', 'NFC Win')) 
 
-plot_Superbowl_win_conf
+plot_Superbowl_win_conf 
 ```
 
-#### Who was winning the most number of 'WildCard' games from 2000 to 2019? AFC or NFC?
-
-```{r,echo = FALSE, warning = FALSE}
-Wildcard_week<- filter(footballgames, week =="WildCard")
-dim(Wildcard_week)
-
-
-```
 
 ## Conclusion
 
