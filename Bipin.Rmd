@@ -283,7 +283,7 @@ There is not much difference in the distribution of points won by winning confer
 
 Objective 4:Who was winning the most number of SuperBowl from 2000 to 2019? AFC or NFC?
 
-Between 2000 and 2019, AFC's teams have won 6 more Superbowl's trophy compared to NFC's teams. 
+Between 2000 and 2019, AFC's teams have won 6 more Superbowl's trophy compared to NFC's teams.     
 
 
 
