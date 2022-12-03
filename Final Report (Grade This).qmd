@@ -658,6 +658,9 @@ All in all, while the Chargers never made it to the Super Bowl, they had some pr
 We can fit another time series model to see if we can predict the Chargers' performance in 2020 and 2021.
 We fit an ARIMA(0,0,0) model, which means that there isn't any correlation in the errors over time, and the forecasts will use the Chargers' mean winning percentage from 2000-2019 as the forecasted values.
 This usually indicates the forecasted winning percentage isn't accurate, but we should check this anyways.
+The model predicted the Chargers would to have a winning percentage of 49.7% in 2020 and 2021. 
+The Chargers won 43.8% of their games in 2020 and 52.9% of their games in 2021 ([source](https://www.espn.com/nfl/standings)).
+This indicates the model performed surprisingly well in predicting the Chargers' winning percentage in 2020 and 2021.
 
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -679,6 +682,12 @@ fitwinpercentagesfc <- fitwinpercentages %>% forecast(h = 3)
 
 ```
 
+We can also examine the Chargers' projected winning percentage in 2020 and 2021 using a trend model.
+A plot of these projections is included below.
+The trend forecasted the Chargers' winning percentages to be 53.7% and 54.1% in 2020 and 2021, respectively.
+This model was less accurate in predicting the 2020 win percentage, but was closer to the Chargers' actual win percentage in 2021, compared to the ARIMA model.
+All in all, the trend seems to forecast the Chargers' winning percentage well.
+
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # fit trended model
 fitwinpercentagestrend <- chargersts %>%
@@ -689,6 +698,10 @@ report(fitwinpercentagestrend)
 fitwinpercentagestrend %>% forecast(h = 3) %>% autoplot(chargersts, color = 'blue')
 fitwinpercentagestrendfc <- fitwinpercentagestrend %>% forecast(h = 3)
 ```
+
+To examine overall trends in the the winning percentage for the Chargers, we impose a trend line on a plot of the historical data.
+Based on this, we can see there's a slight upward trend in the Chargers' winning percentage from 2000-2019.
+We can also see that while the trend did a decent job in forecasting, the trend does not provide a good overall fit to the data.
 
 ```{r, echo = FALSE, warning = FALSE, messsage = FALSE}
 # Time plot of winning percentage and predicted winning percentage with a trend model
