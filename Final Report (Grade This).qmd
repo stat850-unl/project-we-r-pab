@@ -218,7 +218,7 @@ plot_afcvsnfc_total_win
 pts_afcvsnfc<- ggplot(data=afcvsnfc)+geom_boxplot(aes(x=win_conf,y=pts_win, fill= win_conf))+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC teams at playing each other.")+ guides(fill=guide_legend(title="Win Conf."))
 
 pts_afcvsnfc
-
+ 
 ```
 
 #### Is there an Advantage to Playing at Home?
