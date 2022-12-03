@@ -624,7 +624,7 @@ chargersplays<-chargersgames %>%
 #filtering out the games that the Chargers won
 chargerswins<-filter(chargersgames, winner == "Los Angeles Chargers" | winner == "San Diego Chargers")
 
-#number of games won by the Chiefs
+#number of games won by the Chargers
 chargersnumberofwins<-chargerswins %>%
   group_by(`year`) %>%
   summarise(number_of_wins = n())
@@ -645,6 +645,21 @@ ggplot(data = chargersnumbers, aes(x = year, y = winning_percentage)) +
   theme_stata()
 ```
 
+The Chargers started from the bottom at the year of 2000, when they won less than 10% of their games (they only won one game).
+The team did not have any memorable years until 2004.
+Over the next ten years, the trajectory of their wins starts toggling between average, good , and even exceptional. 
+Starting in 2004, they had a noticeable comeback with 70% of games won in that year.
+While the following year, 2005, might be considered to be unremarkably average to many (\~56% wins), the team was able to improve exceptionally in 2006 by winning more than 80% of their games.
+The following years, the Chargers kept having "average" years (if we are only looking at winning percentages) with the exception of 2007 and 2009.
+Surprisingly, in 2015, the team's performance plummeted when they won less than 30% of games that year.
+They managed to come back stronger over the next 3 years, leading up to another impressive year in 2018, where they won approximately 72% of their games but plummeted again the following year, when they only won approximately 30% of the time.
+All in all, while the Chargers never made it to the Super Bowl, they had some pretty impressive years in 2006, 2009, and 2018, where they made the Divisional round, and even won more than 70% of their games.
+
+We can fit another time series model to see if we can predict the Chargers' performance in 2020 and 2021.
+We fit an ARIMA(0,0,0) model, which means that there isn't any correlation in the errors over time, and the forecasts will use the Chargers' mean winning percentage from 2000-2019 as the forecasted values.
+This usually indicates the forecasted winning percentage isn't accurate, but we should check this anyways.
+
+
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # packages already loaded in
 
@@ -659,13 +674,30 @@ report(fitwinpercentages)
 
 # Forecast and plot
 fitwinpercentages %>% forecast(h = 3) %>% autoplot(chargersts, color = 'blue')
+fitwinpercentagesfc <- fitwinpercentages %>% forecast(h = 3)
 
+
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+# fit trended model
 fitwinpercentagestrend <- chargersts %>%
 model(TSLM(winning_percentage ~ trend()))
 report(fitwinpercentagestrend)
 
 # forecast and plot
 fitwinpercentagestrend %>% forecast(h = 3) %>% autoplot(chargersts, color = 'blue')
+fitwinpercentagestrendfc <- fitwinpercentagestrend %>% forecast(h = 3)
+```
+
+```{r, echo = FALSE, warning = FALSE, messsage = FALSE}
+# Time plot of winning percentage and predicted winning percentage with a trend model
+augment(fitwinpercentagestrend) %>%
+  ggplot(aes(x = year)) +
+  geom_line(aes(y = winning_percentage, colour = "Data")) +
+  geom_line(aes(y = .fitted, colour = "Fitted")) +
+  labs(x = "Year", y = "Winning Percentage",
+       title = "Winning Percentage vs Trended Winning Percentage")
 ```
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -752,7 +784,6 @@ ggplotly(finalplot)
 
 If we were to use 30% as our cutoff percentage to determine whether the year is a bad year (or not), then we see that all four teams have at least one "bad year" where they won less than 30% of the games in each year, throughout 2000-2019. For the Broncos' worst year was in 2010, where they won 25% of their games that year. However, they win at least 30% of their games for the other nineteen years. The Chargers have gone through three bad years; 2000, 2003, and 2015. The Raiders have had 7 bad years over the course of 2000-2019; while the Chiefs had 4 individual years where they won less than 30% of their games (2007, 2008, 2009 and 2012).
 
-The Chargers started from the bottom at the year of 2000, when they won less than 10% of their games (they only won one game). The team did not have any memorable years until after 2003. Over the next 10 years, the trajectory of their wins to start toggling between average, good and even exceptional. Starting in 2004, where they had a noticeable comeback with 70% of games won in that year. While the following year, 2005, might be considered to be unremarkably average to many (\~56% wins), the team was able to improve exceptionally in 2006 by winning more than 80% of their games. The following years, the Chargers kept having "average" years (if we are only looking at winning percentages) with the exception of 2007 and 2009. Surprisingly, in 2015, the team's performance plummeted when they won less than 30% of games that year. They managed to come back stronger over the next 3 years, leading up to another impressive year in 2018 where they won approximately 72% of their games; but plummeted again the following year, in 2019, when they only won approximately 30% of the time. All in all, while the Chargers never made it to the Superbowl; they had some pretty impressive years in 2006, 2009, 2018, where they made the Divisional round, and even won more than 70% of their games.
 
 
 Lastly, the Raiders possess what could be seen as the least impressive track record out of the teams discussed so far. The team started off strong from the year 2000-2002, where they won more than 60% of the games within those years. After 2002, their winning percentages dropped significantly to below 30% in 2003. The team did not significantly improve over the next 6 years. A somewhat noteworthy improvement was made in 2010 and 2011 where they won 50% of games. However, the percentages plummeted again after unsatisfactory years: 2012, 2013, and 2014; as the team won below 30% of their games. The team bounced back in 2015 and 2016; outstandingly, the team was able to reach 70% of wins in 2016. The achievement, nevertheless, failed to last as their percentages plummeted again after the high in 2016 and failed to bounce back until the year of 2019.
