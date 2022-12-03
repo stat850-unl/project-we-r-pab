@@ -60,6 +60,11 @@ Seeds 1 and 2 in each conference received a bye week for the wild card round.
 The next round of the playoffs is the divisional round, in which the winners of the wild card round visit the 1 and 2 seeds, with the lowest-seeded wild card winner playing the 1 seed and the highest-seeded wild card winner playing the 2 seed.
 The winners of the divisional round then play each other in the conference championships, hosted by the highest remaining seed.
 The winners of conference championships then play each other in the Super Bowl, which is played at a predetermined neutral location.
+All this information can be visualized in the picture below.
+
+![NFL Playoff format from 2002-2020](nflplayoffs.jpg)
+
+[source](https://commons.wikimedia.org/wiki/File:NFL_Playoffs_format_bracket.svg)
 
 **Note:** In 2021, the NFL implemented several changes to the season.
 The current regular season now consists of a three-week preseason, followed by 18 weeks of the regular season. Teams now play 17 games during the regular season.
@@ -234,7 +239,7 @@ table(afcvsnfc$win_conf)
 #AFC won 661 of the games vs. NFC 623. Remaining 4 matches ended in a tie.
 ```
 
-```{r, echo = FALSE, warning=FALSE, message = FALSE}
+```{r, echo = FALSE, warning=FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
 #Barplot of number of games won, AFC vs NFC playing each other only. 
 plot_afcvsnfc_total_win<-afcvsnfc %>%
   ggplot(aes(x = win_conf, fill = win_conf)) + 
