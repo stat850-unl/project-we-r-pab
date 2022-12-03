@@ -869,6 +869,10 @@ ggplot(data = superbowlgames, aes(x = reorder(winner, -number_of_wins), y = numb
 ```
 
 #### Who was winning the most number of SuperBowl from 2000 to 2019? AFC or NFC?
+SuperBowl's games are played between two best teams from each conferences:AFC and NFC. Here, the objective is to see the number of Superbowls won by each conference between 2000 to 2019.
+For this, a subset of original data where 'week' is 'Superbowl' only is filtered out.
+Then, the winning conference on each of these games is identified with reference from the list 'afc_teams' and stored in a new variable 'win_conf'.
+Finally, a bar plot is created for the number of Superbowls won by each conference. 
 
 ```{r}
 #Who are winning the most number of SuperBowl from 2000 to 2019?
@@ -879,35 +883,27 @@ dim(Superbowl_week)
 ###To find out which division won in Superbowl. 
 for(i in 1:20){
   if(Superbowl_week$winner[i] %in% afc_teams){
-    Superbowl_week$win_div[i]="AFC Team"
+    Superbowl_week$win_conf[i]="AFC Team"
   }
   else{
-    Superbowl_week$win_div[i]="NFC Team"
+    Superbowl_week$win_conf[i]="NFC Team"
   }
 }  
 #Calculate the number of Superbowls Won by AFC and NFC team.
-table(Superbowl_week$win_div)
+table(Superbowl_week$win_conf)
 
 #Barplot of Superbowl winners.
-plot_Superbowl_win_div<-Superbowl_week %>%
-  ggplot(aes(x = win_div, fill = win_div)) + 
+plot_Superbowl_win_conf<-Superbowl_week %>%
+  ggplot(aes(x = win_conf, fill = win_conf)) + 
   geom_bar() + 
   geom_text(stat='count', aes(label=..count..), vjust=0) + 
-  ggtitle("Number of games won by each divison's team in Superbowl") +
-  xlab("Winning Division Team") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Div"))
+  ggtitle("Number of games won by each conference in Superbowl") +
+  xlab("Winning Conference") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf"))
     scale_fill_discrete(labels=c('AFC Win', 'NFC Win')) 
 
-plot_Superbowl_win_div 
+plot_Superbowl_win_conf 
 ```
 
-#### Who was winning the most number of 'WildCard' games from 2000 to 2019? AFC or NFC?
-
-```{r,echo = FALSE, warning = FALSE}
-Wildcard_week<- filter(footballgames, week =="WildCard")
-dim(Wildcard_week)
-
-
-```
 
 ## Conclusion
 
