@@ -145,6 +145,10 @@ footballgames
 
 ## AFC NFC
 
+## AFC NFC
+
+## AFC NFC
+
 ## Is there an Advantage in Playing at Home?
 ```{r, echo = FALSE, warning=FALSE, message = FALSE}
 ### Comparing the number of games won by the home team to the number of games won by the away team ###
@@ -318,18 +322,6 @@ t.test(turnovers$turnovers ~ turnovers$homeawayvec)
 ## AFC West
 
 ## AFC West
-
-## wins at home afc nfc
-
-## wins at home afc nfc
-
-## wins at home afc nfc
-
-## points afc nfc
-
-## points afc nfc
-
-## points afc nfc
 
 ## super bowls
 
