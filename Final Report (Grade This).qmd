@@ -176,6 +176,7 @@ Next up, we found that there are three teams that won the same amount of time (2
 Unfortunately, other teams that have won the SuperBowl from 2000-2019 only won once. 
 
 ```{r, echo = FALSE, warning=FALSE, message = FALSE}
+library(tidyverse)
 #filtering the superbowl matches
 superbowlgames<-filter(footballgames, week == "SuperBowl") %>%
   group_by(`winner`) %>%
