@@ -367,6 +367,19 @@ table(afcvsnfc$win_conf)
 #AFC won 661 of the games vs. NFC 623. Remaining 4 matches ended in a tie.
 ```
 
+```{r, echo = FALSE, warning=FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
+#Barplot of number of games won, AFC vs NFC playing each other only. 
+plot_afcvsnfc_total_win<-afcvsnfc %>%
+  ggplot(aes(x = win_conf, fill = win_conf)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by respective divison playing home and away ") +
+  xlab("Winning Division Team") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win','Tied')) 
+
+plot_afcvsnfc_total_win 
+```
+
 #### What does the number of wins at home looks like for AFC vs NFC teams?
 
 Here, we want to see who wins most games at home, NFC's teams or AFC's teams.
@@ -444,13 +457,6 @@ plot_afc_home<-homewin_afc %>%
 
 grid.arrange(plot_nfc_home,plot_afc_home, ncol=2)
 
-
-plot_scatter_nfc_home<- homewin_nfc %>% ggplot(aes(x=yds_win, y= pts_win, color= win_conf))+ geom_point()
-plot_scatter_nfc_home
-
-plot_scatter_afc_home<- homewin_afc %>% ggplot(aes(x=yds_win, y= pts_win, color= win_conf))+ geom_point()
-plot_scatter_afc_home
-
 ```
 
 #### Comparison of points for AFC and NFC teams playing each other.
@@ -474,20 +480,6 @@ ggplotly(plot_pts_afc_home)
 
 grid.arrange(plot_pts_nfc_home, plot_pts_afc_home ,ncol=2)
 
-```
-
-
-```{r, echo = FALSE, warning=FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
-#Barplot of number of games won, AFC vs NFC playing each other only. 
-plot_afcvsnfc_total_win<-afcvsnfc %>%
-  ggplot(aes(x = win_conf, fill = win_conf)) + 
-  geom_bar() + 
-  geom_text(stat='count', aes(label=..count..), vjust=0) + 
-  ggtitle("Number of games won by respective divison playing home and away ") +
-  xlab("Winning Division Team") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))
-    scale_fill_discrete(labels=c('AFC Win', 'NFC Win','Tied')) 
-
-plot_afcvsnfc_total_win 
 ```
 
 ```{r,echo = FALSE, warning=FALSE, message = FALSE}
