@@ -275,7 +275,10 @@ footballgames <- cbind(footballgames, locationofwin)
 # for loop to assign values of 1 if the home team won the game
 # values of 0 if the home team did not win the game
 for(i in 1:5324){
-  if(footballgames$winner[i] == footballgames$home_team[i]){
+  if(footballgames$week[i] == "SuperBowl"){
+    footballgames$locationofwin[i] <- NA
+  }
+  else if(footballgames$winner[i] == footballgames$home_team[i]){
     footballgames$locationofwin[i] <- 1
     i < i+1
   }
@@ -286,7 +289,7 @@ for(i in 1:5324){
 
 # count the number of wins by the home team and the number of losses/ties by the home team
 table(footballgames$locationofwin)
-# 3045
+# 3025
 # 2279
 
 # convert locationofwin to categorical
@@ -294,6 +297,7 @@ footballgames$locationofwin <- as.factor(footballgames$locationofwin)
 
 # bar plot of games won by home team and games won by away team
 footballgames %>%
+  filter(!is.na(locationofwin)) %>%
   ggplot(aes(x = locationofwin, fill = locationofwin)) + 
   geom_bar() + 
   geom_text(stat='count', aes(label=..count..), vjust=0) + 
@@ -315,7 +319,16 @@ footballgames$homeyds <- rep(c(0), 5324)
 footballgames$awayyds <- rep(c(0), 5324)
 
 for(i in 1:5324){
-  if(footballgames$home_team[i] == footballgames$winner[i]){
+  if(footballgames$week[i] == "SuperBowl"){
+    footballgames$homepts[i] <- NA
+    footballgames$awaypts[i] <- NA
+    footballgames$hometurnovers[i] <- NA
+    footballgames$awayturnovers[i] <- NA
+    footballgames$homeyds[i] <- NA
+    footballgames$awayyds[i] <- NA
+    i <- i + 1
+  }
+  else if(footballgames$home_team[i] == footballgames$winner[i]){
     footballgames$homepts[i] <- footballgames$pts_win[i]
     footballgames$awaypts[i] <- footballgames$pts_loss[i]
     footballgames$hometurnovers[i] <- footballgames$turnovers_win[i]
@@ -343,11 +356,13 @@ for(i in 1:5324){
   }
 }
 
+filteredfootballgames <- footballgames %>% drop_na()
+
 # create vectors to allow for plotting
-homeawayvec <- c(rep(c("home"),5324),rep(c("away"),5324))
-pts <- c(footballgames$homepts, footballgames$awaypts)
-yds <- c(footballgames$homeyds, footballgames$awayyds)
-turnovers <- c(footballgames$hometurnovers, footballgames$awayturnovers)
+homeawayvec <- c(rep(c("home"),5294),rep(c("away"),5294))
+pts <- c(filteredfootballgames$homepts, filteredfootballgames$awaypts)
+yds <- c(filteredfootballgames$homeyds, filteredfootballgames$awayyds)
+turnovers <- c(filteredfootballgames$hometurnovers, filteredfootballgames$awayturnovers)
 
 # create data frames for plotting
 pts <- data.frame(pts, homeawayvec)
@@ -359,9 +374,6 @@ pts$homeawayvec <- as.factor(pts$homeawayvec)
 yds$homeawayvec <- as.factor(yds$homeawayvec)
 turnovers$homeawayvec <- as.factor(turnovers$homeawayvec)
 
-# remove NA's
-yds %>% na.omit()
-turnovers %>% na.omit()
 
 ```
 
@@ -440,9 +452,9 @@ This boxplot looks much different than the previous boxplots.
 The quartiles, mean, and median don't appear to be higher or lower for home or away teams, and there aren't any clear maximum or minimum values as in the other boxplots.
 This could be due to the inherently low number of turnovers in a game, compared to points and yards, so the boxplots are checked with another t test.
 
-Based on the results of this test (shown below), the p-value is 0.0101.
+Based on the results of this test (shown below), the p-value is 0.01712.
 This is still less than our predetermined p-value of 0.05, which suggests there's a difference in the mean number of turnovers committed for home teams and away teams, at a 5% significance level.
-Taking a look at the means reveals that the mean turnovers committed by road teams is 1.658073 while the mean turnovers committed by home teams is 1.590327.
+Taking a look at the means reveals that the mean turnovers committed by road teams is 1.655270 while the mean turnovers committed by home teams is 1.592369.
 While there was a statistically significant difference in the mean number of turnovers committed by home and away teams, there isn't much practical difference in these values.
 This indicates that being the home or road team probably isn't the main reason why teams commit turnovers.
 Instead, it could be the quality of team, the quality of several key players, or turnovers could just balance out between different teams, more indicative of luck than skill or talent.
