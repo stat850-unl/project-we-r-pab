@@ -139,9 +139,105 @@ footballgames
 
 ## EDA
 
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+# load in libraries
+library(skimr)
+library(ggplot2)
+library(tidyverse)
+library(cowplot)
+
+# get summary of the data
+summary(footballgames)
+
+# skim the data
+skim(footballgames)
+
+plot1 <- ggplot(footballgames, aes(y = pts_win)) + 
+  geom_boxplot() + 
+  ggtitle("Points Scored by the Winner") +
+  ylab("Number of Points Scored")
+
+plot2 <- ggplot(footballgames, aes(y = pts_loss)) + 
+  geom_boxplot() + 
+  ggtitle("Points Scored by the Loser") +
+  ylab("Number of Points Scored")
+
+plot3 <- ggplot(footballgames, aes(y = yds_win)) + 
+  geom_boxplot() + 
+  ggtitle("Yards Gained by the Winner") +
+  ylab("Number of Yards")
+
+plot4 <- ggplot(footballgames, aes(y = yds_loss)) + 
+  geom_boxplot() + 
+  ggtitle("Yards Gained by the Loser") +
+  ylab("Number of Yards")
+
+plot5 <- ggplot(footballgames, aes(y = turnovers_win)) + 
+  geom_boxplot() + 
+  ggtitle("Turnovers Committed by the Winner") +
+  ylab("Number of Turnovers")
+
+plot6 <- ggplot(footballgames, aes(y = turnovers_loss)) + 
+  geom_boxplot() + 
+  ggtitle("Turnovers Committed by the Loser") +
+  ylab("Number of Turnovers")
+
+plot_grid(plot1,plot2,plot3,plot4,plot5,plot6)
+
+par(mfrow = c(3,2))
+# histogram of points won
+hist(footballgames$pts_win)
+
+# histogram of points loss
+hist(footballgames$pts_loss)
+
+# histogram of yds win
+hist(footballgames$yds_win)
+
+# histogram of yds loss
+hist(footballgames$yds_loss)
+
+# histogram of turnovers won
+hist(footballgames$turnovers_win)
+
+# histogram of turnovers loss
+hist(footballgames$turnovers_loss)
+
+
+
+plot7 <- ggplot(footballgames, aes(x = pts_win)) +
+  geom_density() +
+  ggtitle("Density of Winner's Points")
+
+plot8 <- ggplot(footballgames, aes(x = pts_loss)) +
+  geom_density() +
+  ggtitle("Density of Loser's Points")
+
+plot9 <- ggplot(footballgames, aes(x = yds_win)) +
+  geom_density() +
+  ggtitle("Density of Winner's Yards")
+
+plot10 <- ggplot(footballgames, aes(x = yds_loss)) +
+  geom_density() +
+  ggtitle("Density of Loser's Yards")
+
+plot11 <- ggplot(footballgames, aes(x = turnovers_win)) +
+  geom_density() +
+  ggtitle("Density of Winner's Turnovers")
+
+plot12 <- ggplot(footballgames, aes(x = turnovers_loss)) +
+  geom_density() +
+  ggtitle("Density of Loser's Turnovers")
+
+plot_grid(plot7,plot8,plot9,plot10,plot11,plot12)
+
+```
+
 ## Analysis
 
 ## AFC or NFC, who is winning the most?
+
 ```{r, echo = FALSE, warning=FALSE, message = FALSE}
 ####Calculating the percentages of AFC and NFC wins whenever they face each other.
 library(tidyverse)
@@ -158,7 +254,6 @@ nfc_teams<-c("Minnesota Vikings","Chicago Bears","Detroit Lions","Green Bay Pack
 
 ```
 
-## AFC or NFC, who is winning the most?
 ```{r,echo = FALSE, warning=FALSE, message = FALSE}
 #Create a new column 'HT' to find which was the home team: AFC or NFC
 
@@ -204,6 +299,35 @@ for(i in 1:1288){
 table(afcvsnfc$win_conf)
 #Whenever, AFC played NFC either home or away:
 #AFC won 661 of the games vs. NFC 623. Remaining 4 matches ended in a tie.
+```
+
+```{r, echo = FALSE, warning=FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
+#Barplot of number of games won, AFC vs NFC playing each other only. 
+plot_afcvsnfc_total_win<-afcvsnfc %>%
+  ggplot(aes(x = win_conf, fill = win_conf)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by respective divison playing home and away ") +
+  xlab("Winning Division Team") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win','Tied')) 
+
+plot_afcvsnfc_total_win 
+```
+
+## AFC or NFC, who is winning the most?
+
+```{r,echo = FALSE, warning=FALSE, message = FALSE}
+pts_afcvsnfc<- ggplot(filter(afcvsnfc, winner!= "Tie"))+geom_boxplot(aes(x=win_conf,y=pts_win, fill= win_conf))+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC Conference teams at home and away.")+ guides(fill=guide_legend(title="Win Conf."))
+
+ggplotly(pts_afcvsnfc)
+
+#Mean points won by winning conference's team when AFC played NFC. 
+mean(afcvsnfc$pts_win)
+#28.4
+mean(afcvsnfc$pts_win[afcvsnfc$win_conf=="AFC"])
+#28.6
+mean(afcvsnfc$pts_win[afcvsnfc$win_conf=="NFC"])
+#28.1
 ```
 
 ## What does the number of wins at home looks like for AFC vs NFC teams?
@@ -275,13 +399,6 @@ plot_afc_home<-homewin_afc %>%
 
 grid.arrange(plot_nfc_home,plot_afc_home, ncol=2)
 
-
-plot_scatter_nfc_home<- homewin_nfc %>% ggplot(aes(x=yds_win, y= pts_win, color= win_conf))+ geom_point()
-plot_scatter_nfc_home
-
-plot_scatter_afc_home<- homewin_afc %>% ggplot(aes(x=yds_win, y= pts_win, color= win_conf))+ geom_point()
-plot_scatter_afc_home
-
 ```
 
 ## Comparison of points for AFC and NFC teams playing each other.
@@ -293,34 +410,13 @@ ggplotly(plot_pts_nfc_home)
 
 plot_pts_afc_home<-filter(homewin_afc, winner != "Tie") %>% ggplot(aes(x=win_conf, y=pts_win, fill= win_conf))+ geom_boxplot()+stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC teams at AFC's home.")+ guides(fill=guide_legend(title="Win Conf."))
 
-
 ggplotly(plot_pts_afc_home)
 
 grid.arrange(plot_pts_nfc_home, plot_pts_afc_home ,ncol=2)
 
 ```
 
-```{r, echo = FALSE, warning=FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
-#Barplot of number of games won, AFC vs NFC playing each other only. 
-plot_afcvsnfc_total_win<-afcvsnfc %>%
-  ggplot(aes(x = win_conf, fill = win_conf)) + 
-  geom_bar() + 
-  geom_text(stat='count', aes(label=..count..), vjust=0) + 
-  ggtitle("Number of games won by respective divison playing home and away ") +
-  xlab("Winning Division Team") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))
-    scale_fill_discrete(labels=c('AFC Win', 'NFC Win','Tied')) 
-
-plot_afcvsnfc_total_win 
-```
-
-```{r,echo = FALSE, warning=FALSE, message = FALSE}
-plot_pts_afcvsnfc<-filter(afcvsnfc, winner !="Tie") %>% ggplot(aes(x=win_conf, y=pts_win, fill= win_conf))+geom_boxplot()+stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC Conference teams at home and away.")+ guides(fill=guide_legend(title="Win Conf."))
-
-ggplotly(plot_pts_afcvsnfc)
-  
-```
-
-## Who was winning the most number of SuperBowl from 2000 to 2019? AFC or NFC?
+## Which conference won the most Superbowls?
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
 #Who are winning the most number of SuperBowl from 2000 to 2019?
