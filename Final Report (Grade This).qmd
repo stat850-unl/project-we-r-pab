@@ -293,16 +293,13 @@ ggplot(data = superbowlgames, aes(x = reorder(winner, -number_of_wins), y = numb
 
 #### AFC or NFC, who is winning the most?
 
-The National Football League (NFL) is a composition of two conferences AFC (American Football Conference) and NFC (National Football Conference).
-Here, the objective is to find out who have won most games (Home and Away) whenever an AFC team meets with a NFC team.
-Additionally, to see the distribution of the points won by each conference.
+The National Football League (NFL) is a composition of two conferences AFC (American Football Conference) and NFC (National Football Conference). 
+Here, the objective is to find out who have won most games (Home and Away) whenever an AFC team meets with a NFC team. Additionally, to see the distribution of the points won by each conference. 
 In order to do this, two new columns 'HT' and 'AT' is created to find out if the home and away playing team was AFC or NFC with reference from the list of AFC teams and NFC teams and the variables 'home_team' and 'away_team'.
-However, there were games that was played between two AFC teams as well as two NFC teams which we are not interested in.
-Also, the Superbowl games are played in the neutral venue, so it would not make sense to have them included here.
-Then,the data was filter out for only the matches between AFC and NFC teams.
-There are 5324 matches in the dataset. Out of 5324 games, only 1288 matches were played between an AFC team and NFC team either home or away.
-The respective number of wins for each conference is then calculated and a bar plot of the same is created.
-Further, a box plot of distribution of points won for each conference is created.
+However, there were games that was played between two AFC teams as well as two NFC teams which we are not interested in. Also, the Superbowl games are played in the neutral venue, so it would not make sense to have them included here. 
+Then,the data was filter out for only the matches between AFC and NFC teams. There are 5324 matches in the dataset. 
+Out of 5324 games, only 1288 matches were played between an AFC team and NFC team either home or away. 
+The respective number of wins for each conference is then calculated and a bar plot of the same is created.Further, a box plot of distribution of points won for each conference is created.
 
 ```{r, echo = FALSE, warning=FALSE, message = FALSE}
 ####Calculating the percentages of AFC and NFC wins whenever they face each other.
@@ -367,7 +364,7 @@ table(afcvsnfc$win_conf)
 #AFC won 661 of the games vs. NFC 623. Remaining 4 matches ended in a tie.
 ```
 
-```{r, echo = FALSE, warning=FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
+```{r, echo = FALSE, warning=FALSE, message = FALSE}
 #Barplot of number of games won, AFC vs NFC playing each other only. 
 plot_afcvsnfc_total_win<-afcvsnfc %>%
   ggplot(aes(x = win_conf, fill = win_conf)) + 
@@ -379,6 +376,25 @@ plot_afcvsnfc_total_win<-afcvsnfc %>%
 
 plot_afcvsnfc_total_win 
 ```
+
+Out of 1288 matches played between an AFC team and an NFC team, AFC team won 661 games versus NFC's 623. Only, 4 of the matches ended in a tie. 
+The plot below shows the distribution of points won by the winning conference's team when AFC and NFC played each other. 
+```{r,echo = FALSE, warning=FALSE, message = FALSE}
+pts_afcvsnfc<- ggplot(filter(afcvsnfc, winner!= "Tie"))+geom_boxplot(aes(x=win_conf,y=pts_win, fill= win_conf))+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC Conference teams at home and away.")+ guides(fill=guide_legend(title="Win Conf."))
+
+ggplotly(pts_afcvsnfc)
+
+#Mean points won by winning conference's team when AFC played NFC. 
+mean(afcvsnfc$pts_win)
+#28.4
+mean(afcvsnfc$pts_win[afcvsnfc$win_conf=="AFC"])
+#28.6
+mean(afcvsnfc$pts_win[afcvsnfc$win_conf=="NFC"])
+#28.1
+```
+
+From the above box-plots, we can see that the distribution of points won by the winning conference's team when AFC and NFC played is almost similar. 
+The mean points won by AFC's team when they played NFC's teams is 28.6 and the mean points won by NFC's team when they played AFC's teams is 28.1. 
 
 #### What does the number of wins at home looks like for AFC vs NFC teams?
 
