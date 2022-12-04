@@ -5,12 +5,10 @@ date: "2022-12-02"
 output: beamer_presentation
 ---
 
-```{r setup}
-knitr::opts_chunk$set(echo = FALSE)
 
-# load in the data
-footballgames <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv')
-```
+
+
+
 
 ## Introduction
 
