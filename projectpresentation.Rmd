@@ -1,0 +1,255 @@
+---
+title: "Tackling NFL Game Data with Statistical Computing"
+author: "Paulus Hermanto, Andrew Ker, Bipin Poudel"
+date: "12/3/2022"
+output: slidy_presentation
+center: true
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# load in the data
+footballgames <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv')
+```
+
+## Introduction
+
+Sports Analytics: The analysis of data related to or pertaining to sports
+
+What is Sports Analytics used for?
+
+- Developing in-game strategies
+- Evaluating player and team performance
+- tracking player movement
+- predicting outcomes of games
+- setting betting odds
+- making business decisions
+- evaluating player safety
+
+## About the NFL
+
+![](NFL_teams.gif){width=75%}
+
+## About the NFL
+
+| AFC                  | NFC                   |
+|----------------------|-----------------------|
+| **East**             | **East**              |
+| New England Patriots | Dallas Cowboys        |
+| New York Jets        | Philadelphia Eagles   |
+| Miami Dolphins       | Washington Commanders |
+| Buffalo Bills        | New York Giants       |
+| **North**            | **North**             |
+| Cincinnati Bengals   | Green Bay Packers     |
+| Pittsburgh Steelers  | Chicago Bears         |
+| Baltimore Ravens     | Minnesota Vikings     |
+| Cleveland Browns     | Detroit Lions         |
+| **West**             | **West**              |
+| Denver Broncos       | Seattle Seahawks      |
+| Kansas City Chiefs   | San Francisco 49ers   |
+| Los Angeles Chargers | Los Angeles Rams      |
+| Las Vegas Raiders    | Arizona Cardinals     |
+| **South**            | **South**             |
+| Indianapolis Colts   | New Orleans Saints    |
+| Tennessee Titans     | Atlanta Falcons       |
+| Houston Texans       | Carolina Panthers     |
+| Jacksonville Jaguars | Tampa Bay Buccaneers  |
+
+## About the NFL
+![](nflplayoffs.jpg){width=80%}
+
+## Data
+
+- The data was originally gathered by pro-football-reference
+- The data was used as part of a Tidy Tuesday project, which is where we found the data
+- The data has information about NFL games played from 2000-2019
+- originally 19 variables in the data set
+- 11 characters, 7 numeric, 1 time
+
+Links to the data are provided below:
+
+[data](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-04/readme.md#gamescsv)
+
+[data](https://www.pro-football-reference.com/boxscores/game-scores.htm)
+
+
+
+## Data cleaning
+
+```{r, echo = TRUE, warning = FALSE, results = 'hide'}
+##### derive categorical variable #####
+# replace NA's in tie column with string 0
+footballgames$tie[is.na(footballgames$tie)] <- "0"
+# replace ties with string 1 instead of string with team name
+for(i in 1:5324){
+  if(footballgames$tie[i] != "0"){
+    footballgames$tie[i] <- "1"
+    i < i+1
+  }
+  else{
+    i <- i+1
+  }
+}
+
+# treat tie as categorical
+footballgames$tie <- as.factor(footballgames$tie)
+
+
+# get structure to check if tie is not a factor
+str(footballgames)
+
+# replace ties with string 1 instead of string with team name
+for(i in 1:5324){
+  if(footballgames$tie[i] == 1){
+    footballgames$winner[i] <- "Tie"
+    i < i+1
+  }
+  else{
+    i <- i+1
+  }
+}
+
+footballgames
+```
+
+## Data Table
+
+| Variable Name  | Variable Description                                | Variable Type |
+|-------------------|----------------------------------|-------------------|
+| year           | The year in which the game was played               | numeric       |
+| week           | The week of the season in which the game was played | character     |
+| home_team      | name of the team playing at their home stadium      | character     |
+| away_team      | name of the team playing at visiting stadium        | character     |
+| winner         | name of the winning team                            | character     |
+| tie            | indicates whether the game ended in a tie or not    | categorical   |
+| day            | day of the week the game was played on              | character     |
+| date           | date the game was played on                         | character     |
+| time           | time of the day when the game started               | time          |
+| pts_win        | points scored by the winning team                   | numeric       |
+| pts_loss       | points scored by the losing team                    | numeric       |
+| yds_win        | yards gained by the winning team                    | numeric       |
+| turnovers_win  | turnovers committed by the winning team             | numeric       |
+| yds_loss       | yards gained by the losing team                     | numeric       |
+| turnovers_loss | turnovers committed by the losing team              | numeric       |
+| home_team_name | name of the team playing at their home stadium      | character     |
+| home_team_city | name of the home team's city                        | character     |
+| away_team_name | name of the team playing at visiting stadium        | character     |
+| away_team_city | name of the away team's city                        | character     |
+
+## EDA
+
+## AFC NFC
+
+## AFC NFC
+
+## AFC NFC
+
+## Home field
+```{r, echo = FALSE, warning=FALSE, message = FALSE}
+### Comparing the number of games won by the home team to the number of games won by the away team ###
+library(tidyverse)
+# create a vector of 0's
+locationofwin <- rep(c(0), 5324)
+
+# add vector of 0's to the data 
+footballgames <- cbind(footballgames, locationofwin)
+
+# for loop to assign values of 1 if the home team won the game
+# values of 0 if the home team did not win the game
+for(i in 1:5324){
+  if(footballgames$week[i] == "SuperBowl"){
+    footballgames$locationofwin[i] <- NA
+  }
+  else if(footballgames$winner[i] == footballgames$home_team[i]){
+    footballgames$locationofwin[i] <- 1
+    i < i+1
+  }
+  else{
+    i <- i+1
+  }
+}
+
+# count the number of wins by the home team and the number of losses/ties by the home team
+#table(footballgames$locationofwin)
+# 3025
+# 2279
+
+# convert locationofwin to categorical
+footballgames$locationofwin <- as.factor(footballgames$locationofwin)
+
+# bar plot of games won by home team and games won by away team
+footballgames %>%
+  filter(!is.na(locationofwin)) %>%
+  ggplot(aes(x = locationofwin, fill = locationofwin)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Comparing Games Won by the Away Team to Games Won by the Home Team") +
+    scale_fill_discrete(labels=c('Away Team Won', 'Home Team Won')) 
+
+```
+
+## Home field
+```{r, echo = FALSE, warning = FALSE}
+# boxplot of yards gained by home and away teams
+yds %>%
+  ggplot(aes(y = yds, fill = homeawayvec)) + 
+  geom_boxplot() + 
+  ggtitle("Comparing Yards Gained by Away Teams to Yards Gained by the Home Team") +
+    scale_fill_discrete(labels=c('Away Team', 'Home Team')) +
+      xlab("Home or Away Team")
+```
+
+## Home field
+
+## AFC West
+
+## AFC West
+
+## AFC West
+
+## AFC West
+
+## AFC West
+
+## wins at home afc nfc
+
+## wins at home afc nfc
+
+## wins at home afc nfc
+
+## points afc nfc
+
+## points afc nfc
+
+## points afc nfc
+
+## super bowls
+
+## super bowls
+
+## super bowls
+
+## conclusion
+
+## future ideas
+
+## references
+[data](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-04/readme.md#gamescsv)
+
+[data](https://www.pro-football-reference.com/boxscores/game-scores.htm)
+
+[NFL Playoff Format](https://commons.wikimedia.org/wiki/File:NFL_Playoffs_format_bracket.svg)
+
+## Slide with R Output
+
+```{r cars, echo = TRUE}
+summary(cars)
+```
+
+## Slide with Plot
+
+```{r pressure}
+plot(pressure)
+```
+
