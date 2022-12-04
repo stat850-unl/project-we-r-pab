@@ -518,7 +518,7 @@ SuperBowl's games are played between two best teams from each conferences:AFC an
 For this, a subset of original data where 'week' is 'Superbowl' only is filtered out. Then, the winning conference on each of these games is identified with reference from the list 'afc_teams' and stored in a new variable 'win_conf'. 
 Finally, a bar plot is created for the number of Superbowls won by each conference.
 
-```{r}
+```{r, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
 #Who are winning the most number of SuperBowl from 2000 to 2019?
 
 Superbowl_week<- filter(footballgames, week =="SuperBowl")
