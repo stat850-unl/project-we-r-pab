@@ -9,8 +9,7 @@ editor_options:
 
 ## Introduction
 
-Have you ever seen a baseball player smack a home run on tv, with the launch angle, distance traveled, and exit velocity immediately depicted on screen?
-Have you ever wondered how ESPN comes up with interesting statistics and factoids to display on screen? Or maybe you've seen betting odds for sporting events and questioned how those odds are set. Even if you're not interested in sports, chances are, you've encountered some type of data related to or pertaining to sports. If not, it's highly likely that you'll encounter sports data in the future. The world of data is constantly getting bigger and bigger, with increasing numbers of applications, including in sports. In fact, using data or employing quantitative methods in sports is so popular, there's an entire field of statistics dedicated to it, called sports analytics. In the field of sports analytics, experts, often statisticians or data scientists, use data and employ quantitative methods to evaluate player performance, analyze player safety, predict outcomes of games, set betting odds, and develop in-game strategies, among other things. Sports teams and organizations also use analysis to make business decisions, while the public, can use the sports analytics to play fantasy sports, make bets, or provide evidence to help win arguments about whose favorite team is better. On account of the fact that American football is the most popular sport in the U.S., in this paper, we will try to analyze the performance of NFL Teams.
+Have you ever seen a baseball player smack a home run on tv, with the launch angle, distance traveled, and exit velocity immediately depicted on screen? Have you ever wondered how ESPN comes up with interesting statistics and factoids to display on screen? Or maybe you've seen betting odds for sporting events and questioned how those odds are set. Even if you're not interested in sports, chances are, you've encountered some type of data related to or pertaining to sports. If not, it's highly likely that you'll encounter sports data in the future. The world of data is constantly getting bigger and bigger, with increasing numbers of applications, including in sports. In fact, using data or employing quantitative methods in sports is so popular, there's an entire field of statistics dedicated to it, called sports analytics. In the field of sports analytics, experts, often statisticians or data scientists, use data and employ quantitative methods to evaluate player performance, analyze player safety, predict outcomes of games, set betting odds, and develop in-game strategies, among other things. Sports teams and organizations also use analysis to make business decisions, while the public, can use the sports analytics to play fantasy sports, make bets, or provide evidence to help win arguments about whose favorite team is better. On account of the fact that American football is the most popular sport in the U.S., in this paper, we will try to analyze the performance of NFL Teams.
 
 To provide a little bit of context, the National Football League (NFL) is an American football league, consisting of 32 teams. Each team belongs to either AFC (American Football Conference), or NFC (National Football Conference); and there are 16 teams in each conference. Conferences are further broken down into divisions (North, South, East, and West). For a full list of current teams, please see the table below.
 
@@ -132,11 +131,7 @@ Once the data was cleaned, it still had 19 variables, but with 10 character vari
 
 #### AFC or NFC, who is winning the most?
 
-The National Football League (NFL) is a composition of two conferences AFC (American Football Conference) and NFC (National Football Conference). 
-Here, the objective is to find out who have won most games (Home and Away) whenever an AFC team meets with a NFC team. Additionally, to see the distribution of the points won by each conference. 
-In order to do this, two new columns 'HT' and 'AT' is created to find out if the home and away playing team was AFC or NFC with reference from the list of AFC teams and NFC teams and the variables 'home_team' and 'away_team'. However, there were games that was played between two AFC teams as well as two NFC teams which we are not interested in. Also, the Superbowl games are played in the neutral venue, so it would not make sense to have them included here. Then,the data was filter out for only the matches between AFC and NFC teams. 
-There are 5324 matches in the dataset. Out of 5324 games, only 1288 matches were played between an AFC team and NFC team either home or away. 
-The respective number of wins for each conference is then calculated and a bar plot of the same is created.Further, a box plot of distribution of points won for each conference is created. 
+The National Football League (NFL) is a composition of two conferences AFC (American Football Conference) and NFC (National Football Conference). Here, the objective is to find out who have won most games (Home and Away) whenever an AFC team meets with a NFC team. Additionally, to see the distribution of the points won by each conference. In order to do this, two new columns 'HT' and 'AT' is created to find out if the home and away playing team was AFC or NFC with reference from the list of AFC teams and NFC teams and the variables 'home_team' and 'away_team'. However, there were games that was played between two AFC teams as well as two NFC teams which we are not interested in. Also, the Superbowl games are played in the neutral venue, so it would not make sense to have them included here. Then,the data was filter out for only the matches between AFC and NFC teams. There are 5324 matches in the dataset. Out of 5324 games, only 1288 matches were played between an AFC team and NFC team either home or away. The respective number of wins for each conference is then calculated and a bar plot of the same is created.Further, a box plot of distribution of points won for each conference is created.
 
 ```{r, echo = FALSE, warning=FALSE, message = FALSE}
 ####Calculating the percentages of AFC and NFC wins whenever they face each other.
@@ -154,7 +149,7 @@ nfc_teams<-c("Minnesota Vikings","Chicago Bears","Detroit Lions","Green Bay Pack
 
 ```
 
-```{r,echo = FALSE, warning=FALSE, message = FALSE} 
+```{r,echo = FALSE, warning=FALSE, message = FALSE}
 #Create a new column 'HT' to find which was the home team: AFC or NFC
 
 for (i in 1:5324){
@@ -215,9 +210,9 @@ plot_afcvsnfc_total_win
 ```
 
 ```{r,echo = FALSE, warning=FALSE, message = FALSE}
-pts_afcvsnfc<- ggplot(filter(afcvsnfc, winner!= "Tie"))+geom_boxplot(aes(x=win_conf,y=pts_win, fill= win_conf))+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC Conference teams at home and away.")+ guides(fill=guide_legend(title="Win Conf."))
+plot_pts_afcvsnfc<-filter(afcvsnfc, winner !="Tie") %>% ggplot(aes(x=win_conf, y=pts_win, fill= win_conf))+geom_boxplot()+stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC Conference teams at home and away.")+ guides(fill=guide_legend(title="Win Conf."))
 
-pts_afcvsnfc
+ggplotly(plot_pts_afcvsnfc)
   
 ```
 
@@ -392,7 +387,6 @@ t.test(turnovers$turnovers ~ turnovers$homeawayvec)
 
 Fans and analysts are often trying to predict which games will be won and lost by their favorite teams. As we have seen from the previous sections, NFL teams are divided into two conferences: AFC and NFC. Both conferences are also divided into 4 divisions: North, South, West, and East. Since one of our team members is a fan of the Denver Broncos (an AFC West Team), combined with the fact that some AFC West teams have played in the Superbowl four times over the past decade ([source](https://en.wikipedia.org/wiki/List_of_Super_Bowl_champions)); we decided to analyze the pattern of percentage of wins for all teams of AFC West division and plot it over time, to see if there is a trend. The games played by AFC West teams can be found here ([source](https://phermanto2.shinyapps.io/project-we-r-pab/)). By looking at the trend over the past 20 years, we hope that people can assess their past performance and try to predict their future performances.
 
-
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(dplyr)
 library(ggplot2)
@@ -432,20 +426,9 @@ ggplot(data = broncosnumbers, aes(x = year, y = winning_percentage)) +
   theme_stata()
 ```
 
-Shown above is a plot of the Denver Broncos' winning percentage over time, from 2000 -2019.
-If we were to use 40% as our cutoff percentage to determine whether the year is a bad year (or not), the Broncos experiences bad years in 2010, 2017, and 2018, with thier worst year coming in 2010, where they won 25% of their games.
-Moving on to the "highs", we will look at years in which the Broncos won at least 60% of their games throughout 2000-2019. The Broncos had a good year in 2000, where they won more around 65% of their games, then started performing pretty decently (within 50%-60% games won) from 2001-2004. They won approximately 78% of the games they played in 2005, and even won the Divisional Round that year.
-However, it appears that their performance sharply declined within the next 5 years, leading up to their lowest year in 2010 where they won only 25% of their games.
-They successfully bounced back and had an impressive trajectory over the next 5 years, starting in 2011 when they won 50% of their games, to then win at least 70% of their games over the next 4 years.
-This span of winning makes sense, as Peyton Manning was playing for the Broncos for these four seasons.
-In 2013 and 2015, the Broncos managed to pull off victories in approximately 79% of their games; culminating in a Super Bowl appearance in 2013 and a Super Bowl win in 2015. Unfortunately, they did not have any good years from 2016-2019.
+Shown above is a plot of the Denver Broncos' winning percentage over time, from 2000 -2019. If we were to use 40% as our cutoff percentage to determine whether the year is a bad year (or not), the Broncos experiences bad years in 2010, 2017, and 2018, with thier worst year coming in 2010, where they won 25% of their games. Moving on to the "highs", we will look at years in which the Broncos won at least 60% of their games throughout 2000-2019. The Broncos had a good year in 2000, where they won more around 65% of their games, then started performing pretty decently (within 50%-60% games won) from 2001-2004. They won approximately 78% of the games they played in 2005, and even won the Divisional Round that year. However, it appears that their performance sharply declined within the next 5 years, leading up to their lowest year in 2010 where they won only 25% of their games. They successfully bounced back and had an impressive trajectory over the next 5 years, starting in 2011 when they won 50% of their games, to then win at least 70% of their games over the next 4 years. This span of winning makes sense, as Peyton Manning was playing for the Broncos for these four seasons. In 2013 and 2015, the Broncos managed to pull off victories in approximately 79% of their games; culminating in a Super Bowl appearance in 2013 and a Super Bowl win in 2015. Unfortunately, they did not have any good years from 2016-2019.
 
-The focus of this report isn't on predicting future performance, but it could still be interesting to use time series models to look at this data.
-Here, we fit an ARIMA(0,0,1) model to forecast the Broncos' winning percentage in 2020, 2021, and 2022.
-Based on the forecast shown below, the Broncos were forecasted to have a winning percentage of 51% in 2020 and 56% in 2021.
-The Broncos' actual winning percentages in 2020 and 2021 were 31.3% and 41.2%, respectively ([source](https://www.espn.com/nfl/standings/_/season/2020)).
-Since the forecasted winning percentages are far away from the actual values, the model wasn't very accurate, although the actual winning percentage in 2021 was within the 80% prediction interval (shown in the darker hue of orange).
-
+The focus of this report isn't on predicting future performance, but it could still be interesting to use time series models to look at this data. Here, we fit an ARIMA(0,0,1) model to forecast the Broncos' winning percentage in 2020, 2021, and 2022. Based on the forecast shown below, the Broncos were forecasted to have a winning percentage of 51% in 2020 and 56% in 2021. The Broncos' actual winning percentages in 2020 and 2021 were 31.3% and 41.2%, respectively ([source](https://www.espn.com/nfl/standings/_/season/2020)). Since the forecasted winning percentages are far away from the actual values, the model wasn't very accurate, although the actual winning percentage in 2021 was within the 80% prediction interval (shown in the darker hue of orange).
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(tsibble)
@@ -474,11 +457,7 @@ fitwinpercentagesfc <- fitwinpercentages %>% forecast(h = 3)
 
 ```
 
-To assess any possible trends in the Broncos' winning percentages over time, a time series linear model (or TSLM) is fit.
-A plot of the Broncos' winning percentages over time, along with a forecast from 2020-2022 is shown below.
-Based on the forecast, the predicted winning percentages in 2020 and 2021 are both 51%. 
-Again, the model doesn't seem to have great predictability as the Broncos' actual winning percentages were both lower than 51%.
-That being said, the Broncos' actual winning percentages in 2020 and 2021 are both in the 80% prediction interval (again shown in the darker hue of orange).
+To assess any possible trends in the Broncos' winning percentages over time, a time series linear model (or TSLM) is fit. A plot of the Broncos' winning percentages over time, along with a forecast from 2020-2022 is shown below. Based on the forecast, the predicted winning percentages in 2020 and 2021 are both 51%. Again, the model doesn't seem to have great predictability as the Broncos' actual winning percentages were both lower than 51%. That being said, the Broncos' actual winning percentages in 2020 and 2021 are both in the 80% prediction interval (again shown in the darker hue of orange).
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 fitwinpercentagestrend <- broncosts %>%
@@ -492,8 +471,7 @@ fitwinpercentagestrendfc <- fitwinpercentagestrend %>% forecast(h = 3)
 
 ```
 
-While the trend does an ok job of predicting future winning percentages, we can plot the trend over time against the historical data to get a sense of how well the trend fits the data. 
-Based on the plot, there's a sight downward trend in the Broncos' winning percentage over time, but this trend does not have a significant effect on winning percentage, which explains why the forecast wasn't super accurate.
+While the trend does an ok job of predicting future winning percentages, we can plot the trend over time against the historical data to get a sense of how well the trend fits the data. Based on the plot, there's a sight downward trend in the Broncos' winning percentage over time, but this trend does not have a significant effect on winning percentage, which explains why the forecast wasn't super accurate.
 
 ```{r}
 # Time plot of winning percentage and predicted winning percentage with a trend model
@@ -504,7 +482,6 @@ augment(fitwinpercentagestrend) %>%
   labs(x = "Year", y = "Winning Percentage",
        title = "Winning Percentage vs Trended Winning Percentage")
 ```
-
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 #filtering out chiefs games
@@ -713,11 +690,7 @@ Overall, we realize that it is difficult to predict wins solely based on visuall
 
 #### What does the number of wins at home looks like for AFC vs NFC teams?
 
-Here, we want to see who wins most games at home, NFC's teams or AFC's teams. In order to achieve this, first NFC teams home games are filtered out from the original data set. It is to be noted that Superbowls games are not included, since they are played in a neutral venue and matches between two teams from same conference is also excluded. 
-In this new dataset, a new column called 'win_conf' is created that stores the result of the winning team's divison. 
-Then, the number of games won by each division teams whenever NFC played at home is calculated. 
-Similar steps are carried out whenever the AFC teams are playing at home. 
-Finally, a side-by-side bar-plots are created for comparison.
+Here, we want to see who wins most games at home, NFC's teams or AFC's teams. In order to achieve this, first NFC teams home games are filtered out from the original data set. It is to be noted that Superbowls games are not included, since they are played in a neutral venue and matches between two teams from same conference is also excluded. In this new dataset, a new column called 'win_conf' is created that stores the result of the winning team's divison. Then, the number of games won by each division teams whenever NFC played at home is calculated. Similar steps are carried out whenever the AFC teams are playing at home. Finally, a side-by-side bar-plots are created for comparison.
 
 ```{r,echo = FALSE, warning = FALSE, message = FALSE}
 library(grid)
@@ -797,13 +770,7 @@ plot_scatter_afc_home
 
 #### Comparison of points for AFC and NFC teams playing each other.
 
-Here, the objective is to compare the distribution of points won (AFC team vs NFC team) playing in their respective homes. 
-In order to do this, first, dataset that contains only games played at home of NFC teams and away for AFC teams (using 'homewin_nfc' data) is used. 
-The Superbowl games and the games that are 'tied' are not included in the analyses.
-Then, a box plot of the variable 'pts_win' is created based on 'win_conf' for comparison. 
-Similar analyses is carried out for games played at home of AFC teams and away for NFC teams (using 'homewin_afc' data). 
-Lastly, the two separate plots created are displayed in the same panel for side-by-side comparison. 
-
+Here, the objective is to compare the distribution of points won (AFC team vs NFC team) playing in their respective homes. In order to do this, first, dataset that contains only games played at home of NFC teams and away for AFC teams (using 'homewin_nfc' data) is used. The Superbowl games and the games that are 'tied' are not included in the analyses. Then, a box plot of the variable 'pts_win' is created based on 'win_conf' for comparison. Similar analyses is carried out for games played at home of AFC teams and away for NFC teams (using 'homewin_afc' data). Lastly, the two separate plots created are displayed in the same panel for side-by-side comparison.
 
 ```{r,echo = FALSE, warning = FALSE}
 plot_pts_nfc_home<-ggplot(data=homewin_nfc, aes(x=win_conf,y=pts_win, fill= win_conf))+geom_boxplot() +stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Distribution of points won by AFC Vs NFC teams at NFC's home.")+ guides(fill=guide_legend(title="Win Conf."))
@@ -821,7 +788,7 @@ grid.arrange(plot_pts_nfc_home, plot_pts_afc_home ,ncol=2)
 
 #### Which team won the SuperBowl the most number from 2000 to 2019?
 
-In this section, we can check if there is any team that won the SuperBowl multiple times over the 20-year range. We decided to create a data frame consisting of the winners of the Superbowl and display the corresponding number of wins. We then drew a bar plot to help visualize the number of wins. We found out that New England Patriot won the most with 6 games won. Next up, we found that there are three teams that won the same amount of time (2 times): Baltimore Ravens, New York Giants, and Pittsburgh Steelers. Unfortunately, other teams that have won the SuperBowl from 2000-2019 only won once. 
+In this section, we can check if there is any team that won the SuperBowl multiple times over the 20-year range. We decided to create a data frame consisting of the winners of the Superbowl and display the corresponding number of wins. We then drew a bar plot to help visualize the number of wins. We found out that New England Patriot won the most with 6 games won. Next up, we found that there are three teams that won the same amount of time (2 times): Baltimore Ravens, New York Giants, and Pittsburgh Steelers. Unfortunately, other teams that have won the SuperBowl from 2000-2019 only won once.
 
 ```{r}
 superbowlgames<-filter(footballgames, week == "SuperBowl") %>%
@@ -839,10 +806,8 @@ ggplot(data = superbowlgames, aes(x = reorder(winner, -number_of_wins), y = numb
 ```
 
 #### Who was winning the most number of SuperBowl from 2000 to 2019? AFC or NFC?
-SuperBowl's games are played between two best teams from each conferences:AFC and NFC. Here, the objective is to see the number of Superbowls won by each conference between 2000 to 2019.
-For this, a subset of original data where 'week' is 'Superbowl' only is filtered out.
-Then, the winning conference on each of these games is identified with reference from the list 'afc_teams' and stored in a new variable 'win_conf'.
-Finally, a bar plot is created for the number of Superbowls won by each conference. 
+
+SuperBowl's games are played between two best teams from each conferences:AFC and NFC. Here, the objective is to see the number of Superbowls won by each conference between 2000 to 2019. For this, a subset of original data where 'week' is 'Superbowl' only is filtered out. Then, the winning conference on each of these games is identified with reference from the list 'afc_teams' and stored in a new variable 'win_conf'. Finally, a bar plot is created for the number of Superbowls won by each conference.
 
 ```{r}
 #Who are winning the most number of SuperBowl from 2000 to 2019?
@@ -873,7 +838,6 @@ plot_Superbowl_win_conf<-Superbowl_week %>%
 
 plot_Superbowl_win_conf 
 ```
-
 
 ## Conclusion
 
