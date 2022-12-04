@@ -364,7 +364,7 @@ table(afcvsnfc$win_conf)
 #AFC won 661 of the games vs. NFC 623. Remaining 4 matches ended in a tie.
 ```
 
-```{r, echo = FALSE, warning=FALSE, message = FALSEresults = 'hide', fig.keep = 'all'}
+```{r, echo = FALSE, warning=FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
 #Barplot of number of games won, AFC vs NFC playing each other only. 
 plot_afcvsnfc_total_win<-afcvsnfc %>%
   ggplot(aes(x = win_conf, fill = win_conf)) + 
