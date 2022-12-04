@@ -275,7 +275,7 @@ yds %>%
 t.test(yds$yds ~ yds$homeawayvec)
 ```
 
-## Is There an Advantage in Playing at Home?
+## Is there an Advantage in Playing at Home?
 
 ```{r, echo = FALSE, warning = FALSE}
 # boxplot of points scored by home and away teams
@@ -292,7 +292,7 @@ pts %>%
 t.test(pts$pts ~ pts$homeawayvec)
 ```
 
-## Is There an Advantage in Playing at Home?
+## Is there an Advantage in Playing at Home?
 
 ```{r, echo = FALSE, warning = FALSE}
 # boxplot of turnovers committed by home and away teams
@@ -348,15 +348,4 @@ t.test(turnovers$turnovers ~ turnovers$homeawayvec)
 
 [NFL Playoff Format](https://commons.wikimedia.org/wiki/File:NFL_Playoffs_format_bracket.svg)
 
-## Slide with R Output
-
-```{r cars, echo = TRUE}
-summary(cars)
-```
-
-## Slide with Plot
-
-```{r pressure}
-plot(pressure)
-```
 
