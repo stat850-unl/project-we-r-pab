@@ -139,19 +139,242 @@ footballgames
 
 ## EDA
 
-## AFC NFC
+## Analysis
 
-## AFC NFC
+## Which Team won the most Super Bowls from 2000-2019?
+```{r, echo = FALSE, warning=FALSE, message = FALSE}
+library(tidyverse)
+library(ggplot2)
+library(ggthemes)
+library(stringr)
+#filtering the superbowl matches
+superbowlgames<-filter(footballgames, week == "SuperBowl") %>%
+  group_by(`winner`) %>%
+  summarise(number_of_wins = n()) %>%
+  slice_max(order_by = number_of_wins, n=3)
 
-## AFC NFC
+#Creating a barplot of the frequency of superbowl wins of the 4 teams that won the most superbowls
+ggplot(data = superbowlgames, aes(x = reorder(winner, -number_of_wins), y = number_of_wins, fill=winner)) +
+  labs(title = "Frequency of SuperBowl Wins",
+         x = "Team",
+         y = "Percentage of Wins") +
+  geom_bar(stat = "identity") +
+  theme_stata()
+```
+
+## AFC or NFC, who is winning the most?
+```{r, echo = FALSE, warning=FALSE, message = FALSE}
+####Calculating the percentages of AFC and NFC wins whenever they face each other.
+library(tidyverse)
+library(magrittr)
+library(dplyr)
+library(ggplot2)
+library(plotly)
+library(dplyr)
+
+#AFC vs NFC teams list
+afc_teams<- c("Cleveland Browns","Baltimore Ravens","Pittsburgh Steelers","Cincinnati Bengals","Miami Dolphins","Buffalo Bills","New York Jets","New England Patriots", "Kansas City Chiefs","Los Angeles Chargers","Denver Broncos","Las Vegas Raiders","Tennessee Titans","Houston Texans","Indianapolis Colts","Jacksonville Jaguars", "Oakland Raiders", "San Diego Chargers")
+
+nfc_teams<-c("Minnesota Vikings","Chicago Bears","Detroit Lions","Green Bay Packers","New York Giants","Dallas Cowboys","Washington Redskins","Philadelphia Eagles","Arizona Cardinals","Los Angeles Rams","Seattlle Seahawks","San Francisco 49ers","Atlanta Falcons","Tampa Bay Buccaneers","Carolina Panthers ","New Orleans Saints", "St. Louis Rams")
+
+```
+
+## AFC or NFC, who is winning the most?
+```{r,echo = FALSE, warning=FALSE, message = FALSE}
+#Create a new column 'HT' to find which was the home team: AFC or NFC
+
+for (i in 1:5324){
+  if(footballgames$home_team[i] %in% afc_teams){
+    footballgames$HT[i]<- "AFC"
+  }
+  else{
+    footballgames$HT[i]<-"NFC"
+  }
+}
 
 
 
-## AFC NFC
+#Create a new column 'AT' to find which was the away team: AFC or NFC
+for (i in 1:5324){
+  if(footballgames$away_team[i] %in% afc_teams){
+    footballgames$AT[i]<- "AFC"
+  }
+  else{
+    footballgames$AT[i]<-"NFC"
+  }
+}
 
-## AFC NFC
+#Find the games AFC team vs NFC team, home and away. 
+
+afcvsnfc<- filter(footballgames, week!= "SuperBowl", HT=="AFC" & AT=="NFC"| HT=="NFC" & AT=="AFC")
+dim(afcvsnfc)
+#Find out who won against AFC vs NFC only, home and away. 
+for(i in 1:1288){
+  if(afcvsnfc$winner[i]=="Tie"){
+    afcvsnfc$win_conf[i]="Tied"
+    }
+    else if(afcvsnfc$winner[i] %in% afc_teams){
+    afcvsnfc$win_conf[i]<- "AFC"
+    }
+    else{
+    afcvsnfc$win_conf[i]<- "NFC"
+    }  
+}
+
+#Calculate the percentage of games won by NFC and AFC teams.
+table(afcvsnfc$win_conf)
+#Whenever, AFC played NFC either home or away:
+#AFC won 661 of the games vs. NFC 623. Remaining 4 matches ended in a tie.
+```
+
+## What does the number of wins at home looks like for AFC vs NFC teams?
+
+```{r,echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
+library(grid)
+library(gridExtra)
+#Number of games won at home by NFC teams whenever they played AFC teams.
+
+###First create a data with home team being NFC team and away team being AFC team. 
+homewin_nfc<-filter(footballgames, week!= "SuperBowl", footballgames$home_team %in% nfc_teams & footballgames$away_team %in% afc_teams )
+
+dim(homewin_nfc)
+
+###To find out which division won when NFC played at home. 
+for(i in 1:557){
+  if(homewin_nfc$winner[i]=="Tie"){
+     footballgames$win_conf[i]<-"Tied"
+  }
+  else if(homewin_nfc$winner[i]%in% afc_teams){
+    homewin_nfc$win_conf[i]<-"AFC_Win"
+  }
+  else{
+    homewin_nfc$win_conf[i]<-"NFC_Win"  
+  }
+}
+
+#Calculate the number of games won by NFC team at home.
+table(homewin_nfc$win_conf)
+
+#Number of games won at home by AFC teams whenever they played NFC teams.
+
+homewin_afc<-filter(footballgames, week!= "SuperBowl", footballgames$home_team %in% afc_teams & footballgames$away_team %in% nfc_teams )
+
+dim(homewin_afc)
+
+###To find out which division won when AFC played at home. 
+for(i in 1:556){
+  if(homewin_afc$winner[i]=="Tie"){
+     homewin_afc$win_conf[i]<-"Tied"
+  }
+  else if(homewin_afc$winner[i]%in% afc_teams){
+    homewin_afc$win_conf[i]<-"AFC_Win"
+  }
+  else{
+    homewin_afc$win_conf[i]<-"NFC_Win"  
+  }
+}
+#Calculate the number of games won by AFC team at home.
+table(homewin_afc$win_conf)
+
+
+#Bar plot for the number of games won by NFC team at home. 
+plot_nfc_home<-homewin_nfc %>%
+  ggplot(aes(x = win_conf, fill = win_conf)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by each conference's team when NFC played at home") +   xlab("Winning Conference") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))+
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win'))
+
+#Bar plot for the number of games won by AFC team at home. 
+plot_afc_home<-homewin_afc %>%
+  ggplot(aes(x = win_conf, fill = win_conf)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by each conference's team when AFC played at home") +
+  xlab("Winning Conference") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win', 'Tied')) 
+
+grid.arrange(plot_nfc_home,plot_afc_home, ncol=2)
+
+
+plot_scatter_nfc_home<- homewin_nfc %>% ggplot(aes(x=yds_win, y= pts_win, color= win_conf))+ geom_point()
+plot_scatter_nfc_home
+
+plot_scatter_afc_home<- homewin_afc %>% ggplot(aes(x=yds_win, y= pts_win, color= win_conf))+ geom_point()
+plot_scatter_afc_home
+
+```
+
+## Comparison of points for AFC and NFC teams playing each other.
+
+```{r,echo = FALSE, warning = FALSE}
+plot_pts_nfc_home<-ggplot(data=homewin_nfc, aes(x=win_conf,y=pts_win, fill= win_conf))+geom_boxplot() +stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Distribution of points won by AFC Vs NFC teams at NFC's home.")+ guides(fill=guide_legend(title="Win Conf."))
+
+ggplotly(plot_pts_nfc_home)
+
+plot_pts_afc_home<-filter(homewin_afc, winner != "Tie") %>% ggplot(aes(x=win_conf, y=pts_win, fill= win_conf))+ geom_boxplot()+stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC teams at AFC's home.")+ guides(fill=guide_legend(title="Win Conf."))
+
+
+ggplotly(plot_pts_afc_home)
+
+grid.arrange(plot_pts_nfc_home, plot_pts_afc_home ,ncol=2)
+
+```
+
+```{r, echo = FALSE, warning=FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
+#Barplot of number of games won, AFC vs NFC playing each other only. 
+plot_afcvsnfc_total_win<-afcvsnfc %>%
+  ggplot(aes(x = win_conf, fill = win_conf)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by respective divison playing home and away ") +
+  xlab("Winning Division Team") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win','Tied')) 
+
+plot_afcvsnfc_total_win 
+```
+
+```{r,echo = FALSE, warning=FALSE, message = FALSE}
+plot_pts_afcvsnfc<-filter(afcvsnfc, winner !="Tie") %>% ggplot(aes(x=win_conf, y=pts_win, fill= win_conf))+geom_boxplot()+stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC Conference teams at home and away.")+ guides(fill=guide_legend(title="Win Conf."))
+
+ggplotly(plot_pts_afcvsnfc)
+  
+```
+
+## Who was winning the most number of SuperBowl from 2000 to 2019? AFC or NFC?
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
+#Who are winning the most number of SuperBowl from 2000 to 2019?
+
+Superbowl_week<- filter(footballgames, week =="SuperBowl")
+dim(Superbowl_week)
+
+###To find out which division won in Superbowl. 
+for(i in 1:20){
+  if(Superbowl_week$winner[i] %in% afc_teams){
+    Superbowl_week$win_conf[i]="AFC Team"
+  }
+  else{
+    Superbowl_week$win_conf[i]="NFC Team"
+  }
+}  
+#Calculate the number of Superbowls Won by AFC and NFC team.
+table(Superbowl_week$win_conf)
+
+#Barplot of Superbowl winners.
+plot_Superbowl_win_conf<-Superbowl_week %>%
+  ggplot(aes(x = win_conf, fill = win_conf)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by each conference in Superbowl") +
+  xlab("Winning Conference") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf"))
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win')) 
+
+plot_Superbowl_win_conf 
+```
 
 ## Is there an Advantage in Playing at Home?
+
 ```{r, echo = FALSE, warning=FALSE, message = FALSE}
 ### Comparing the number of games won by the home team to the number of games won by the away team ###
 library(tidyverse)
@@ -315,41 +538,343 @@ turnovers %>%
 t.test(turnovers$turnovers ~ turnovers$homeawayvec)
 ```
 
-## Which Team won the most Super Bowls from 2000-2019?
-```{r, echo = FALSE, warning=FALSE, message = FALSE}
-library(tidyverse)
-library(ggplot2)
-library(ggthemes)
-library(stringr)
-#filtering the superbowl matches
-superbowlgames<-filter(footballgames, week == "SuperBowl") %>%
-  group_by(`winner`) %>%
-  summarise(number_of_wins = n()) %>%
-  slice_max(order_by = number_of_wins, n=3)
+## Which AFC West teams will do well in the next season? (Broncos)
 
-#Creating a barplot of the frequency of superbowl wins of the 4 teams that won the most superbowls
-ggplot(data = superbowlgames, aes(x = reorder(winner, -number_of_wins), y = number_of_wins, fill=winner)) +
-  labs(title = "Frequency of SuperBowl Wins",
-         x = "Team",
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(ggthemes)                             
+
+#filtering out broncos games
+broncosgames<-filter(footballgames, home_team == "Denver Broncos" | away_team == "Denver Broncos")
+
+#number of games played each year
+broncosplays<-broncosgames %>%
+  group_by(`year`) %>%
+  summarise(number_of_games = n())
+
+#filtering out the games that the Broncos won
+broncoswins<-filter(broncosgames, winner == "Denver Broncos")
+
+#number of games won by the Broncos
+broncosnumberofwins<-broncoswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting and adding the winning ratio
+broncosnumbers<-inner_join(broncosplays, broncosnumberofwins)
+broncosnumbers<- 
+  broncosnumbers %>% 
+  mutate(winning_percentage = broncosnumbers$number_of_wins/broncosnumbers$number_of_games)
+
+#plotting the ratio as line and plotting the tables
+ggplot(data = broncosnumbers, aes(x = year, y = winning_percentage)) +
+  labs(title = "Broncos' Percentage of Wins through 2000 - 2019",
+         x = "Year",
          y = "Percentage of Wins") +
-  geom_bar(stat = "identity") +
+  geom_line(colour = 'orange') +
+  geom_point(colour = 'orange') + 
   theme_stata()
 ```
 
-## AFC West
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(tsibble)
+library(tidyverse)
+library(fable)
+library(lubridate)
+library(ggplot2)
+library(feasts)
+library(ggfortify)
 
-## AFC West
+# Create a time series object 
+broncosts <- broncosnumbers %>% 
+  as_tsibble(index = year)
 
-## AFC West
-
-## AFC West
-
-## super bowls
-
-## super bowls
+# Select the best ARIMA model automatically
+fitwinpercentages <- broncosts %>%
+  model(ARIMA(winning_percentage ~ PDQ(0,0,0)))
+report(fitwinpercentages)
 
 
-## super bowls
+
+
+# Forecast and plot
+fitwinpercentages %>% forecast(h = 3) %>% autoplot(broncosts, color = 'orange')
+fitwinpercentagesfc <- fitwinpercentages %>% forecast(h = 3)
+
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+fitwinpercentagestrend <- broncosts %>%
+model(TSLM(winning_percentage ~ trend()))
+report(fitwinpercentagestrend)
+
+# forecast and plot
+fitwinpercentagestrend %>% forecast(h = 3) %>% autoplot(broncosts, color = 'orange')
+fitwinpercentagestrendfc <- fitwinpercentagestrend %>% forecast(h = 3)
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+# Time plot of winning percentage and predicted winning percentage with a trend model
+augment(fitwinpercentagestrend) %>%
+  ggplot(aes(x = year)) +
+  geom_line(aes(y = winning_percentage, colour = "Data")) +
+  geom_line(aes(y = .fitted, colour = "Fitted")) +
+  labs(x = "Year", y = "Winning Percentage",
+       title = "Winning Percentage vs Trended Winning Percentage")
+```
+
+## Which AFC West teams will do well in the next season? (Chiefs)
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+#filtering out chiefs games
+chiefsgames<-filter(footballgames, home_team == "Kansas City Chiefs" | away_team == "Kansas City Chiefs")
+
+#number of games played each year
+chiefsplays<-chiefsgames %>%
+  group_by(`year`) %>%
+  summarise(number_of_games = n())
+
+#filtering out the games that the Chiefs won
+chiefswins<-filter(chiefsgames, winner == "Kansas City Chiefs")
+
+#number of games won by the Chiefs
+chiefsnumberofwins<-chiefswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting and adding the winning ratio
+chiefsnumbers<-inner_join(chiefsplays, chiefsnumberofwins)
+chiefsnumbers<- 
+  chiefsnumbers %>% 
+  mutate(winning_percentage = chiefsnumbers$number_of_wins/chiefsnumbers$number_of_games)
+
+#plotting the ratio as line and plotting the tables
+ggplot(data = chiefsnumbers, aes(x = year, y = winning_percentage)) +
+  labs(title = "Chiefs' Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins") +
+  geom_line(colour = 'red') +
+  geom_point(colour = 'red') +
+  theme_stata()
+
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+# packages already loaded in
+
+# Create a time series object 
+chiefsts <- chiefsnumbers %>% 
+  as_tsibble(index = year)
+
+# Select the best ARIMA model automatically
+fitwinpercentages <- chiefsts %>%
+  model(ARIMA(winning_percentage ~ PDQ(0,0,0)))
+report(fitwinpercentages)
+
+# Forecast and plot
+fitwinpercentages %>% forecast(h = 3) %>% autoplot(chiefsts, color = 'red')
+fitwinpercentagesfc <- fitwinpercentages %>% forecast(h = 3)
+
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+# fit trended model
+fitwinpercentagestrend <- chiefsts %>%
+model(TSLM(winning_percentage ~ trend()))
+report(fitwinpercentagestrend)
+
+# forecast and plot
+fitwinpercentagestrend %>% forecast(h = 3) %>% autoplot(chiefsts, color = 'red')
+fitwinpercentagestrendfc <- fitwinpercentagestrend %>% forecast(h = 3)
+```
+
+```{r, echo = FALSE, warning = FALSE, messsage = FALSE}
+# Time plot of winning percentage and predicted winning percentage with a trend model
+augment(fitwinpercentagestrend) %>%
+  ggplot(aes(x = year)) +
+  geom_line(aes(y = winning_percentage, colour = "Data")) +
+  geom_line(aes(y = .fitted, colour = "Fitted")) +
+  labs(x = "Year", y = "Winning Percentage",
+       title = "Winning Percentage vs Trended Winning Percentage")
+```
+
+## Which AFC West teams will do well in the next season? (Chargers)
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+#filtering out chargers games
+chargersgames<-filter(footballgames, home_team == "San Diego Chargers" | away_team == "San Diego Chargers" | home_team == "Los Angeles Chargers" | away_team == "Los Angeles Chargers")
+
+#number of games played each year
+chargersplays<-chargersgames %>%
+  group_by(`year`) %>%
+  summarise(number_of_games = n())
+
+#filtering out the games that the Chargers won
+chargerswins<-filter(chargersgames, winner == "Los Angeles Chargers" | winner == "San Diego Chargers")
+
+#number of games won by the Chargers
+chargersnumberofwins<-chargerswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting and adding the winning ratio
+chargersnumbers<-inner_join(chargersplays, chargersnumberofwins)
+chargersnumbers<- 
+  chargersnumbers %>% 
+  mutate(winning_percentage = chargersnumbers$number_of_wins/chargersnumbers$number_of_games)
+
+#plotting the ratio as line and plotting the tables
+ggplot(data = chargersnumbers, aes(x = year, y = winning_percentage)) +
+  labs(title = "Chargers' Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins") +
+  geom_line(colour = 'blue') +
+  geom_point(colour = 'blue') +
+  theme_stata()
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+# packages already loaded in
+
+# Create a time series object 
+chargersts <- chargersnumbers %>% 
+  as_tsibble(index = year)
+
+# Select the best ARIMA model automatically
+fitwinpercentages <- chargersts %>%
+  model(ARIMA(winning_percentage ~ PDQ(0,0,0)))
+report(fitwinpercentages)
+
+# Forecast and plot
+fitwinpercentages %>% forecast(h = 3) %>% autoplot(chargersts, color = 'blue')
+fitwinpercentagesfc <- fitwinpercentages %>% forecast(h = 3)
+
+
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+# fit trended model
+fitwinpercentagestrend <- chargersts %>%
+model(TSLM(winning_percentage ~ trend()))
+report(fitwinpercentagestrend)
+
+# forecast and plot
+fitwinpercentagestrend %>% forecast(h = 3) %>% autoplot(chargersts, color = 'blue')
+fitwinpercentagestrendfc <- fitwinpercentagestrend %>% forecast(h = 3)
+```
+
+```{r, echo = FALSE, warning = FALSE, messsage = FALSE}
+# Time plot of winning percentage and predicted winning percentage with a trend model
+augment(fitwinpercentagestrend) %>%
+  ggplot(aes(x = year)) +
+  geom_line(aes(y = winning_percentage, colour = "Data")) +
+  geom_line(aes(y = .fitted, colour = "Fitted")) +
+  labs(x = "Year", y = "Winning Percentage",
+       title = "Winning Percentage vs Trended Winning Percentage")
+```
+
+## Which AFC West teams will do well in the next season? (Raiders)
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+#filtering out raiders games
+raidersgames<-filter(footballgames, home_team == "Oakland Raiders" | away_team == "Oakland Raiders")
+
+#number of games played each year
+raidersplays<-raidersgames %>%
+  group_by(`year`) %>%
+  summarise(number_of_games = n())
+
+#filtering out the games that the Raiders won
+raiderswins<-filter(raidersgames, winner == "Oakland Raiders")
+
+#number of games won by the Raiders
+raidersnumberofwins<-raiderswins %>%
+  group_by(`year`) %>%
+  summarise(number_of_wins = n())
+
+#joining the tables before plotting and adding the winning ratio
+raidersnumbers<-inner_join(raidersplays, raidersnumberofwins)
+raidersnumbers<- 
+  raidersnumbers %>% 
+  mutate(winning_percentage = raidersnumbers$number_of_wins/raidersnumbers$number_of_games)
+
+#plotting the ratio as line and plotting the tables
+ggplot(data = raidersnumbers, aes(x = year, y = winning_percentage)) +
+  labs(title = "Raiders' Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins") +
+  geom_line(colour = 'black') +
+  geom_point(colour = 'black') +
+  theme_stata()
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+# packages already loaded in
+
+# Create a time series object 
+raidersts <- raidersnumbers %>% 
+  as_tsibble(index = year)
+
+# Select the best ARIMA model automatically
+fitwinpercentages <- raidersts %>%
+  model(ARIMA(winning_percentage ~ PDQ(0,0,0)))
+report(fitwinpercentages)
+
+# Forecast and plot
+fitwinpercentages %>% forecast(h = 3) %>% autoplot(raidersts, color = 'black')
+fitwinpercentagesfc <- fitwinpercentages %>% forecast(h = 3)
+
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+fitwinpercentagestrend <- raidersts %>%
+model(TSLM(winning_percentage ~ trend()))
+report(fitwinpercentagestrend)
+
+# forecast and plot
+fitwinpercentagestrend %>% forecast(h = 3) %>% autoplot(raidersts, color = 'black')
+fitwinpercentagestrendfc <- fitwinpercentagestrend %>% forecast(h = 3)
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+# Time plot of winning percentage and predicted winning percentage with a trend model
+augment(fitwinpercentagestrend) %>%
+  ggplot(aes(x = year)) +
+  geom_line(aes(y = winning_percentage, colour = "Data")) +
+  geom_line(aes(y = .fitted, colour = "Fitted")) +
+  labs(x = "Year", y = "Winning Percentage",
+       title = "Winning Percentage vs Trended Winning Percentage")
+
+```
+
+## Which AFC West teams will do well in the next season? (Combined Historical Plots, no projection)
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+#joining the tables together for all the teams and creating interactive plot for the teams
+raidersnumbers<-raidersnumbers %>% 
+  mutate(team_name = "Oakland Raiders")
+chiefsnumbers<-chiefsnumbers %>% 
+  mutate(team_name = "Kansas City Chiefs")
+chargersnumbers<-chargersnumbers  %>% 
+  mutate(team_name = "Los Angeles Chargers")
+broncosnumbers<-broncosnumbers  %>% 
+  mutate(team_name = "Denver Broncos")
+combinedtables<-bind_rows(raidersnumbers, chiefsnumbers, chargersnumbers, broncosnumbers)
+
+library(plotly)
+finalplot<-ggplot(data = combinedtables, aes(x = year, color = team_name, y = winning_percentage)) +
+  labs(title = "AFC West Percentage of Wins through 2000 - 2019",
+         x = "Year",
+         y = "Percentage of Wins",
+       color = "Team Name") +
+  geom_line() +
+  geom_point() +
+  scale_colour_manual(values = c("Oakland Raiders" = "black", "Kansas City Chiefs" = "red", "Los Angeles Chargers" = "blue", "Denver Broncos" = "orange")) +
+  theme_stata()
+ggplotly(finalplot)
+```
 
 ## conclusion
 
