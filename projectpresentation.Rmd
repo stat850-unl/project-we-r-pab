@@ -145,7 +145,7 @@ footballgames
 
 ## AFC NFC
 
-## Home field
+## Is there an Advantage in Playing at Home?
 ```{r, echo = FALSE, warning=FALSE, message = FALSE}
 ### Comparing the number of games won by the home team to the number of games won by the away team ###
 library(tidyverse)
@@ -189,7 +189,7 @@ footballgames %>%
 
 ```
 
-## Home field
+## Is there an Advantage in Playing at Home?
 
 ```{r, echo = FALSE, warning = FALSE, results = 'hide'}
 # create for loop to create vector for home points and away points
@@ -275,7 +275,7 @@ yds %>%
 t.test(yds$yds ~ yds$homeawayvec)
 ```
 
-## Home field
+## Is There an Advantage in Playing at Home?
 
 ```{r, echo = FALSE, warning = FALSE}
 # boxplot of points scored by home and away teams
@@ -290,6 +290,23 @@ pts %>%
 ```{r, echo = FALSE, warning = FALSE}
 # conduct a t test to compare means
 t.test(pts$pts ~ pts$homeawayvec)
+```
+
+## Is There an Advantage in Playing at Home?
+
+```{r, echo = FALSE, warning = FALSE}
+# boxplot of turnovers committed by home and away teams
+turnovers %>%
+  ggplot(aes(y = turnovers, fill = homeawayvec)) + 
+  geom_boxplot() + 
+  ggtitle("Comparing Turnovers Committed by the Away Team to Turnovers Committed by the Home Team") +
+    scale_fill_discrete(labels=c('Away Team', 'Home Team')) +
+      xlab("Home or Away Team")
+```
+
+```{r, echo = FALSE, warning = FALSE}
+# conduct a t test to compare means
+t.test(turnovers$turnovers ~ turnovers$homeawayvec)
 ```
 
 ## AFC West
