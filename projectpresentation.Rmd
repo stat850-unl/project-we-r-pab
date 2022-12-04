@@ -315,7 +315,26 @@ turnovers %>%
 t.test(turnovers$turnovers ~ turnovers$homeawayvec)
 ```
 
-## AFC West
+## Which Team won the most Super Bowls from 2000-2019?
+```{r, echo = FALSE, warning=FALSE, message = FALSE}
+library(tidyverse)
+library(ggplot2)
+library(ggthemes)
+library(stringr)
+#filtering the superbowl matches
+superbowlgames<-filter(footballgames, week == "SuperBowl") %>%
+  group_by(`winner`) %>%
+  summarise(number_of_wins = n()) %>%
+  slice_max(order_by = number_of_wins, n=3)
+
+#Creating a barplot of the frequency of superbowl wins of the 4 teams that won the most superbowls
+ggplot(data = superbowlgames, aes(x = reorder(winner, -number_of_wins), y = number_of_wins, fill=winner)) +
+  labs(title = "Frequency of SuperBowl Wins",
+         x = "Team",
+         y = "Percentage of Wins") +
+  geom_bar(stat = "identity") +
+  theme_stata()
+```
 
 ## AFC West
 
