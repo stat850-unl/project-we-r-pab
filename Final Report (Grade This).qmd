@@ -165,79 +165,6 @@ For more information about the data, please refer to the table below, which cont
 
 ## Exploratory Data Analysis
 
-```{r, echo = FALSE, warning = FALSE, message = FALSE}
-
-# load in libraries
-library(skimr)
-library(ggplot2)
-library(tidyverse)
-
-# get summary of the data
-summary(footballgames)
-
-# skim the data
-skim(footballgames)
-
-# scatterplot matrix of numeric variables
-pairs(footballgames[,10:16])
-
-# histograms.bar plots of home team,away team, winner, tie, day, hometeamname, hometeamcity,awayteamname,awayteamcity
-
-par(mfrow = c(3, 2)) 
-
-footballgames %>%
-  ggplot(aes(y = pts_win)) + 
-  geom_boxplot() + 
-  ggtitle("Boxplot of Points Scored by the Winning Team") +
-  ylab("Number of Points Scored")
-
-footballgames %>%
-  ggplot(aes(y = pts_loss)) + 
-  geom_boxplot() + 
-  ggtitle("Boxplot of Points Scored by the Losing Team") +
-  ylab("Number of Points Scored")
-
-footballgames %>%
-  ggplot(aes(y = yds_win)) + 
-  geom_boxplot() + 
-  ggtitle("Boxplot of Yards Gained by the Winning Team") +
-  ylab("Number of Yards")
-
-footballgames %>%
-  ggplot(aes(y = yds_loss)) + 
-  geom_boxplot() + 
-  ggtitle("Boxplot of Yards Gained by the Losing Team") +
-  ylab("Number of Yards")
-
-footballgames %>%
-  ggplot(aes(y = turnovers_win)) + 
-  geom_boxplot() + 
-  ggtitle("Boxplot of Turnovers Committed by the Winning Team") +
-  ylab("Number of Turnovers")
-
-footballgames %>%
-  ggplot(aes(y = turnovers_loss)) + 
-  geom_boxplot() + 
-  ggtitle("Boxplot of Turnovers Committed by the Losing Team Team") +
-  ylab("Number of Turnovers")
-
-# histogram of turnovers
-hist(footballgames$turnovers_loss)
-
-# histogram of turnovers
-hist(footballgames$turnovers_win)
-
-# histogram of yds loss
-hist(footballgames$yds_loss)
-
-
-
-
-
-
-```
-
-
 ## Analysis
 
 #### Which team won the SuperBowl the most number from 2000 to 2019?
@@ -344,6 +271,39 @@ table(afcvsnfc$win_conf)
 #AFC won 661 of the games vs. NFC 623. Remaining 4 matches ended in a tie.
 ```
 
+```{r, echo = FALSE, warning=FALSE, message = FALSE}
+#Barplot of number of games won, AFC vs NFC playing each other only. 
+plot_afcvsnfc_total_win<-afcvsnfc %>%
+  ggplot(aes(x = win_conf, fill = win_conf)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by respective divison playing home and away ") +
+  xlab("Winning Division Team") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win','Tied')) 
+
+plot_afcvsnfc_total_win 
+```
+
+Out of 1288 matches played between an AFC team and an NFC team, AFC team won 661 games versus NFC's 623. Only, 4 of the matches ended in a tie. 
+The plot below shows the distribution of points won by the winning conference's team when AFC and NFC played each other.
+
+```{r,echo = FALSE, warning=FALSE, message = FALSE}
+pts_afcvsnfc<- ggplot(filter(afcvsnfc, winner!= "Tie"))+geom_boxplot(aes(x=win_conf,y=pts_win, fill= win_conf))+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC Conference teams at home and away.")+ guides(fill=guide_legend(title="Win Conf."))
+
+ggplotly(pts_afcvsnfc)
+
+#Mean points won by winning conference's team when AFC played NFC. 
+mean(afcvsnfc$pts_win)
+#28.4
+mean(afcvsnfc$pts_win[afcvsnfc$win_conf=="AFC"])
+#28.6
+mean(afcvsnfc$pts_win[afcvsnfc$win_conf=="NFC"])
+#28.1
+```
+
+From the above box-plots, we can see that the distribution of points won by the winning conference's team when AFC and NFC played is almost similar. 
+The mean points won by AFC's team when they played NFC's teams is 28.6 and the mean points won by NFC's team when they played AFC's teams is 28.1. 
+
 #### What does the number of wins at home looks like for AFC vs NFC teams?
 
 Here, we want to see who wins most games at home, NFC's teams or AFC's teams.
@@ -430,6 +390,10 @@ plot_scatter_afc_home
 
 ```
 
+From the plot above we can see that, out of 557 games played at NFC's teams home, NFC teams won 312 matches versus AFC's teams 245 wins.
+Similarly, out of 556 games played at AFC's teams home, AFC teams won 331 matches versus NFC's teams 222 wins. 
+Overall, AFC's teams are winning more home games compared to NFC's.
+
 #### Comparison of points for AFC and NFC teams playing each other.
 
 Here, the objective is to compare the distribution of points won (AFC team vs NFC team) playing in their respective homes. 
@@ -446,6 +410,7 @@ ggplotly(plot_pts_nfc_home)
 
 plot_pts_afc_home<-filter(homewin_afc, winner != "Tie") %>% ggplot(aes(x=win_conf, y=pts_win, fill= win_conf))+ geom_boxplot()+stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC teams at AFC's home.")+ guides(fill=guide_legend(title="Win Conf."))
 
+ggplotly(plot_pts_nfc_home)
 
 ggplotly(plot_pts_afc_home)
 
@@ -453,26 +418,13 @@ grid.arrange(plot_pts_nfc_home, plot_pts_afc_home ,ncol=2)
 
 ```
 
-
-```{r, echo = FALSE, warning=FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
-#Barplot of number of games won, AFC vs NFC playing each other only. 
-plot_afcvsnfc_total_win<-afcvsnfc %>%
-  ggplot(aes(x = win_conf, fill = win_conf)) + 
-  geom_bar() + 
-  geom_text(stat='count', aes(label=..count..), vjust=0) + 
-  ggtitle("Number of games won by respective divison playing home and away ") +
-  xlab("Winning Division Team") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))
-    scale_fill_discrete(labels=c('AFC Win', 'NFC Win','Tied')) 
-
-plot_afcvsnfc_total_win 
-```
-
-```{r,echo = FALSE, warning=FALSE, message = FALSE}
-plot_pts_afcvsnfc<-filter(afcvsnfc, winner !="Tie") %>% ggplot(aes(x=win_conf, y=pts_win, fill= win_conf))+geom_boxplot()+stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC Conference teams at home and away.")+ guides(fill=guide_legend(title="Win Conf."))
-
-ggplotly(plot_pts_afcvsnfc)
-  
-```
+The above plot shows the distribution of points won by winning conference's teams at each of the conference's teams home.
+The mean, median, first and third quartile all looks similar in both of the plots. Whenever the game was played at NFC's home, NFC won
+28.45 points on average compared to AFC's 28.42.
+The maximum number of points won by an AFC teams playing at NFC's home is 55 compared to 57 of NFC's teams.  
+Similarly, when the games were played on AFC's turf, the average points won by NFC's teams is 28 vs NFC's 28.7. 
+On one occassion, one AFC team won 56 points and is the maximum points won in the AFC's home. 
+The maximum points won by NFC team at AFC's home is 51 and the the minimum is 9.
 
 #### Who was winning the most number of SuperBowl from 2000 to 2019? AFC or NFC?
 SuperBowl's games are played between two best teams from each conferences:AFC and NFC. Here, the objective is to see the number of Superbowls won by each conference between 2000 to 2019.
@@ -480,7 +432,7 @@ For this, a subset of original data where 'week' is 'Superbowl' only is filtered
 Then, the winning conference on each of these games is identified with reference from the list 'afc_teams' and stored in a new variable 'win_conf'.
 Finally, a bar plot is created for the number of Superbowls won by each conference. 
 
-```{r, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
+```{r}
 #Who are winning the most number of SuperBowl from 2000 to 2019?
 
 Superbowl_week<- filter(footballgames, week =="SuperBowl")
@@ -509,6 +461,8 @@ plot_Superbowl_win_conf<-Superbowl_week %>%
 
 plot_Superbowl_win_conf 
 ```
+
+Out of the 20 Superbowl matches, AFC's team won on 13 occassions compared to NFC's teams 7 wins.
 
 #### Is there an Advantage to Playing at Home?
 
