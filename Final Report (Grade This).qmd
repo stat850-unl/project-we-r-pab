@@ -496,7 +496,6 @@ ggplotly(plot_pts_nfc_home)
 
 plot_pts_afc_home<-filter(homewin_afc, winner != "Tie") %>% ggplot(aes(x=win_conf, y=pts_win, fill= win_conf))+ geom_boxplot()+stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC teams at AFC's home.")+ guides(fill=guide_legend(title="Win Conf."))
 
-ggplotly(plot_pts_nfc_home)
 
 ggplotly(plot_pts_afc_home)
 
