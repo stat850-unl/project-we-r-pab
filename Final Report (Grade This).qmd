@@ -1,5 +1,5 @@
 ---
-title: "Project Feedback"
+title: "Tackling NFL Game Data with Statistical Computing"
 author: "Andrew Ker, Bipin Poudel, Paulus Hermanto"
 format: html
 editor: source
@@ -10,8 +10,17 @@ editor_options:
 ## Introduction
 
 Have you ever seen a baseball player smack a home run on tv, with the launch angle, distance traveled, and exit velocity immediately depicted on screen? Have you ever wondered how ESPN comes up with interesting statistics and factoids to display on screen? Or maybe you've seen betting odds for sporting events and questioned how those odds are set. Even if you're not interested in sports, chances are, you've encountered some type of data related to or pertaining to sports. If not, it's highly likely that you'll encounter sports data in the future. The world of data is constantly getting bigger and bigger, with increasing numbers of applications, including in sports. In fact, using data or employing quantitative methods in sports is so popular, there's an entire field of statistics dedicated to it, called sports analytics. In the field of sports analytics, experts, often statisticians or data scientists, use data and employ quantitative methods to evaluate player performance, analyze player safety, predict outcomes of games, set betting odds, and develop in-game strategies, among other things. Sports teams and organizations also use analysis to make business decisions, while the public, can use the sports analytics to play fantasy sports, make bets, or provide evidence to help win arguments about whose favorite team is better. On account of the fact that American football is the most popular sport in the U.S., in this paper, we will try to analyze the performance of NFL Teams.
-
-To provide a little bit of context, the National Football League (NFL) is an American football league, consisting of 32 teams. Each team belongs to either AFC (American Football Conference), or NFC (National Football Conference); and there are 16 teams in each conference. Conferences are further broken down into divisions (North, South, East, and West). For a full list of current teams, please see the table below.
+Have you ever seen a baseball player smack a home run on tv, with the launch angle, distance traveled, and exit velocity immediately depicted on screen?
+Have you ever wondered how ESPN comes up with interesting statistics and factoids to display on screen? Or maybe you've seen betting odds for sporting events and questioned how those odds are set.
+Even if you're not interested in sports, chances are, you've encountered some type of data related to or pertaining to sports.
+If not, it's highly likely that you'll encounter sports data in the future. The world of data is constantly getting bigger and bigger, with increasing numbers of applications, including in sports.
+In fact, using data or employing quantitative methods in sports is so popular, there's an entire field of statistics dedicated to it, called sports analytics.
+In the field of sports analytics, experts, often statisticians or data scientists, use data and employ quantitative methods to evaluate player performance, analyze player safety, predict outcomes of games, set betting odds, and develop in-game strategies, among other things.
+Sports teams and organizations also use analysis to make business decisions, while the public, can use the sports analytics to play fantasy sports, make bets, or provide evidence to help win arguments about whose favorite team is better.
+On account of the fact that American football is the most popular sport in the U.S., in this paper, we will try to analyze the performance of NFL Teams.
+To provide a little bit of context, the National Football League (NFL) is an American football league, consisting of 32 teams.
+Each team belongs to either AFC (American Football Conference), or NFC (National Football Conference); and there are 16 teams in each conference.
+Conferences are further broken down into divisions (North, South, East, and West). For a full list of current teams, please see the table below.
 
 | AFC                  | NFC                   |
 |----------------------|-----------------------|
@@ -36,21 +45,48 @@ To provide a little bit of context, the National Football League (NFL) is an Ame
 | Houston Texans       | Carolina Panthers     |
 | Jacksonville Jaguars | Tampa Bay Buccaneers  |
 
-**Note:** The data set covers the years 2000 through 2019. In that span, the Houston Texans were added as a team (2002), and there have been multiple changes of location. This includes the Los Angeles Chargers (formerly San Diego Chargers), Las Vegas Raiders (formerly Oakland Raiders), and the Los Angeles Rams (formerly St. Louis Rams).
+**Note:** The data set covers the years 2000 through 2019. In that span, the Houston Texans were added as a team (2002), and there have been multiple changes of location.
+This includes the Los Angeles Chargers (formerly San Diego Chargers), Las Vegas Raiders (formerly Oakland Raiders), and the Los Angeles Rams (formerly St. Louis Rams).
 
 **Note:** This current format with conferences and divisions was implemented beginning in the 2002 season with the addition of the Houston Texans.
 
-For the majority of the time this data set spans, the NFL season consisted of four weeks of a preseason in which games don't count in the standings. The preseason was followed by a 17-week regular season, where teams played 16 games and had one bye week (one week during the course of the season where they don't play a game). After the end of the regular season, six teams from each conference (four division winners in each conference and two wild card teams) advance to the playoffs. The teams were seeded 1-6 in each conference, where the four division winners constituted seeds 1-4, and the wild card teams constituting seeds 5 and 6. The first round of the playoffs is called the wild card round. In this round of the playoffs, the 6 seed plays on the road against the 3 seed in each conference, and the 5 seed plays on the road against the 4 seed in each conference. Seeds 1 and 2 in each conference received a bye week for the wild card round. The next round of the playoffs is the divisional round, in which the winners of the wild card round visit the 1 and 2 seeds, with the lowest-seeded wild card winner playing the 1 seed and the highest-seeded wild card winner playing the 2 seed. The winners of the divisional round then play each other in the conference championships, hosted by the highest remaining seed. The winners of conference championships then play each other in the Super Bowl, which is played at a predetermined neutral location.
+For the majority of the time this data set spans, the NFL season consisted of four weeks of a preseason in which games don't count in the standings.
+The preseason was followed by a 17-week regular season, where teams played 16 games and had one bye week (one week during the course of the season where they don't play a game).
+After the end of the regular season, six teams from each conference (four division winners in each conference and two wild card teams) advance to the playoffs.
+The teams were seeded 1-6 in each conference, where the four division winners constituted seeds 1-4, and the wild card teams constituting seeds 5 and 6.
+The first round of the playoffs is called the wild card round.
+In this round of the playoffs, the 6 seed plays on the road against the 3 seed in each conference, and the 5 seed plays on the road against the 4 seed in each conference.
+Seeds 1 and 2 in each conference received a bye week for the wild card round.
+The next round of the playoffs is the divisional round, in which the winners of the wild card round visit the 1 and 2 seeds, with the lowest-seeded wild card winner playing the 1 seed and the highest-seeded wild card winner playing the 2 seed.
+The winners of the divisional round then play each other in the conference championships, hosted by the highest remaining seed.
+The winners of conference championships then play each other in the Super Bowl, which is played at a predetermined neutral location.
+All this information can be visualized in the picture below.
 
-**Note:** In 2021, the NFL implemented several changes to the season. The current regular season now consists of a three-week preseason, followed by 18 weeks of the regular season. Teams now play 17 games during the regular season. The playoff format was also changed, to add an extra wild card team and remove the bye week for the 2 seed in each conference. This added an extra wild card round game between the 7 seed visiting the 2 seed.
+![NFL Playoff format from 2002-2020](nflplayoffs.jpg)
+
+[source](https://commons.wikimedia.org/wiki/File:NFL_Playoffs_format_bracket.svg)
+
+**Note:** In 2021, the NFL implemented several changes to the season.
+The current regular season now consists of a three-week preseason, followed by 18 weeks of the regular season. Teams now play 17 games during the regular season.
+The playoff format was also changed, to add an extra wild card team and remove the bye week for the 2 seed in each conference.
+This added an extra wild card round game between the 7 seed visiting the 2 seed.
 
 **Note:** In 2000 and 2001, the NFL had different conferences and divisions, so the playoffs included the three division winners in each conference and three wild card rounds.
 
 ### Data
 
-The data was originally gathered by Pro Football Reference. The data was stored in NFL Scores Main Page under All Game Scores ([data](https://www.pro-football-reference.com/boxscores/game-scores.htm)). The data was used for a tidytuesday project in 2020 ([data](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-04/readme.md#gamescsv)) that primarily focused on NFL attendance. The data used for this report was found using the tidytuesday link.
+The data was originally gathered by Pro Football Reference.
+The data was stored in NFL Scores Main Page under All Game Scores ([data](https://www.pro-football-reference.com/boxscores/game-scores.htm)).
+The data was used for a tidytuesday project in 2020 ([data](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-04/readme.md#gamescsv)) that primarily focused on NFL attendance.
+The data used for this report was found using the tidytuesday link.
 
-The data we are using in this project comes in the format of a .csv file. The spreadsheet contains football games played by NFL teams from year 2000-2019. This data originally contained 19 variables related to NFL game scores and outcomes. Out of these 19 variables, 11 were character variables, seven were numeric variables, and one was a time variable. In order to meet project specifications, a categorical variable was needed. To derive a categorical variable, a loop was utilized to replace values of "NA" with a string "0" in the tie column and replace team names with a string "1". This also helped to clean the data, since it does not make sense to list a team winner for a game that ended with a tie. After this loop, the strings of "0" and "1" were converted to a categorical variable. This process essentially created a categorical variable with a value of 0 if an NFL game ended with one team winning and a value of 1 if an NFL game ended in a tie.
+The data we are using in this project comes in the format of a .csv file.
+The spreadsheet contains football games played by NFL teams from year 2000-2019.
+This data originally contained 19 variables related to NFL game scores and outcomes.
+Out of these 19 variables, 11 were character variables, seven were numeric variables, and one was a time variable. In order to meet project specifications, a categorical variable was needed.
+To derive a categorical variable, a loop was utilized to replace values of "NA" with a string "0" in the tie column and replace team names with a string "1".
+This also helped to clean the data, since it does not make sense to list a team winner for a game that ended with a tie.
+After this loop, the strings of "0" and "1" were converted to a categorical variable. This process essentially created a categorical variable with a value of 0 if an NFL game ended with one team winning and a value of 1 if an NFL game ended in a tie.
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -84,7 +120,9 @@ str(footballgames)
 footballgames
 ```
 
-After deriving the categorical variable, additional data cleaning was needed. The "winner" variable contains the name of the winning team; however, this still contained the name of the "winning" team even if the game ended in a tie. To clean this, another loop was utilized to replace the winning team's name with "tie" in the "winner" column, if the game ended in a tie. The code for this is shown below.
+After deriving the categorical variable, additional data cleaning was needed.
+The "winner" variable contains the name of the winning team; however, this still contained the name of the "winning" team even if the game ended in a tie.
+To clean this, another loop was utilized to replace the winning team's name with "tie" in the "winner" column, if the game ended in a tie.
 
 ```{r, echo = FALSE, warning = FALSE, results = 'hide'}
 # replace ties with string 1 instead of string with team name
@@ -101,7 +139,8 @@ for(i in 1:5324){
 footballgames
 ```
 
-Once the data was cleaned, it still had 19 variables, but with 10 character variables, seven numeric variables, one time variable, and one categorical variable. For more information about the data, please refer to the table below, which contains a list of variables, their descriptions, and their types.
+Once the data was cleaned, it still had 19 variables, but with 10 character variables, seven numeric variables, one time variable, and one categorical variable.
+For more information about the data, please refer to the table below, which contains a list of variables, their descriptions, and their types.
 
 | Variable Name  | Variable Description                                | Variable Type |
 |-------------------|----------------------------------|-------------------|
@@ -196,7 +235,115 @@ table(afcvsnfc$win_conf)
 #AFC won 661 of the games vs. NFC 623. Remaining 4 matches ended in a tie.
 ```
 
-```{r, echo = FALSE, warning=FALSE, message = FALSE}
+#### What does the number of wins at home looks like for AFC vs NFC teams?
+
+Here, we want to see who wins most games at home, NFC's teams or AFC's teams. In order to achieve this, first NFC teams home games are filtered out from the original data set. It is to be noted that Superbowls games are not included, since they are played in a neutral venue and matches between two teams from same conference is also excluded. 
+In this new dataset, a new column called 'win_conf' is created that stores the result of the winning team's divison. 
+Then, the number of games won by each division teams whenever NFC played at home is calculated. 
+Similar steps are carried out whenever the AFC teams are playing at home. 
+Finally, a side-by-side bar-plots are created for comparison.
+
+```{r,echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
+library(grid)
+library(gridExtra)
+#Number of games won at home by NFC teams whenever they played AFC teams.
+
+###First create a data with home team being NFC team and away team being AFC team. 
+homewin_nfc<-filter(footballgames, week!= "SuperBowl", footballgames$home_team %in% nfc_teams & footballgames$away_team %in% afc_teams )
+
+dim(homewin_nfc)
+
+###To find out which division won when NFC played at home. 
+for(i in 1:557){
+  if(homewin_nfc$winner[i]=="Tie"){
+     footballgames$win_conf[i]<-"Tied"
+  }
+  else if(homewin_nfc$winner[i]%in% afc_teams){
+    homewin_nfc$win_conf[i]<-"AFC_Win"
+  }
+  else{
+    homewin_nfc$win_conf[i]<-"NFC_Win"  
+  }
+}
+
+#Calculate the number of games won by NFC team at home.
+table(homewin_nfc$win_conf)
+
+#Number of games won at home by AFC teams whenever they played NFC teams.
+
+homewin_afc<-filter(footballgames, week!= "SuperBowl", footballgames$home_team %in% afc_teams & footballgames$away_team %in% nfc_teams )
+
+dim(homewin_afc)
+
+###To find out which division won when AFC played at home. 
+for(i in 1:556){
+  if(homewin_afc$winner[i]=="Tie"){
+     homewin_afc$win_conf[i]<-"Tied"
+  }
+  else if(homewin_afc$winner[i]%in% afc_teams){
+    homewin_afc$win_conf[i]<-"AFC_Win"
+  }
+  else{
+    homewin_afc$win_conf[i]<-"NFC_Win"  
+  }
+}
+#Calculate the number of games won by AFC team at home.
+table(homewin_afc$win_conf)
+
+
+#Bar plot for the number of games won by NFC team at home. 
+plot_nfc_home<-homewin_nfc %>%
+  ggplot(aes(x = win_conf, fill = win_conf)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by each conference's team when NFC played at home") +   xlab("Winning Conference") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))+
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win'))
+
+#Bar plot for the number of games won by AFC team at home. 
+plot_afc_home<-homewin_afc %>%
+  ggplot(aes(x = win_conf, fill = win_conf)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by each conference's team when AFC played at home") +
+  xlab("Winning Conference") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win', 'Tied')) 
+
+grid.arrange(plot_nfc_home,plot_afc_home, ncol=2)
+
+
+plot_scatter_nfc_home<- homewin_nfc %>% ggplot(aes(x=yds_win, y= pts_win, color= win_conf))+ geom_point()
+plot_scatter_nfc_home
+
+plot_scatter_afc_home<- homewin_afc %>% ggplot(aes(x=yds_win, y= pts_win, color= win_conf))+ geom_point()
+plot_scatter_afc_home
+
+```
+
+#### Comparison of points for AFC and NFC teams playing each other.
+
+Here, the objective is to compare the distribution of points won (AFC team vs NFC team) playing in their respective homes. 
+In order to do this, first, dataset that contains only games played at home of NFC teams and away for AFC teams (using 'homewin_nfc' data) is used. 
+The Superbowl games and the games that are 'tied' are not included in the analyses.
+Then, a box plot of the variable 'pts_win' is created based on 'win_conf' for comparison. 
+Similar analyses is carried out for games played at home of AFC teams and away for NFC teams (using 'homewin_afc' data). 
+Lastly, the two separate plots created are displayed in the same panel for side-by-side comparison. 
+
+```{r,echo = FALSE, warning = FALSE}
+plot_pts_nfc_home<-ggplot(data=homewin_nfc, aes(x=win_conf,y=pts_win, fill= win_conf))+geom_boxplot() +stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Distribution of points won by AFC Vs NFC teams at NFC's home.")+ guides(fill=guide_legend(title="Win Conf."))
+
+ggplotly(plot_pts_nfc_home)
+
+plot_pts_afc_home<-filter(homewin_afc, winner != "Tie") %>% ggplot(aes(x=win_conf, y=pts_win, fill= win_conf))+ geom_boxplot()+stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC teams at AFC's home.")+ guides(fill=guide_legend(title="Win Conf."))
+
+
+ggplotly(plot_pts_afc_home)
+
+grid.arrange(plot_pts_nfc_home, plot_pts_afc_home ,ncol=2)
+
+```
+
+
+```{r, echo = FALSE, warning=FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
 #Barplot of number of games won, AFC vs NFC playing each other only. 
 plot_afcvsnfc_total_win<-afcvsnfc %>%
   ggplot(aes(x = win_conf, fill = win_conf)) + 
@@ -216,9 +363,45 @@ ggplotly(plot_pts_afcvsnfc)
   
 ```
 
+#### Who was winning the most number of SuperBowl from 2000 to 2019? AFC or NFC?
+SuperBowl's games are played between two best teams from each conferences:AFC and NFC. Here, the objective is to see the number of Superbowls won by each conference between 2000 to 2019.
+For this, a subset of original data where 'week' is 'Superbowl' only is filtered out.
+Then, the winning conference on each of these games is identified with reference from the list 'afc_teams' and stored in a new variable 'win_conf'.
+Finally, a bar plot is created for the number of Superbowls won by each conference. 
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
+#Who are winning the most number of SuperBowl from 2000 to 2019?
+
+Superbowl_week<- filter(footballgames, week =="SuperBowl")
+dim(Superbowl_week)
+
+###To find out which division won in Superbowl. 
+for(i in 1:20){
+  if(Superbowl_week$winner[i] %in% afc_teams){
+    Superbowl_week$win_conf[i]="AFC Team"
+  }
+  else{
+    Superbowl_week$win_conf[i]="NFC Team"
+  }
+}  
+#Calculate the number of Superbowls Won by AFC and NFC team.
+table(Superbowl_week$win_conf)
+
+#Barplot of Superbowl winners.
+plot_Superbowl_win_conf<-Superbowl_week %>%
+  ggplot(aes(x = win_conf, fill = win_conf)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by each conference in Superbowl") +
+  xlab("Winning Conference") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf"))
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win')) 
+
+plot_Superbowl_win_conf 
+```
+
 #### Is there an Advantage to Playing at Home?
 
-It's a common belief that playing any sport (including football) at home stadiums gives the home team an advantage over the visiting team. The results below aim to assess this belief. First, the number of games won by the home team and the number of games won by the road team are tallied. Based off this tally, there were 3,045 NFL games won by the home team from 2000-2019. Over this same stretch of time, there were 2,279 NFL games won by the away team. Clearly, the home team wins more often than the road team, but it is helpful to provide additional context. Since there were 5,324 games played, the home team has won 3,045/5,324 games for a percentage of 57%. This suggests that the home team wins NFL games about 57% of the time. It must be noted however, that these counts are not exact since the data lists a home team, even for games played at a neutral site.
+It's a common belief that playing any sport (including football) at home stadiums gives the home team an advantage over the visiting team. The results below aim to assess this belief. First, the number of games won by the home team and the number of games won by the road team are tallied. Based off this tally, there were 3,025 NFL games won by the home team from 2000-2019. Over this same stretch of time, there were 2,279 NFL games won by the away team. Clearly, the home team wins more often than the road team, but it is helpful to provide additional context. Since there were 5,304 games played, the home team has won 3,025/5,304 games for a percentage of 57%. This suggests that the home team wins NFL games about 57% of the time. It must be noted however, that these counts are not exact since the data lists a home team, even for games played at a neutral site.
 
 ```{r, echo = FALSE, warning=FALSE}
 ### Comparing the number of games won by the home team to the number of games won by the away team ###
@@ -232,7 +415,10 @@ footballgames <- cbind(footballgames, locationofwin)
 # for loop to assign values of 1 if the home team won the game
 # values of 0 if the home team did not win the game
 for(i in 1:5324){
-  if(footballgames$winner[i] == footballgames$home_team[i]){
+  if(footballgames$week[i] == "SuperBowl"){
+    footballgames$locationofwin[i] <- NA
+  }
+  else if(footballgames$winner[i] == footballgames$home_team[i]){
     footballgames$locationofwin[i] <- 1
     i < i+1
   }
@@ -243,7 +429,7 @@ for(i in 1:5324){
 
 # count the number of wins by the home team and the number of losses/ties by the home team
 table(footballgames$locationofwin)
-# 3045
+# 3025
 # 2279
 
 # convert locationofwin to categorical
@@ -251,6 +437,7 @@ footballgames$locationofwin <- as.factor(footballgames$locationofwin)
 
 # bar plot of games won by home team and games won by away team
 footballgames %>%
+  filter(!is.na(locationofwin)) %>%
   ggplot(aes(x = locationofwin, fill = locationofwin)) + 
   geom_bar() + 
   geom_text(stat='count', aes(label=..count..), vjust=0) + 
@@ -272,7 +459,16 @@ footballgames$homeyds <- rep(c(0), 5324)
 footballgames$awayyds <- rep(c(0), 5324)
 
 for(i in 1:5324){
-  if(footballgames$home_team[i] == footballgames$winner[i]){
+  if(footballgames$week[i] == "SuperBowl"){
+    footballgames$homepts[i] <- NA
+    footballgames$awaypts[i] <- NA
+    footballgames$hometurnovers[i] <- NA
+    footballgames$awayturnovers[i] <- NA
+    footballgames$homeyds[i] <- NA
+    footballgames$awayyds[i] <- NA
+    i <- i + 1
+  }
+  else if(footballgames$home_team[i] == footballgames$winner[i]){
     footballgames$homepts[i] <- footballgames$pts_win[i]
     footballgames$awaypts[i] <- footballgames$pts_loss[i]
     footballgames$hometurnovers[i] <- footballgames$turnovers_win[i]
@@ -300,11 +496,13 @@ for(i in 1:5324){
   }
 }
 
+filteredfootballgames <- footballgames %>% drop_na()
+
 # create vectors to allow for plotting
-homeawayvec <- c(rep(c("home"),5324),rep(c("away"),5324))
-pts <- c(footballgames$homepts, footballgames$awaypts)
-yds <- c(footballgames$homeyds, footballgames$awayyds)
-turnovers <- c(footballgames$hometurnovers, footballgames$awayturnovers)
+homeawayvec <- c(rep(c("home"),5294),rep(c("away"),5294))
+pts <- c(filteredfootballgames$homepts, filteredfootballgames$awaypts)
+yds <- c(filteredfootballgames$homeyds, filteredfootballgames$awayyds)
+turnovers <- c(filteredfootballgames$hometurnovers, filteredfootballgames$awayturnovers)
 
 # create data frames for plotting
 pts <- data.frame(pts, homeawayvec)
@@ -316,9 +514,6 @@ pts$homeawayvec <- as.factor(pts$homeawayvec)
 yds$homeawayvec <- as.factor(yds$homeawayvec)
 turnovers$homeawayvec <- as.factor(turnovers$homeawayvec)
 
-# remove NA's
-yds %>% na.omit()
-turnovers %>% na.omit()
 
 ```
 
@@ -332,18 +527,30 @@ yds %>%
       xlab("Home or Away Team")
 ```
 
-Gaining yards is definitely a positive result in football, since an offense needs to gain yards in order to score points. Gaining more yards also increases the probability of scoring a touchdown (worth six points) instead of kicking a field goal (worth three points). Shown above are boxplots of the number of yards gained by the away team and the number of yards gained by the home team. Based on the boxplots, it appears that home teams have a higher average number of yards gained, compared to away teams. Additionally, the minimum amount of yards gained occurred for a road team instead of a home team, and the maximum amount of yards gained occurred for a home team. It appears that the first quartile, median, and third quartile are all higher for home teams rather than away teams. All in all, these boxplots support the belief that home teams have an advantage over road teams, but we should check these results as well.
+Gaining yards is definitely a positive result in football, since an offense needs to gain yards in order to score points.
+Gaining more yards also increases the probability of scoring a touchdown (worth six points) instead of kicking a field goal (worth three points).
+Shown above are boxplots of the number of yards gained by the away team and the number of yards gained by the home team. Based on the boxplots, it appears that home teams have a higher average number of yards gained, compared to away teams.
+Additionally, the minimum amount of yards gained occurred for a road team instead of a home team, and the maximum amount of yards gained occurred for a home team.
+It appears that the first quartile, median, and third quartile are all higher for home teams rather than away teams.
+All in all, these boxplots support the belief that home teams have an advantage over road teams, but we should check these results as well.
 
-A t test was conducted to compare the mean yards gained by home teams and the mean yards gained by away teams, with the results shown below. This t test resulted in a p-value less than a significance level of 0.05. This suggests that there's a difference in mean yards gained between home teams and away teams, at a 5% significance level.
+A t test was conducted to compare the mean yards gained by home teams and the mean yards gained by away teams, with the results shown below.
+This t test resulted in a p-value less than a significance level of 0.05.
+This suggests that there's a difference in mean yards gained between home teams and away teams, at a 5% significance level.
 
 ```{r, echo = FALSE, warning = FALSE}
 # conduct a t test to compare means
 t.test(yds$yds ~ yds$homeawayvec)
 ```
 
-While gaining yards is still a positive, yards don't always tell the full story of a football game. Usually, gaining more yards than the other team is indicative of being a superior team, but it's always possible that a team outgains the other team, but still loses. This is possible if one team's offense drives down the field and commits turnovers or scores a lot of field goals instead of touchdowns, as an example.
-
-For this reason, we can also examine the number of points scored by home teams and away teams. Points are correlated with winning, but it still might reveal some interesting information about the number of points teams score at home and on the road. Shown below are boxplots of points scored by home teams compared to points scored by away teams. The first quartile, median, and third quartile all appear higher for home teams, and the mean points scored for home teams is higher than the mean points scored for road teams. The maximum number of points scored in a football game from 2000-2019 was accomplished by a home team, but there are several 50 point games for both home and away teams.
+While gaining yards is still a positive, yards don't always tell the full story of a football game.
+Usually, gaining more yards than the other team is indicative of being a superior team, but it's always possible that a team outgains the other team, but still loses.
+This is possible if one team's offense drives down the field and commits turnovers or scores a lot of field goals instead of touchdowns, as an example.
+For this reason, we can also examine the number of points scored by home teams and away teams.
+Points are correlated with winning, but it still might reveal some interesting information about the number of points teams score at home and on the road.
+Shown below are boxplots of points scored by home teams compared to points scored by away teams.
+The first quartile, median, and third quartile all appear higher for home teams, and the mean points scored for home teams is higher than the mean points scored for road teams.
+The maximum number of points scored in a football game from 2000-2019 was accomplished by a home team, but there are several 50 point games for both home and away teams.
 
 ```{r, echo = FALSE, warning = FALSE}
 # boxplot of points scored by home and away teams
@@ -355,14 +562,19 @@ pts %>%
       xlab("Home or Away Team")
 ```
 
-A t test was also conducted to compare the mean points scored for home teams to the mean points scored for away teams. The results of this test are shown below. Based on the results of this test, the p-value was less than our predetermined significance level of 0.05. Thus, this suggests there's a difference in the mean number of points scored by home teams compared to away teams, at a 5% significance level.
+A t test was also conducted to compare the mean points scored for home teams to the mean points scored for away teams. The results of this test are shown below.
+Based on the results of this test, the p-value was less than our predetermined significance level of 0.05.
+Thus, this suggests there's a difference in the mean number of points scored by home teams compared to away teams, at a 5% significance level.
 
 ```{r, echo = FALSE, warning = FALSE}
 # conduct a t test to compare means
 t.test(pts$pts ~ pts$homeawayvec)
 ```
 
-It might have been easy to guess that home teams generally win more often than road teams, along with gaining more yards and scoring more points. Committing turnovers could be a little different though. Turnovers are a negative statistic in football, because turning the ball over ends an offense's possession of the ball and gives the other team possession. Two types of turnovers are considered here; interceptions (the quarterback throws the ball, and the ball is caught by the defense), and fumbles (a player drops the ball before being tackled, and the opposing team picks it up). Since turnovers are negative, we expect the mean number of turnovers committed to be lower for home teams than for away teams.
+It might have been easy to guess that home teams generally win more often than road teams, along with gaining more yards and scoring more points.
+Committing turnovers could be a little different though. Turnovers are a negative statistic in football, because turning the ball over ends an offense's possession of the ball and gives the other team possession.
+Two types of turnovers are considered here; interceptions (the quarterback throws the ball, and the ball is caught by the defense), and fumbles (a player drops the ball before being tackled, and the opposing team picks it up).
+Since turnovers are negative, we expect the mean number of turnovers committed to be lower for home teams than for away teams.
 
 ```{r, echo = FALSE, warning = FALSE}
 # boxplot of turnovers committed by home and away teams
@@ -374,9 +586,17 @@ turnovers %>%
       xlab("Home or Away Team")
 ```
 
-Shown above are boxplots of the number of turnovers committed for home teams and away teams. This boxplot looks much different than the previous boxplots. The quartiles, mean, and median don't appear to be higher or lower for home or away teams, and there aren't any clear maximum or minimum values as in the other boxplots. This could be due to the inherently low number of turnovers in a game, compared to points and yards, so the boxplots are checked with another t test.
+Shown above are boxplots of the number of turnovers committed for home teams and away teams.
+This boxplot looks much different than the previous boxplots.
+The quartiles, mean, and median don't appear to be higher or lower for home or away teams, and there aren't any clear maximum or minimum values as in the other boxplots.
+This could be due to the inherently low number of turnovers in a game, compared to points and yards, so the boxplots are checked with another t test.
 
-Based on the results of this test (shown below), the p-value is 0.0101. This is still less than our predetermined p-value of 0.05, which suggests there's a difference in the mean number of turnovers committed for home teams and away teams, at a 5% significance level. Taking a look at the means reveals that the mean turnovers committed by road teams is 1.658073 while the mean turnovers committed by home teams is 1.590327. While there was a statistically significant difference in the mean number of turnovers committed by home and away teams, there isn't much practical difference in these values. This indicates that being the home or road team probably isn't the main reason why teams commit turnovers. Instead, it could be the quality of team, the quality of several key players, or turnovers could just balance out between different teams, more indicative of luck than skill or talent.
+Based on the results of this test (shown below), the p-value is 0.01712.
+This is still less than our predetermined p-value of 0.05, which suggests there's a difference in the mean number of turnovers committed for home teams and away teams, at a 5% significance level.
+Taking a look at the means reveals that the mean turnovers committed by road teams is 1.655270 while the mean turnovers committed by home teams is 1.592369.
+While there was a statistically significant difference in the mean number of turnovers committed by home and away teams, there isn't much practical difference in these values.
+This indicates that being the home or road team probably isn't the main reason why teams commit turnovers.
+Instead, it could be the quality of team, the quality of several key players, or turnovers could just balance out between different teams, more indicative of luck than skill or talent.
 
 ```{r, echo = FALSE, warning = FALSE}
 # conduct a t test to compare means
@@ -385,7 +605,12 @@ t.test(turnovers$turnovers ~ turnovers$homeawayvec)
 
 #### Which AFC West teams will do well in the next season?
 
-Fans and analysts are often trying to predict which games will be won and lost by their favorite teams. As we have seen from the previous sections, NFL teams are divided into two conferences: AFC and NFC. Both conferences are also divided into 4 divisions: North, South, West, and East. Since one of our team members is a fan of the Denver Broncos (an AFC West Team), combined with the fact that some AFC West teams have played in the Superbowl four times over the past decade ([source](https://en.wikipedia.org/wiki/List_of_Super_Bowl_champions)); we decided to analyze the pattern of percentage of wins for all teams of AFC West division and plot it over time, to see if there is a trend. The games played by AFC West teams can be found here ([source](https://phermanto2.shinyapps.io/project-we-r-pab/)). By looking at the trend over the past 20 years, we hope that people can assess their past performance and try to predict their future performances.
+Fans and analysts are often trying to predict which games will be won and lost by their favorite teams.
+As we have seen from the previous sections, NFL teams are divided into two conferences: AFC and NFC.
+Both conferences are also divided into 4 divisions: North, South, West, and East.
+Since one of our team members is a fan of the Denver Broncos (an AFC West Team), combined with the fact that some AFC West teams have played in the Superbowl four times over the past decade ([source](https://en.wikipedia.org/wiki/List_of_Super_Bowl_champions)); we decided to analyze the pattern of percentage of wins for all teams of AFC West division and plot it over time, to see if there is a trend.
+The games played by AFC West teams can be found here ([source](https://phermanto2.shinyapps.io/project-we-r-pab/)).
+By looking at the trend over the past 20 years, we hope that people can assess their past performance and try to predict their future performances.
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(dplyr)
@@ -427,7 +652,6 @@ ggplot(data = broncosnumbers, aes(x = year, y = winning_percentage)) +
 ```
 
 Shown above is a plot of the Denver Broncos' winning percentage over time, from 2000 -2019. If we were to use 40% as our cutoff percentage to determine whether the year is a bad year (or not), the Broncos experiences bad years in 2010, 2017, and 2018, with thier worst year coming in 2010, where they won 25% of their games. Moving on to the "highs", we will look at years in which the Broncos won at least 60% of their games throughout 2000-2019. The Broncos had a good year in 2000, where they won more around 65% of their games, then started performing pretty decently (within 50%-60% games won) from 2001-2004. They won approximately 78% of the games they played in 2005, and even won the Divisional Round that year. However, it appears that their performance sharply declined within the next 5 years, leading up to their lowest year in 2010 where they won only 25% of their games. They successfully bounced back and had an impressive trajectory over the next 5 years, starting in 2011 when they won 50% of their games, to then win at least 70% of their games over the next 4 years. This span of winning makes sense, as Peyton Manning was playing for the Broncos for these four seasons. In 2013 and 2015, the Broncos managed to pull off victories in approximately 79% of their games; culminating in a Super Bowl appearance in 2013 and a Super Bowl win in 2015. Unfortunately, they did not have any good years from 2016-2019.
-
 The focus of this report isn't on predicting future performance, but it could still be interesting to use time series models to look at this data. Here, we fit an ARIMA(0,0,1) model to forecast the Broncos' winning percentage in 2020, 2021, and 2022. Based on the forecast shown below, the Broncos were forecasted to have a winning percentage of 51% in 2020 and 56% in 2021. The Broncos' actual winning percentages in 2020 and 2021 were 31.3% and 41.2%, respectively ([source](https://www.espn.com/nfl/standings/_/season/2020)). Since the forecasted winning percentages are far away from the actual values, the model wasn't very accurate, although the actual winning percentage in 2021 was within the 80% prediction interval (shown in the darker hue of orange).
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -473,7 +697,7 @@ fitwinpercentagestrendfc <- fitwinpercentagestrend %>% forecast(h = 3)
 
 While the trend does an ok job of predicting future winning percentages, we can plot the trend over time against the historical data to get a sense of how well the trend fits the data. Based on the plot, there's a sight downward trend in the Broncos' winning percentage over time, but this trend does not have a significant effect on winning percentage, which explains why the forecast wasn't super accurate.
 
-```{r}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # Time plot of winning percentage and predicted winning percentage with a trend model
 augment(fitwinpercentagestrend) %>%
   ggplot(aes(x = year)) +
@@ -482,6 +706,8 @@ augment(fitwinpercentagestrend) %>%
   labs(x = "Year", y = "Winning Percentage",
        title = "Winning Percentage vs Trended Winning Percentage")
 ```
+
+We can also plot the Kansas City Chiefs' winning percentage over time. A line plot on this is provided below.
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 #filtering out chiefs games
@@ -517,6 +743,24 @@ ggplot(data = chiefsnumbers, aes(x = year, y = winning_percentage)) +
 
 ```
 
+The plot of the Chiefs' winning percentage over time really stands out.
+For the first 13 years, the Chiefs only had two years in which we consider to be good years: 2003 and 2005.
+In both of those years, they managed to pull off winning percentages of 76% and 63%.
+Other than those triumphant years, the team was either performing moderately, or extremely terribly, with winning percentages below 20% in 2008 and 2012.
+Although 2007, 2008, 2009 and 2012 were terrible years for the Chiefs, they managed to turn it around, starting the following year, when they consistently won more games than they lost.
+In fact, the year 2012 can almost be seen as a turning point for the team since the team immediately won more than 60% of their games in 2013.
+We also start seeing a slight upward trend for the Chiefs' winning percentages.
+The plot above also shows that the team has maintained high winning percentages over the past 6 years.
+More impressively, the Chiefs even managed to win more than 70% of games in 2016, 2018, and 2019.
+The year 2019 was also the year that the team won Superbowl LIV ([source](https://en.wikipedia.org/wiki/List_of_Super_Bowl_champions)).
+While our data only shows games up to 2019, in reality, the team had a very strong track record throughout 2020-2022 as well ([source](https://www.espn.com/nfl/standings)), which some might have predicted from the successful streak in those previous years.
+
+To see if we can predict the Chiefs' winning percentage in 2020 and 2021, we fit an ARIMA(0,0,1) model to the historical data and forecast it over three years.
+The plot of the Chiefs' winning percentages over time, along with forecasted winning percentages is shown below.
+Based on this plot, the model predicted the Chiefs would have winning percentages of 59% and 51% in 2020 and 2021.
+The Chiefs actual winning percentages were much higher than this, so the model tends to underestimate.
+The model did however capture the Chiefs' winning percentages within the 80% prediction interval.
+
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # packages already loaded in
 
@@ -531,14 +775,44 @@ report(fitwinpercentages)
 
 # Forecast and plot
 fitwinpercentages %>% forecast(h = 3) %>% autoplot(chiefsts, color = 'red')
+fitwinpercentagesfc <- fitwinpercentages %>% forecast(h = 3)
 
+```
+
+We can also fit a trend to the Chiefs' winning percentages from 2000-2019 and use this to predict the Chiefs' winning percentages in 2020 and 2021.
+A plot of the Chiefs' winning percentages from 2000-2019 is shown below, with forecasts using the fitted trend shown in red.
+Based on this plot, the model predicted the Chiefs would win about 64% and 65% of their games in 2020 and 2021, respectively.
+The Chiefs' actual winning percentages was higher in these years, so the trend appears to underestimate.
+Again, the actual winning percentages in 2020 and 2021 were captured by the 80% prediction interval.
+
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+# fit trended model
 fitwinpercentagestrend <- chiefsts %>%
 model(TSLM(winning_percentage ~ trend()))
 report(fitwinpercentagestrend)
 
 # forecast and plot
 fitwinpercentagestrend %>% forecast(h = 3) %>% autoplot(chiefsts, color = 'red')
+fitwinpercentagestrendfc <- fitwinpercentagestrend %>% forecast(h = 3)
 ```
+
+We can use the fitted trend to plot the trend line against the Chiefs' historical winning percentages from 2000-2019. 
+This plot is depicted below.
+Overall, we can see that there's a moderate positive trend in the Chiefs' winning percentage over time.
+It's incredibly unlikely this trend continues much longer since it's rare for NFL teams to win over 90%, let alone 100% of their games.
+That being said, it's evident the Chiefs have been a consistently good, if not great team from 2000-2019.
+
+```{r, echo = FALSE, warning = FALSE, messsage = FALSE}
+# Time plot of winning percentage and predicted winning percentage with a trend model
+augment(fitwinpercentagestrend) %>%
+  ggplot(aes(x = year)) +
+  geom_line(aes(y = winning_percentage, colour = "Data")) +
+  geom_line(aes(y = .fitted, colour = "Fitted")) +
+  labs(x = "Year", y = "Winning Percentage",
+       title = "Winning Percentage vs Trended Winning Percentage")
+```
+
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 #filtering out chargers games
@@ -552,7 +826,7 @@ chargersplays<-chargersgames %>%
 #filtering out the games that the Chargers won
 chargerswins<-filter(chargersgames, winner == "Los Angeles Chargers" | winner == "San Diego Chargers")
 
-#number of games won by the Chiefs
+#number of games won by the Chargers
 chargersnumberofwins<-chargerswins %>%
   group_by(`year`) %>%
   summarise(number_of_wins = n())
@@ -573,6 +847,24 @@ ggplot(data = chargersnumbers, aes(x = year, y = winning_percentage)) +
   theme_stata()
 ```
 
+The Chargers started from the bottom at the year of 2000, when they won less than 10% of their games (they only won one game).
+The team did not have any memorable years until 2004.
+Over the next ten years, the trajectory of their wins starts toggling between average, good , and even exceptional. 
+Starting in 2004, they had a noticeable comeback with 70% of games won in that year.
+While the following year, 2005, might be considered to be unremarkably average to many (\~56% wins), the team was able to improve exceptionally in 2006 by winning more than 80% of their games.
+The following years, the Chargers kept having "average" years (if we are only looking at winning percentages) with the exception of 2007 and 2009.
+Surprisingly, in 2015, the team's performance plummeted when they won less than 30% of games that year.
+They managed to come back stronger over the next 3 years, leading up to another impressive year in 2018, where they won approximately 72% of their games but plummeted again the following year, when they only won approximately 30% of the time.
+All in all, while the Chargers never made it to the Super Bowl, they had some pretty impressive years in 2006, 2009, and 2018, where they made the Divisional round, and even won more than 70% of their games.
+
+We can fit another time series model to see if we can predict the Chargers' performance in 2020 and 2021.
+We fit an ARIMA(0,0,0) model, which means that there isn't any correlation in the errors over time, and the forecasts will use the Chargers' mean winning percentage from 2000-2019 as the forecasted values.
+This usually indicates the forecasted winning percentage isn't accurate, but we should check this anyways.
+The model predicted the Chargers would to have a winning percentage of 49.7% in 2020 and 2021. 
+The Chargers won 43.8% of their games in 2020 and 52.9% of their games in 2021 ([source](https://www.espn.com/nfl/standings)).
+This indicates the model performed surprisingly well in predicting the Chargers' winning percentage in 2020 and 2021.
+
+
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # packages already loaded in
 
@@ -587,17 +879,44 @@ report(fitwinpercentages)
 
 # Forecast and plot
 fitwinpercentages %>% forecast(h = 3) %>% autoplot(chargersts, color = 'blue')
+fitwinpercentagesfc <- fitwinpercentages %>% forecast(h = 3)
 
+
+```
+
+We can also examine the Chargers' projected winning percentage in 2020 and 2021 using a trend model.
+A plot of these projections is included below.
+The trend forecasted the Chargers' winning percentages to be 53.7% and 54.1% in 2020 and 2021, respectively.
+This model was less accurate in predicting the 2020 win percentage, but was closer to the Chargers' actual win percentage in 2021, compared to the ARIMA model.
+All in all, the trend seems to forecast the Chargers' winning percentage well.
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+# fit trended model
 fitwinpercentagestrend <- chargersts %>%
 model(TSLM(winning_percentage ~ trend()))
 report(fitwinpercentagestrend)
 
 # forecast and plot
 fitwinpercentagestrend %>% forecast(h = 3) %>% autoplot(chargersts, color = 'blue')
+fitwinpercentagestrendfc <- fitwinpercentagestrend %>% forecast(h = 3)
+```
+
+To examine overall trends in the the winning percentage for the Chargers, we impose a trend line on a plot of the historical data.
+Based on this, we can see there's a slight upward trend in the Chargers' winning percentage from 2000-2019.
+We can also see that while the trend did a decent job in forecasting, the trend does not provide a good overall fit to the data.
+
+```{r, echo = FALSE, warning = FALSE, messsage = FALSE}
+# Time plot of winning percentage and predicted winning percentage with a trend model
+augment(fitwinpercentagestrend) %>%
+  ggplot(aes(x = year)) +
+  geom_line(aes(y = winning_percentage, colour = "Data")) +
+  geom_line(aes(y = .fitted, colour = "Fitted")) +
+  labs(x = "Year", y = "Winning Percentage",
+       title = "Winning Percentage vs Trended Winning Percentage")
 ```
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-#filtering out chiefs games
+#filtering out raiders games
 raidersgames<-filter(footballgames, home_team == "Oakland Raiders" | away_team == "Oakland Raiders")
 
 #number of games played each year
@@ -629,6 +948,19 @@ ggplot(data = raidersnumbers, aes(x = year, y = winning_percentage)) +
   theme_stata()
 ```
 
+A plot of the Raiders' winning percentages over time from 2000-2019 is depicted above.
+The Raiders possess what could be seen as the least impressive track record out of the teams discussed so far, based on this plot.
+The team started off strong from the years 2000-2002, where they won more than 60% of the games within those years.
+After 2002, their winning percentages dropped significantly to below 30% in 2003.
+The team did not significantly improve over the next six years.
+A somewhat noteworthy improvement was made in 2010 and 2011 where they won 50% of games.
+However, the percentages plummeted again after unsatisfactory years: 2012, 2013, and 2014; as the team won below 30% of their games.
+The team bounced back in 2015 and 2016; outstandingly, the team was able to reach 70% of wins in 2016.
+The achievement, nevertheless, failed to last as their percentages plummeted again after the high in 2016 and failed to bounce back until the year of 2019.
+
+To see if we can predict the Raiders' winning percentage, we can fit a time series model and forecast it.
+A plot of the Raiders' winning percentage from 2000-2019 along with these forecasts, is included below.
+
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # packages already loaded in
 
@@ -643,14 +975,56 @@ report(fitwinpercentages)
 
 # Forecast and plot
 fitwinpercentages %>% forecast(h = 3) %>% autoplot(raidersts, color = 'black')
+fitwinpercentagesfc <- fitwinpercentages %>% forecast(h = 3)
 
+```
+
+Based on the plot, the predicted win percentages in 2020 and 2021 are 43.8% and 39.7%. 
+The Raiders' actual winning percentages those years were 50% and 55.6%, respectively ([source](https://www.espn.com/nfl/standings)).
+The actual model fit was an ARIMA(0,0,1) model.
+According to the forecasts in the plot, the 80% prediction interval contained the Raiders' actual percentage of games won, but the model still tended to underestimate.
+
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 fitwinpercentagestrend <- raidersts %>%
 model(TSLM(winning_percentage ~ trend()))
 report(fitwinpercentagestrend)
 
 # forecast and plot
 fitwinpercentagestrend %>% forecast(h = 3) %>% autoplot(raidersts, color = 'black')
+fitwinpercentagestrendfc <- fitwinpercentagestrend %>% forecast(h = 3)
 ```
+
+We can also analyze any trends in the Raiders' winning percentage over time.
+We fit a time series linear model to the data and plotted the forecasted winning percentage in 2020 and 2022 (see plot above).
+This trended model predicted the Raiders' percentage of games won to be 32.4% in 2020 and 31.9% in 2021.
+This trend clearly did a poor job in forecasting the actual percentage of games won (50% and 55.6%).
+
+Even though the model doesn't forecast winning percentage well, a plot of the trend line against the actual data may be interesting.
+The plot below shows the Raiders' winning percentage from 2000-2019 plotted against the fitted trend model.
+Based on the plot, there appears to be a slight downward trend in winning percentage, according to the fitted model.
+The actual data however, indicate a larger downward trend from 2000-2019.
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+# Time plot of winning percentage and predicted winning percentage with a trend model
+augment(fitwinpercentagestrend) %>%
+  ggplot(aes(x = year)) +
+  geom_line(aes(y = winning_percentage, colour = "Data")) +
+  geom_line(aes(y = .fitted, colour = "Fitted")) +
+  labs(x = "Year", y = "Winning Percentage",
+       title = "Winning Percentage vs Trended Winning Percentage")
+
+```
+
+Thus far, we have plotted the winning percentage of AFC West teams from 2000-2019, for each team individually.
+This has been useful in examining each team's individual performance, but other plots may be more useful for comparison.
+Shown below are superimposed plots of each AFC West team's winning percentages from 2000-2019.
+This allows us to visualize how certain trends may coincide, and also allows us to see which team performed best in any given year.
+Based on this plot, the Raiders appeared to be the best team in the division in the early 2000's, since their winning percentage is higher than that of all the other teams.
+2003-2011 marks a period without any one team dominating. 
+The Chargers led winning percentage five times, but the Broncos led three times, and the Chiefs led twice over the same time period.
+From 2011-2015, the Denver Broncos clearly dominated the division, winning it five straight times, and leading or tying the best winning percentage five straight times as well.
+2016-2019 shows a run of dominance for the Chiefs, who tied or led the division in winning percentage in each of these years.
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 #joining the tables together for all the teams and creating interactive plot for the teams
@@ -678,7 +1052,9 @@ ggplotly(finalplot)
 
 ```
 
-If we were to use 30% as our cutoff percentage to determine whether the year is a bad year (or not), then we see that all four teams have at least one "bad year" where they won less than 30% of the games in each year, throughout 2000-2019. For the Broncos' worst year was in 2010, where they won 25% of their games that year. However, they win at least 30% of their games for the other nineteen years. The Chargers have gone through three bad years; 2000, 2003, and 2015. The Raiders have had 7 bad years over the course of 2000-2019; while the Chiefs had 4 individual years where they won less than 30% of their games (2007, 2008, 2009 and 2012).
+Overall, we realize that it is difficult to predict wins solely based on visual trends of winning percentages, as there are other factors in place that are affecting team performances such as: players getting traded (roster changes), coaching styles (some coaches are more oriented towards offense/defense), game schedules, weather conditions, etc.
+Furthermore, every team's performance on the AFC West Division has been volatile, making it more difficult for their wins to be predictable and to observe stability of their performance in future years.
+For discussion on future ideas of analysis, please refer to the Future Studies section below.
 
 The Chargers started from the bottom at the year of 2000, when they won less than 10% of their games (they only won one game). The team did not have any memorable years until after 2003. Over the next 10 years, the trajectory of their wins to start toggling between average, good and even exceptional. Starting in 2004, where they had a noticeable comeback with 70% of games won in that year. While the following year, 2005, might be considered to be unremarkably average to many (\~56% wins), the team was able to improve exceptionally in 2006 by winning more than 80% of their games. The following years, the Chargers kept having "average" years (if we are only looking at winning percentages) with the exception of 2007 and 2009. Surprisingly, in 2015, the team's performance plummeted when they won less than 30% of games that year. They managed to come back stronger over the next 3 years, leading up to another impressive year in 2018 where they won approximately 72% of their games; but plummeted again the following year, in 2019, when they only won approximately 30% of the time. All in all, while the Chargers never made it to the Superbowl; they had some pretty impressive years in 2006, 2009, 2018, where they made the Divisional round, and even won more than 70% of their games.
 
@@ -768,79 +1144,31 @@ plot_scatter_afc_home
 
 ```
 
-#### Comparison of points for AFC and NFC teams playing each other.
-
-Here, the objective is to compare the distribution of points won (AFC team vs NFC team) playing in their respective homes. In order to do this, first, dataset that contains only games played at home of NFC teams and away for AFC teams (using 'homewin_nfc' data) is used. The Superbowl games and the games that are 'tied' are not included in the analyses. Then, a box plot of the variable 'pts_win' is created based on 'win_conf' for comparison. Similar analyses is carried out for games played at home of AFC teams and away for NFC teams (using 'homewin_afc' data). Lastly, the two separate plots created are displayed in the same panel for side-by-side comparison.
-
-```{r,echo = FALSE, warning = FALSE}
-plot_pts_nfc_home<-ggplot(data=homewin_nfc, aes(x=win_conf,y=pts_win, fill= win_conf))+geom_boxplot() +stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Distribution of points won by AFC Vs NFC teams at NFC's home.")+ guides(fill=guide_legend(title="Win Conf."))
-
-ggplotly(plot_pts_nfc_home)
-
-plot_pts_afc_home<-filter(homewin_afc, winner != "Tie") %>% ggplot(aes(x=win_conf, y=pts_win, fill= win_conf))+ geom_boxplot()+stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC teams at AFC's home.")+ guides(fill=guide_legend(title="Win Conf."))
-
-
-ggplotly(plot_pts_afc_home)
-
-grid.arrange(plot_pts_nfc_home, plot_pts_afc_home ,ncol=2)
-
-```
-
-#### Which team won the SuperBowl the most number from 2000 to 2019?
-
-In this section, we can check if there is any team that won the SuperBowl multiple times over the 20-year range. We decided to create a data frame consisting of the winners of the Superbowl and display the corresponding number of wins. We then drew a bar plot to help visualize the number of wins. We found out that New England Patriot won the most with 6 games won. Next up, we found that there are three teams that won the same amount of time (2 times): Baltimore Ravens, New York Giants, and Pittsburgh Steelers. Unfortunately, other teams that have won the SuperBowl from 2000-2019 only won once.
-
-```{r}
-superbowlgames<-filter(footballgames, week == "SuperBowl") %>%
-  group_by(`winner`) %>%
-  summarise(number_of_wins = n()) %>%
-  slice_max(order_by = number_of_wins, n=3)
-
-#
-ggplot(data = superbowlgames, aes(x = reorder(winner, -number_of_wins), y = number_of_wins, fill=winner)) +
-  labs(title = "Frequency of SuperBowl Wins",
-         x = "Team",
-         y = "Percentage of Wins") +
-  geom_bar(stat = "identity") +
-  theme_stata()
-```
-
-#### Who was winning the most number of SuperBowl from 2000 to 2019? AFC or NFC?
-
-SuperBowl's games are played between two best teams from each conferences:AFC and NFC. Here, the objective is to see the number of Superbowls won by each conference between 2000 to 2019. For this, a subset of original data where 'week' is 'Superbowl' only is filtered out. Then, the winning conference on each of these games is identified with reference from the list 'afc_teams' and stored in a new variable 'win_conf'. Finally, a bar plot is created for the number of Superbowls won by each conference.
-
-```{r}
-#Who are winning the most number of SuperBowl from 2000 to 2019?
-
-Superbowl_week<- filter(footballgames, week =="SuperBowl")
-dim(Superbowl_week)
-
-###To find out which division won in Superbowl. 
-for(i in 1:20){
-  if(Superbowl_week$winner[i] %in% afc_teams){
-    Superbowl_week$win_conf[i]="AFC Team"
-  }
-  else{
-    Superbowl_week$win_conf[i]="NFC Team"
-  }
-}  
-#Calculate the number of Superbowls Won by AFC and NFC team.
-table(Superbowl_week$win_conf)
-
-#Barplot of Superbowl winners.
-plot_Superbowl_win_conf<-Superbowl_week %>%
-  ggplot(aes(x = win_conf, fill = win_conf)) + 
-  geom_bar() + 
-  geom_text(stat='count', aes(label=..count..), vjust=0) + 
-  ggtitle("Number of games won by each conference in Superbowl") +
-  xlab("Winning Conference") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf"))
-    scale_fill_discrete(labels=c('AFC Win', 'NFC Win')) 
-
-plot_Superbowl_win_conf 
-```
-
 ## Conclusion
 
 ## Future Ideas
+
+Throughout this report, several potential topics for future analysis have originated.
+This section aims to outline these potential topics and discuss possible shortcomings in this analysis, as well as how these can be resolved.
+
+One potential shortcoming in this analysis was the fit of the ARIMA models, used to describe the winning percentage of AFC West teams in the Analysis section.
+Multiple options for modeling time series data were not included in this analysis, including ARIMA models with seasonality and exponential smoothing methods.
+Additionally, no covariates were employed in these models.
+Since both the ARIMA models and tim series linear models were poor fits to the data, it is expected that including covariates in these models will improve the fit, as well as the forecasts.
+We also didn't compare any time series models in this section, and didn't interpret information criteria, as this wasn't the main purpose of this report.
+For future studies, we would recommend exploring additional time series modeling techniques.
+We also recommend including covariates in the models to create better fits and improve forecasting.
+
+Another potential shortcoming in this project involved breaking down home and away games, and also incorporating ties into the analysis.
+The data set lists every game as having a home team and an away team, even for games played at a neutral site.
+We know the Super Bowl is played at a neutral site every year, but this meant we couldn't include these games in multiple parts of the analysis section.
+The NFL also plays several games in various countries during most seasons.
+A home and away team are listed for these games, despite being played at a neutral site.
+This part of the analysis was largely ignored, since the only way to deal with these games would be to look up every neutral site game and locate it in the data set, to be removed.
+In other words, the only way to remove these points would be to manually locate each of these games in the data.
+There are also numerous other instances from 2000-2019 impacting the truth of having home and away teams.
+For instance, the Minnesota Vikings' stadium collapsed in 2010, forcing them to play at a neutral site.
+In future studies, we plan on performing the manual filtering of the data to either remove these games from the data
+or ignore them in analysis involving the use of home and away teams.
 
 ## References
