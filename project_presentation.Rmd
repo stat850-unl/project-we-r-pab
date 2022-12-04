@@ -306,4 +306,4 @@ finalplot<-ggplot(data = combinedtables, aes(x = year, color = team_name, y = wi
 ggplotly(finalplot)
 
 ```
-
+ 
