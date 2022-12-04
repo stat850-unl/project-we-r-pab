@@ -461,7 +461,7 @@ plot_nfc_home<-homewin_nfc %>%
   ggplot(aes(x = win_conf, fill = win_conf)) + 
   geom_bar() + 
   geom_text(stat='count', aes(label=..count..), vjust=0) + 
-  ggtitle("Number of games won by each conference's team when NFC played at home") +   xlab("Winning Conference") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))+
+  ggtitle("NFC Home Team") +   xlab("Winning Conference") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))+
     scale_fill_discrete(labels=c('AFC Win', 'NFC Win'))
 
 #Bar plot for the number of games won by AFC team at home. 
@@ -469,7 +469,7 @@ plot_afc_home<-homewin_afc %>%
   ggplot(aes(x = win_conf, fill = win_conf)) + 
   geom_bar() + 
   geom_text(stat='count', aes(label=..count..), vjust=0) + 
-  ggtitle("Number of games won by each conference's team when AFC played at home") +
+  ggtitle("AFC Home Team") +
   xlab("Winning Conference") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))
     scale_fill_discrete(labels=c('AFC Win', 'NFC Win', 'Tied')) 
 
