@@ -234,8 +234,6 @@ plot_grid(plot7,plot8,plot9,plot10,plot11,plot12)
 
 ```
 
-## Analysis
-
 ## AFC or NFC, who is winning the most?
 
 ```{r, echo = FALSE, warning=FALSE, message = FALSE}
