@@ -239,6 +239,115 @@ table(afcvsnfc$win_conf)
 #AFC won 661 of the games vs. NFC 623. Remaining 4 matches ended in a tie.
 ```
 
+#### What does the number of wins at home looks like for AFC vs NFC teams?
+
+Here, we want to see who wins most games at home, NFC's teams or AFC's teams. In order to achieve this, first NFC teams home games are filtered out from the original data set. It is to be noted that Superbowls games are not included, since they are played in a neutral venue and matches between two teams from same conference is also excluded. 
+In this new dataset, a new column called 'win_conf' is created that stores the result of the winning team's divison. 
+Then, the number of games won by each division teams whenever NFC played at home is calculated. 
+Similar steps are carried out whenever the AFC teams are playing at home. 
+Finally, a side-by-side bar-plots are created for comparison.
+
+```{r,echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
+library(grid)
+library(gridExtra)
+#Number of games won at home by NFC teams whenever they played AFC teams.
+
+###First create a data with home team being NFC team and away team being AFC team. 
+homewin_nfc<-filter(footballgames, week!= "SuperBowl", footballgames$home_team %in% nfc_teams & footballgames$away_team %in% afc_teams )
+
+dim(homewin_nfc)
+
+###To find out which division won when NFC played at home. 
+for(i in 1:557){
+  if(homewin_nfc$winner[i]=="Tie"){
+     footballgames$win_conf[i]<-"Tied"
+  }
+  else if(homewin_nfc$winner[i]%in% afc_teams){
+    homewin_nfc$win_conf[i]<-"AFC_Win"
+  }
+  else{
+    homewin_nfc$win_conf[i]<-"NFC_Win"  
+  }
+}
+
+#Calculate the number of games won by NFC team at home.
+table(homewin_nfc$win_conf)
+
+#Number of games won at home by AFC teams whenever they played NFC teams.
+
+homewin_afc<-filter(footballgames, week!= "SuperBowl", footballgames$home_team %in% afc_teams & footballgames$away_team %in% nfc_teams )
+
+dim(homewin_afc)
+
+###To find out which division won when AFC played at home. 
+for(i in 1:556){
+  if(homewin_afc$winner[i]=="Tie"){
+     homewin_afc$win_conf[i]<-"Tied"
+  }
+  else if(homewin_afc$winner[i]%in% afc_teams){
+    homewin_afc$win_conf[i]<-"AFC_Win"
+  }
+  else{
+    homewin_afc$win_conf[i]<-"NFC_Win"  
+  }
+}
+#Calculate the number of games won by AFC team at home.
+table(homewin_afc$win_conf)
+
+
+#Bar plot for the number of games won by NFC team at home. 
+plot_nfc_home<-homewin_nfc %>%
+  ggplot(aes(x = win_conf, fill = win_conf)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by each conference's team when NFC played at home") +   xlab("Winning Conference") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))+
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win'))
+
+#Bar plot for the number of games won by AFC team at home. 
+plot_afc_home<-homewin_afc %>%
+  ggplot(aes(x = win_conf, fill = win_conf)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by each conference's team when AFC played at home") +
+  xlab("Winning Conference") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win', 'Tied')) 
+
+grid.arrange(plot_nfc_home,plot_afc_home, ncol=2)
+
+
+plot_scatter_nfc_home<- homewin_nfc %>% ggplot(aes(x=yds_win, y= pts_win, color= win_conf))+ geom_point()
+plot_scatter_nfc_home
+
+plot_scatter_afc_home<- homewin_afc %>% ggplot(aes(x=yds_win, y= pts_win, color= win_conf))+ geom_point()
+plot_scatter_afc_home
+
+```
+
+#### Comparison of points for AFC and NFC teams playing each other.
+
+Here, the objective is to compare the distribution of points won (AFC team vs NFC team) playing in their respective homes. 
+In order to do this, first, dataset that contains only games played at home of NFC teams and away for AFC teams (using 'homewin_nfc' data) is used. 
+The Superbowl games and the games that are 'tied' are not included in the analyses.
+Then, a box plot of the variable 'pts_win' is created based on 'win_conf' for comparison. 
+Similar analyses is carried out for games played at home of AFC teams and away for NFC teams (using 'homewin_afc' data). 
+Lastly, the two separate plots created are displayed in the same panel for side-by-side comparison. 
+
+
+```{r,echo = FALSE, warning = FALSE}
+plot_pts_nfc_home<-ggplot(data=homewin_nfc, aes(x=win_conf,y=pts_win, fill= win_conf))+geom_boxplot() +stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Distribution of points won by AFC Vs NFC teams at NFC's home.")+ guides(fill=guide_legend(title="Win Conf."))
+
+ggplotly(plot_pts_nfc_home)
+
+plot_pts_afc_home<-filter(homewin_afc, winner != "Tie") %>% ggplot(aes(x=win_conf, y=pts_win, fill= win_conf))+ geom_boxplot()+stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC teams at AFC's home.")+ guides(fill=guide_legend(title="Win Conf."))
+
+
+ggplotly(plot_pts_afc_home)
+
+grid.arrange(plot_pts_nfc_home, plot_pts_afc_home ,ncol=2)
+
+```
+
+
 ```{r, echo = FALSE, warning=FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
 #Barplot of number of games won, AFC vs NFC playing each other only. 
 plot_afcvsnfc_total_win<-afcvsnfc %>%
@@ -257,6 +366,42 @@ pts_afcvsnfc<- ggplot(filter(afcvsnfc, winner!= "Tie"))+geom_boxplot(aes(x=win_c
 
 pts_afcvsnfc
   
+```
+
+#### Who was winning the most number of SuperBowl from 2000 to 2019? AFC or NFC?
+SuperBowl's games are played between two best teams from each conferences:AFC and NFC. Here, the objective is to see the number of Superbowls won by each conference between 2000 to 2019.
+For this, a subset of original data where 'week' is 'Superbowl' only is filtered out.
+Then, the winning conference on each of these games is identified with reference from the list 'afc_teams' and stored in a new variable 'win_conf'.
+Finally, a bar plot is created for the number of Superbowls won by each conference. 
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
+#Who are winning the most number of SuperBowl from 2000 to 2019?
+
+Superbowl_week<- filter(footballgames, week =="SuperBowl")
+dim(Superbowl_week)
+
+###To find out which division won in Superbowl. 
+for(i in 1:20){
+  if(Superbowl_week$winner[i] %in% afc_teams){
+    Superbowl_week$win_conf[i]="AFC Team"
+  }
+  else{
+    Superbowl_week$win_conf[i]="NFC Team"
+  }
+}  
+#Calculate the number of Superbowls Won by AFC and NFC team.
+table(Superbowl_week$win_conf)
+
+#Barplot of Superbowl winners.
+plot_Superbowl_win_conf<-Superbowl_week %>%
+  ggplot(aes(x = win_conf, fill = win_conf)) + 
+  geom_bar() + 
+  geom_text(stat='count', aes(label=..count..), vjust=0) + 
+  ggtitle("Number of games won by each conference in Superbowl") +
+  xlab("Winning Conference") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf"))
+    scale_fill_discrete(labels=c('AFC Win', 'NFC Win')) 
+
+plot_Superbowl_win_conf 
 ```
 
 #### Is there an Advantage to Playing at Home?
@@ -935,113 +1080,6 @@ Overall, we realize that it is difficult to predict wins solely based on visual 
 Furthermore, every team's performance on the AFC West Division has been volatile, making it more difficult for their wins to be predictable and to observe stability of their performance in future years.
 For discussion on future ideas of analysis, please refer to the Future Studies section below.
 
-#### What does the number of wins at home looks like for AFC vs NFC teams?
-
-Here, we want to see who wins most games at home, NFC's teams or AFC's teams. In order to achieve this, first NFC teams home games are filtered out from the original data set. It is to be noted that Superbowls games are not included, since they are played in a neutral venue and matches between two teams from same conference is also excluded. 
-In this new dataset, a new column called 'win_conf' is created that stores the result of the winning team's divison. 
-Then, the number of games won by each division teams whenever NFC played at home is calculated. 
-Similar steps are carried out whenever the AFC teams are playing at home. 
-Finally, a side-by-side bar-plots are created for comparison.
-
-```{r,echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
-library(grid)
-library(gridExtra)
-#Number of games won at home by NFC teams whenever they played AFC teams.
-
-###First create a data with home team being NFC team and away team being AFC team. 
-homewin_nfc<-filter(footballgames, week!= "SuperBowl", footballgames$home_team %in% nfc_teams & footballgames$away_team %in% afc_teams )
-
-dim(homewin_nfc)
-
-###To find out which division won when NFC played at home. 
-for(i in 1:557){
-  if(homewin_nfc$winner[i]=="Tie"){
-     footballgames$win_conf[i]<-"Tied"
-  }
-  else if(homewin_nfc$winner[i]%in% afc_teams){
-    homewin_nfc$win_conf[i]<-"AFC_Win"
-  }
-  else{
-    homewin_nfc$win_conf[i]<-"NFC_Win"  
-  }
-}
-
-#Calculate the number of games won by NFC team at home.
-table(homewin_nfc$win_conf)
-
-#Number of games won at home by AFC teams whenever they played NFC teams.
-
-homewin_afc<-filter(footballgames, week!= "SuperBowl", footballgames$home_team %in% afc_teams & footballgames$away_team %in% nfc_teams )
-
-dim(homewin_afc)
-
-###To find out which division won when AFC played at home. 
-for(i in 1:556){
-  if(homewin_afc$winner[i]=="Tie"){
-     homewin_afc$win_conf[i]<-"Tied"
-  }
-  else if(homewin_afc$winner[i]%in% afc_teams){
-    homewin_afc$win_conf[i]<-"AFC_Win"
-  }
-  else{
-    homewin_afc$win_conf[i]<-"NFC_Win"  
-  }
-}
-#Calculate the number of games won by AFC team at home.
-table(homewin_afc$win_conf)
-
-
-#Bar plot for the number of games won by NFC team at home. 
-plot_nfc_home<-homewin_nfc %>%
-  ggplot(aes(x = win_conf, fill = win_conf)) + 
-  geom_bar() + 
-  geom_text(stat='count', aes(label=..count..), vjust=0) + 
-  ggtitle("Number of games won by each conference's team when NFC played at home") +   xlab("Winning Conference") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))+
-    scale_fill_discrete(labels=c('AFC Win', 'NFC Win'))
-
-#Bar plot for the number of games won by AFC team at home. 
-plot_afc_home<-homewin_afc %>%
-  ggplot(aes(x = win_conf, fill = win_conf)) + 
-  geom_bar() + 
-  geom_text(stat='count', aes(label=..count..), vjust=0) + 
-  ggtitle("Number of games won by each conference's team when AFC played at home") +
-  xlab("Winning Conference") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf."))
-    scale_fill_discrete(labels=c('AFC Win', 'NFC Win', 'Tied')) 
-
-grid.arrange(plot_nfc_home,plot_afc_home, ncol=2)
-
-
-plot_scatter_nfc_home<- homewin_nfc %>% ggplot(aes(x=yds_win, y= pts_win, color= win_conf))+ geom_point()
-plot_scatter_nfc_home
-
-plot_scatter_afc_home<- homewin_afc %>% ggplot(aes(x=yds_win, y= pts_win, color= win_conf))+ geom_point()
-plot_scatter_afc_home
-
-```
-
-#### Comparison of points for AFC and NFC teams playing each other.
-
-Here, the objective is to compare the distribution of points won (AFC team vs NFC team) playing in their respective homes. 
-In order to do this, first, dataset that contains only games played at home of NFC teams and away for AFC teams (using 'homewin_nfc' data) is used. 
-The Superbowl games and the games that are 'tied' are not included in the analyses.
-Then, a box plot of the variable 'pts_win' is created based on 'win_conf' for comparison. 
-Similar analyses is carried out for games played at home of AFC teams and away for NFC teams (using 'homewin_afc' data). 
-Lastly, the two separate plots created are displayed in the same panel for side-by-side comparison. 
-
-
-```{r,echo = FALSE, warning = FALSE}
-plot_pts_nfc_home<-ggplot(data=homewin_nfc, aes(x=win_conf,y=pts_win, fill= win_conf))+geom_boxplot() +stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Distribution of points won by AFC Vs NFC teams at NFC's home.")+ guides(fill=guide_legend(title="Win Conf."))
-
-ggplotly(plot_pts_nfc_home)
-
-plot_pts_afc_home<-filter(homewin_afc, winner != "Tie") %>% ggplot(aes(x=win_conf, y=pts_win, fill= win_conf))+ geom_boxplot()+stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC teams at AFC's home.")+ guides(fill=guide_legend(title="Win Conf."))
-
-
-ggplotly(plot_pts_afc_home)
-
-grid.arrange(plot_pts_nfc_home, plot_pts_afc_home ,ncol=2)
-
-```
 
 #### Which team won the SuperBowl the most number from 2000 to 2019?
 
@@ -1061,43 +1099,6 @@ ggplot(data = superbowlgames, aes(x = reorder(winner, -number_of_wins), y = numb
   geom_bar(stat = "identity") +
   theme_stata()
 ```
-
-#### Who was winning the most number of SuperBowl from 2000 to 2019? AFC or NFC?
-SuperBowl's games are played between two best teams from each conferences:AFC and NFC. Here, the objective is to see the number of Superbowls won by each conference between 2000 to 2019.
-For this, a subset of original data where 'week' is 'Superbowl' only is filtered out.
-Then, the winning conference on each of these games is identified with reference from the list 'afc_teams' and stored in a new variable 'win_conf'.
-Finally, a bar plot is created for the number of Superbowls won by each conference. 
-
-```{r, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
-#Who are winning the most number of SuperBowl from 2000 to 2019?
-
-Superbowl_week<- filter(footballgames, week =="SuperBowl")
-dim(Superbowl_week)
-
-###To find out which division won in Superbowl. 
-for(i in 1:20){
-  if(Superbowl_week$winner[i] %in% afc_teams){
-    Superbowl_week$win_conf[i]="AFC Team"
-  }
-  else{
-    Superbowl_week$win_conf[i]="NFC Team"
-  }
-}  
-#Calculate the number of Superbowls Won by AFC and NFC team.
-table(Superbowl_week$win_conf)
-
-#Barplot of Superbowl winners.
-plot_Superbowl_win_conf<-Superbowl_week %>%
-  ggplot(aes(x = win_conf, fill = win_conf)) + 
-  geom_bar() + 
-  geom_text(stat='count', aes(label=..count..), vjust=0) + 
-  ggtitle("Number of games won by each conference in Superbowl") +
-  xlab("Winning Conference") +ylab("Number of games won")+guides(fill=guide_legend(title="Win Conf"))
-    scale_fill_discrete(labels=c('AFC Win', 'NFC Win')) 
-
-plot_Superbowl_win_conf 
-```
-
 
 ## Conclusion
 
