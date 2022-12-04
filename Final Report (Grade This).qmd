@@ -1146,7 +1146,7 @@ plot_scatter_afc_home
 
 ## Conclusion
 
-## Future Ideas
+## Future Research
 
 Throughout this report, several potential topics for future analysis have originated.
 This section aims to outline these potential topics and discuss possible shortcomings in this analysis, as well as how these can be resolved.
