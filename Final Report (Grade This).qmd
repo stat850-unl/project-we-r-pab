@@ -178,7 +178,7 @@ Unfortunately, other teams that have won the SuperBowl from 2000-2019 only won o
 ```{r, echo = FALSE, warning=FALSE, message = FALSE}
 library(tidyverse)
 library(ggplot2)
-library(ggthemes)\
+library(ggthemes)
 library(stringr)
 #filtering the superbowl matches
 superbowlgames<-filter(footballgames, week == "SuperBowl") %>%
