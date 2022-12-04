@@ -301,7 +301,7 @@ Then,the data was filter out for only the matches between AFC and NFC teams. The
 Out of 5324 games, only 1288 matches were played between an AFC team and NFC team either home or away. 
 The respective number of wins for each conference is then calculated and a bar plot of the same is created.Further, a box plot of distribution of points won for each conference is created.
 
-```{r, echo = FALSE, warning=FALSE, message = FALSE}
+```{r, echo = FALSE, warning=FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
 ####Calculating the percentages of AFC and NFC wins whenever they face each other.
 library(tidyverse)
 library(magrittr)
