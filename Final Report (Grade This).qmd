@@ -165,6 +165,79 @@ For more information about the data, please refer to the table below, which cont
 
 ## Exploratory Data Analysis
 
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+# load in libraries
+library(skimr)
+library(ggplot2)
+library(tidyverse)
+
+# get summary of the data
+summary(footballgames)
+
+# skim the data
+skim(footballgames)
+
+# scatterplot matrix of numeric variables
+pairs(footballgames[,10:16])
+
+# histograms.bar plots of home team,away team, winner, tie, day, hometeamname, hometeamcity,awayteamname,awayteamcity
+
+par(mfrow = c(3, 2)) 
+
+footballgames %>%
+  ggplot(aes(y = pts_win)) + 
+  geom_boxplot() + 
+  ggtitle("Boxplot of Points Scored by the Winning Team") +
+  ylab("Number of Points Scored")
+
+footballgames %>%
+  ggplot(aes(y = pts_loss)) + 
+  geom_boxplot() + 
+  ggtitle("Boxplot of Points Scored by the Losing Team") +
+  ylab("Number of Points Scored")
+
+footballgames %>%
+  ggplot(aes(y = yds_win)) + 
+  geom_boxplot() + 
+  ggtitle("Boxplot of Yards Gained by the Winning Team") +
+  ylab("Number of Yards")
+
+footballgames %>%
+  ggplot(aes(y = yds_loss)) + 
+  geom_boxplot() + 
+  ggtitle("Boxplot of Yards Gained by the Losing Team") +
+  ylab("Number of Yards")
+
+footballgames %>%
+  ggplot(aes(y = turnovers_win)) + 
+  geom_boxplot() + 
+  ggtitle("Boxplot of Turnovers Committed by the Winning Team") +
+  ylab("Number of Turnovers")
+
+footballgames %>%
+  ggplot(aes(y = turnovers_loss)) + 
+  geom_boxplot() + 
+  ggtitle("Boxplot of Turnovers Committed by the Losing Team Team") +
+  ylab("Number of Turnovers")
+
+# histogram of turnovers
+hist(footballgames$turnovers_loss)
+
+# histogram of turnovers
+hist(footballgames$turnovers_win)
+
+# histogram of yds loss
+hist(footballgames$yds_loss)
+
+
+
+
+
+
+```
+
+
 ## Analysis
 
 #### Which team won the SuperBowl the most number from 2000 to 2019?
