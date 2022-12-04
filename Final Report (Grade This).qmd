@@ -16,6 +16,8 @@ If not, it's highly likely that you'll encounter sports data in the future. The 
 In fact, using data or employing quantitative methods in sports is so popular, there's an entire field of statistics dedicated to it, called sports analytics.
 In the field of sports analytics, experts, often statisticians or data scientists, use data and employ quantitative methods to evaluate player performance, analyze player safety, predict outcomes of games, set betting odds, and develop in-game strategies, among other things.
 Sports teams and organizations also use analysis to make business decisions, while the public, can use the sports analytics to play fantasy sports, make bets, or provide evidence to help win arguments about whose favorite team is better.
+
+
 On account of the fact that American football is the most popular sport in the U.S., in this paper, we will try to analyze the performance of NFL Teams.
 To provide a little bit of context, the National Football League (NFL) is an American football league, consisting of 32 teams.
 Each team belongs to either AFC (American Football Conference), or NFC (National Football Conference); and there are 16 teams in each conference.
