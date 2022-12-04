@@ -1091,4 +1091,27 @@ plot_Superbowl_win_conf
 
 ## Future Ideas
 
+Throughout this report, several potential topics for future analysis have originated.
+This section aims to outline these potential topics and discuss possible shortcomings in this analysis, as well as how these can be resolved.
+
+One potential shortcoming in this analysis was the fit of the ARIMA models, used to describe the winning percentage of AFC West teams in the Analysis section.
+Multiple options for modeling time series data were not included in this analysis, including ARIMA models with seasonality and exponential smoothing methods.
+Additionally, no covariates were employed in these models.
+Since both the ARIMA models and tim series linear models were poor fits to the data, it is expected that including covariates in these models will improve the fit, as well as the forecasts.
+We also didn't compare any time series models in this section, and didn't interpret information criteria, as this wasn't the main purpose of this report.
+For future studies, we would recommend exploring additional time series modeling techniques.
+We also recommend including covariates in the models to create better fits and improve forecasting.
+
+Another potential shortcoming in this project involved breaking down home and away games, and also incorporating ties into the analysis.
+The data set lists every game as having a home team and an away team, even for games played at a neutral site.
+We know the Super Bowl is played at a neutral site every year, but this meant we couldn't include these games in multiple parts of the analysis section.
+The NFL also plays several games in various countries during most seasons.
+A home and away team are listed for these games, despite being played at a neutral site.
+This part of the analysis was largely ignored, since the only way to deal with these games would be to look up every neutral site game and locate it in the data set, to be removed.
+In other words, the only way to remove these points would be to manually locate each of these games in the data.
+There are also numerous other instances from 2000-2019 impacting the truth of having home and away teams.
+For instance, the Minnesota Vikings' stadium collapsed in 2010, forcing them to play at a neutral site.
+In future studies, we plan on performing the manual filtering of the data to either remove these games from the data
+or ignore them in analysis involving the use of home and away teams.
+
 ## References
