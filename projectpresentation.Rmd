@@ -75,7 +75,7 @@ Links to the data are provided below:
 
 
 
-## Data cleaning
+## Data Cleaning
 
 ```{r, echo = TRUE, warning = FALSE, results = 'hide'}
 ##### derive categorical variable #####
@@ -137,7 +137,7 @@ footballgames
 | away_team_name | name of the team playing at visiting stadium        | character     |
 | away_team_city | name of the away team's city                        | character     |
 
-## EDA
+## Exploratory Data Analysis
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
@@ -234,7 +234,7 @@ plot_grid(plot7,plot8,plot9,plot10,plot11,plot12)
 
 ```
 
-## AFC or NFC, who is winning the most?
+## AFC or NFC, who is Winning the most?
 
 ```{r, echo = FALSE, warning=FALSE, message = FALSE}
 ####Calculating the percentages of AFC and NFC wins whenever they face each other.
@@ -312,7 +312,7 @@ plot_afcvsnfc_total_win<-afcvsnfc %>%
 plot_afcvsnfc_total_win 
 ```
 
-## AFC or NFC, who is winning the most?
+## AFC or NFC, who is Winning the most?
 
 ```{r,echo = FALSE, warning=FALSE, message = FALSE}
 pts_afcvsnfc<- ggplot(filter(afcvsnfc, winner!= "Tie"))+geom_boxplot(aes(x=win_conf,y=pts_win, fill= win_conf))+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Points won by AFC Vs NFC Conference teams at home and away.")+ guides(fill=guide_legend(title="Win Conf."))
@@ -328,7 +328,7 @@ mean(afcvsnfc$pts_win[afcvsnfc$win_conf=="NFC"])
 #28.1
 ```
 
-## What does the number of wins at home looks like for AFC vs NFC teams?
+## What does the Number of Wins at Home look like for AFC vs NFC teams?
 
 ```{r,echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
 library(grid)
@@ -399,7 +399,7 @@ grid.arrange(plot_nfc_home,plot_afc_home, ncol=2)
 
 ```
 
-## Comparison of points for AFC and NFC teams playing each other.
+## Comparison of Points for AFC and NFC Teams Playing each other.
 
 ```{r,echo = FALSE, warning = FALSE}
 plot_pts_nfc_home<-ggplot(data=homewin_nfc, aes(x=win_conf,y=pts_win, fill= win_conf))+geom_boxplot() +stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", fill="purple")+xlab("Winning Conference")+ylab("Points Won")+scale_y_continuous(limits = c(0, 60))+ggtitle("Distribution of points won by AFC Vs NFC teams at NFC's home.")+ guides(fill=guide_legend(title="Win Conf."))
@@ -414,7 +414,7 @@ grid.arrange(plot_pts_nfc_home, plot_pts_afc_home ,ncol=2)
 
 ```
 
-## Which conference won the most Superbowls?
+## Which Conference Won the most Super Bowls from 2000-2019?
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
 #Who are winning the most number of SuperBowl from 2000 to 2019?
@@ -970,15 +970,18 @@ ggplot(data = superbowlgames, aes(x = reorder(winner, -number_of_wins), y = numb
   theme_stata()
 ```
 
-## conclusion
+## Conclusion
 
-## future ideas
+## Future Research
 
-## references
+## References
 [data](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-04/readme.md#gamescsv)
 
 [data](https://www.pro-football-reference.com/boxscores/game-scores.htm)
 
 [NFL Playoff Format](https://commons.wikimedia.org/wiki/File:NFL_Playoffs_format_bracket.svg)
 
+[List of Super Bowl Champions](https://en.wikipedia.org/wiki/List_of_Super_Bowl_champions)
+
+[NFL Standings](https://www.espn.com/nfl/standings)
 
