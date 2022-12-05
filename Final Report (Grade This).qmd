@@ -1235,6 +1235,18 @@ For discussion on future ideas of analysis, please refer to the Future Studies s
 
 ## Conclusion
 
+There are different questions that we tried to address in our analyses as a group, leading to a multitude of inferences we can draw from our dataset. 
+Several main points in our findings that we can all takeaway can be summarized below. 
+
+Focusing on the SuperBowl, we found that the Superbowl is mostly won by the New England Patriots with a whopping record of 6 wins within 2000-2019. We also found *BIPIN CAN INSERT HIS CONCLUSION ON THE AFC VS NFC, WHO WON THE MOST SUPERBOWL*
+
+Lastly, we decided to analyze the division AFC West, where we observed their winning percentages every year from 2000-2019. 
+Our analysis found that out of the four teams, it is difficult to spot pattern or trends of their winning percentages just from simply looking at the plots of these four teams' winning percentages. 
+We tried to fit a time series model, where try to predict three years into the future.
+However, our projection tends to underestimate, compared to the actual results that we have seen for the 2020 and 2021 seasons.
+One highlight that we thought was noteworthy to mention was the fact that the Chiefs had been having a strong streak within the last 7 years as shown by our data. 
+This impressive achievement was even supplemented by them winning the SuperBowl in 2020.
+
 ## Future Research
 
 Throughout this report, several potential topics for future analysis have originated.
@@ -1261,3 +1273,11 @@ In future studies, we plan on performing the manual filtering of the data to eit
 or ignore them in analysis involving the use of home and away teams.
 
 ## References
+[source](https://commons.wikimedia.org/wiki/File:NFL_Playoffs_format_bracket.svg)
+([data](https://www.pro-football-reference.com/boxscores/game-scores.htm))
+([data](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-04/readme.md#gamescsv)) 
+([source](https://en.wikipedia.org/wiki/List_of_Super_Bowl_champions))
+([source](https://phermanto2.shinyapps.io/project-we-r-pab/))
+([source](https://www.espn.com/nfl/standings/_/season/2020))
+([source](https://en.wikipedia.org/wiki/List_of_Super_Bowl_champions))
+([source](https://www.espn.com/nfl/standings))
