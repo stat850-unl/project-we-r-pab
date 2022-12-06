@@ -207,6 +207,10 @@ skim(footballgames)
 
 ```
 
+While the summaries are good sources of information about the data, visual summaries can also helpful in recognizing patterns and trends in the data.
+Here, we provide boxplots for each of the numeric variables (excluding year which was read in as a numeric variable).
+
+
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(ggplot2)
 library(tidyverse)
@@ -217,32 +221,32 @@ skim(footballgames)
 
 plot1 <- ggplot(footballgames, aes(y = pts_win)) + 
   geom_boxplot() + 
-  ggtitle("Points Scored by the Winner") +
+  ggtitle("Winner's Points") +
   ylab("Number of Points Scored")
 
 plot2 <- ggplot(footballgames, aes(y = pts_loss)) + 
   geom_boxplot() + 
-  ggtitle("Points Scored by the Loser") +
+  ggtitle("Loser's Points") +
   ylab("Number of Points Scored")
 
 plot3 <- ggplot(footballgames, aes(y = yds_win)) + 
   geom_boxplot() + 
-  ggtitle("Yards Gained by the Winner") +
+  ggtitle("Winner's Yards") +
   ylab("Number of Yards")
 
 plot4 <- ggplot(footballgames, aes(y = yds_loss)) + 
   geom_boxplot() + 
-  ggtitle("Yards Gained by the Loser") +
+  ggtitle("Loser's Yards") +
   ylab("Number of Yards")
 
 plot5 <- ggplot(footballgames, aes(y = turnovers_win)) + 
   geom_boxplot() + 
-  ggtitle("Turnovers Committed by the Winner") +
+  ggtitle("Winner's Turnovers") +
   ylab("Number of Turnovers")
 
 plot6 <- ggplot(footballgames, aes(y = turnovers_loss)) + 
   geom_boxplot() + 
-  ggtitle("Turnovers Committed by the Loser") +
+  ggtitle("Loser's Turnovers") +
   ylab("Number of Turnovers")
 
 plot_grid(plot1,plot2,plot3,plot4,plot5,plot6)
