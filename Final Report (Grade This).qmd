@@ -167,16 +167,50 @@ For more information about the data, please refer to the table below, which cont
 
 ## Exploratory Data Analysis
 
+In this section, we use various methods to explore the data set.
+First, we ran a general summary of the data.
+This gave us information about each variable in the data set.
+For numeric variables, we received the minimum and maximum values, as well as the median, mean, lower quartile, and upper quartile.
+For the categorical variable, we received counts for the number of times each factor occurs in the data.
+This also gave us information about each variable's type.
+For specific information about the values of numeric variables, please refer to the table below.
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE, results = 'hide'}
+# get summary of the data
+summary(footballgames)
+```
+
+
+| Variable Name | Minimum | Lower Quartile | Median | Mean | Upper Quartile | Maximum|
+|------------------------------------------------------------------------------------|
+| pts_win       | 3       | 21             | 27     | 27.78| 34             | 62     |
+| pts_loss      | 0       | 10             | 16     | 16.09| 21             | 51     |
+| yds_win       | 47      | 308            | 361    | 361.6| 415            |653     |
+|yds_loss       | 26      | 251            | 306    | 309.1|366             |613     |
+|turnovers_win  | 0       | 0              | 1      | 1.08 | 2              | 7      |
+|turnovers_loss | 0       | 1              | 2      | 2.168| 3              | 8      |
+
+We also decided to skim the data set.
+This provided us with information about the dimensions of our data set, along with the frequency of the various data types in the data.
+For character variable types, this gave us information about the minimum and maximum lengths of characters, the number of NA values in these variables, and the number of unique characters in each of these variables.
+Skimming also produced information about the time variable and factor variable in the data.
+We received the frequency for each of the factors in this variable, and we received various information about the time variable as well.
+Similarly to using the summary function, utilizing the skim function also gave us the 5 number summary for the numeric variables.
+The only differences between the summaries is that skimming gave us the standard deviations for each of the numeric variables and produced histograms as well.
+The results from skimming the data are included below.
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
 # load in libraries
 library(skimr)
+# skim the data
+skim(footballgames)
+
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(ggplot2)
 library(tidyverse)
 library(cowplot)
-
-# get summary of the data
-summary(footballgames)
 
 # skim the data
 skim(footballgames)
@@ -259,9 +293,7 @@ plot12 <- ggplot(footballgames, aes(x = turnovers_loss)) +
   ggtitle("Density of Loser's Turnovers")
 
 plot_grid(plot7,plot8,plot9,plot10,plot11,plot12)
-
 ```
-
 
 ## Analysis
 
