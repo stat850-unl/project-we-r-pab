@@ -181,14 +181,14 @@ summary(footballgames)
 ```
 
 
-| Variable Name | Minimum | Lower Quartile | Median | Mean | Upper Quartile | Maximum|
+| Variable Name | Minimum | Lower Quartile | Median | Mean  | Upper Quartile | Maximum|
 |------------------------------------------------------------------------------------|
-| pts_win       | 3       | 21             | 27     | 27.78| 34             | 62     |
-| pts_loss      | 0       | 10             | 16     | 16.09| 21             | 51     |
-| yds_win       | 47      | 308            | 361    | 361.6| 415            |653     |
-|yds_loss       | 26      | 251            | 306    | 309.1|366             |613     |
-|turnovers_win  | 0       | 0              | 1      | 1.08 | 2              | 7      |
-|turnovers_loss | 0       | 1              | 2      | 2.168| 3              | 8      |
+| pts_win       | 3       | 21             | 27     | 27.78 | 34             | 62     |
+| pts_loss      | 0       | 10             | 16     | 16.09 | 21             | 51     |
+| yds_win       | 47      | 308            | 361    | 361.6 | 415            | 653    |
+|yds_loss       | 26      | 251            | 306    | 309.1 | 366            | 613    |
+|turnovers_win  | 0       | 0              | 1      | 1.08  | 2              | 7      |
+|turnovers_loss | 0       | 1              | 2      | 2.168 | 3              | 8      |
 
 We also decided to skim the data set.
 This provided us with information about the dimensions of our data set, along with the frequency of the various data types in the data.
