@@ -212,13 +212,14 @@ summary(footballgames)
 |turnovers_loss | 0       | 1              | 2      | 2.168 | 3              | 8      |
 
 We also decided to skim the data set.
-This provided us with information about the dimensions of our data set, along with the frequency of the various data types in the data.
+This provided us with information about the dimensions of our data set, along with the frequency of the various data types.
 For character variable types, this gave us information about the minimum and maximum lengths of characters, the number of NA values in these variables, and the number of unique characters in each of these variables.
 Skimming also produced information about the time variable and factor variable in the data.
 We received the frequency for each of the factors in this variable, and we received various information about the time variable as well.
 Similarly to using the summary function, utilizing the skim function also gave us the 5 number summary for the numeric variables.
 The only differences between the summaries is that skimming gave us the standard deviations for each of the numeric variables and produced histograms as well.
 The results from skimming the data are included below.
+
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
 # skim the data
@@ -233,7 +234,6 @@ The bottom row shows a boxplot of the losing team's yards, a boxplot of the winn
 The boxplots generally show what we would expect.
 Winning teams tend to score more points, gain more yards, and commit fewer turnovers than the losing team.
 It is interesting to see that a some teams turned the ball over six and seven times and still won the game.
-
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
@@ -279,7 +279,7 @@ This suggests that there aren't many NFL games in which both teams score few poi
 The middle histograms show the winning team's yards gained and the losing team's yards gained.
 Based on the histograms, it appears the winning team typically gains 300-400 yards while the losing team typically gains 250-350 yards.
 The histograms on the bottom show the number of turnovers committed by the winning team and the number of turnovers committed by the losing team, respectively.
-It appear that winning teams often commit 1 or fewer turnovers per game while losing teams often commit 1-2 turnovers per game.
+It appears that winning teams often commit one or fewer turnovers per game while losing teams often commit one or two turnovers per game.
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
@@ -306,34 +306,34 @@ hist(footballgames$turnovers_loss)
 
 In addition to boxplots and histograms, we also decided to display density curves for the numeric variables.
 There are some interesting density curves shown.
-The densities for the winning team's yards gained and the losing team's yards gained don't show any gross departures from normality, which is interesting.
+The densities for the winning team's yards gained and the losing team's yards gained don't show any gross departures from normality, which isn't in line with what we expected.
 The densities for the number of turnovers committed by the winning and losing teams both provide some interesting curves as well.
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
 plot7 <- ggplot(footballgames, aes(x = pts_win)) +
   geom_density() +
-  ggtitle("Density of Winner's Points")
+  ggtitle("Winner's Points")
 
 plot8 <- ggplot(footballgames, aes(x = pts_loss)) +
   geom_density() +
-  ggtitle("Density of Loser's Points")
+  ggtitle("Loser's Points")
 
 plot9 <- ggplot(footballgames, aes(x = yds_win)) +
   geom_density() +
-  ggtitle("Density of Winner's Yards")
+  ggtitle("Winner's Yards")
 
 plot10 <- ggplot(footballgames, aes(x = yds_loss)) +
   geom_density() +
-  ggtitle("Density of Loser's Yards")
+  ggtitle("Loser's Yards")
 
 plot11 <- ggplot(footballgames, aes(x = turnovers_win)) +
   geom_density() +
-  ggtitle("Density of Winner's Turnovers")
+  ggtitle("Winner's Turnovers")
 
 plot12 <- ggplot(footballgames, aes(x = turnovers_loss)) +
   geom_density() +
-  ggtitle("Density of Loser's Turnovers")
+  ggtitle("Loser's Turnovers")
 
 plot_grid(plot7,plot8,plot9,plot10,plot11,plot12)
 ```
