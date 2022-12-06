@@ -1235,24 +1235,34 @@ For discussion on future ideas of analysis, please refer to the Future Studies s
 
 ## Conclusion
 
-There are different questions that we tried to address in our analyses as a group, leading to a multitude of inferences we can draw from our dataset. 
-Several main points in our findings that we can all takeaway can be summarized below. 
+There are different questions that we tried to address in our analyses as a group, leading to a multitude of inferences we can draw from our data set. 
+Several takeaways in our findings are summarized below. 
 
-Focusing on the SuperBowl, we found that the Superbowl is mostly won by the New England Patriots with a whopping record of 6 wins within 2000-2019. We also found that between 2000 and 2019, AFC's teams have won 6 more Superbowl's trophy compared to NFC's teams.  
+Focusing on the Super Bowl, we found that it was primarily won by the New England Patriots with a whopping record of 6 wins within 2000-2019.
+We also found that between 2000 and 2019, AFC teams have won 6 more Super Bowls compared to the NFC.  
 
-Regarding the comparison between AFC's and NFC's teams, AFC teams has won more number of matches when playing against NFC teams either home or away with only 4 of them being tied.
+Regarding the comparison between AFC and NFC teams, AFC teams have won more matches when playing against NFC teams either home or away, with only 4 games ending in a tie.
 There is not much difference in the distribution of points won between the two conferences in these matches based on the summary statistics.
-Among the games played at NFC's home, NFC won more games compared to AFC. 
-Similarly, AFC teams were winning more games against NFC whenever AFC's teams were playing in their home.
-However, based on the number of home games played between the two, AFC has a better home record. 
-There is not much difference in the distribution of points won by winning conferences playing at both NFC's teams and AFC's teams home. 
+Among the games played at an NFC team's home, the NFC won more games compared to the AFC. 
+Similarly, AFC teams were winning more games against the NFC whenever the AFC's teams were playing in their home.
+However, based on the number of home games played between the two conferences, the AFC has a better home record. 
+There is not much difference in the distribution of points scored by the winning conferences playing at both the NFC team's home and the AFC team's home. 
 
-Lastly, we decided to analyze the division AFC West, where we observed their winning percentages every year from 2000-2019. 
-Our analysis found that out of the four teams, it is difficult to spot pattern or trends of their winning percentages just from simply looking at the plots of these four teams' winning percentages. 
-We tried to fit a time series model, where try to predict three years into the future.
-However, our projection tends to underestimate, compared to the actual results that we have seen for the 2020 and 2021 seasons.
-One highlight that we thought was noteworthy to mention was the fact that the Chiefs had been having a strong streak within the last 7 years as shown by our data. 
-This impressive achievement was even supplemented by them winning the SuperBowl in 2020.
+Another primary finding in this study was that the home team has an obvious advantage.
+The bar plot comparing the number of football games won by the home team and the number of games won by the visiting team showed that the home team wins more often than the visiting team.
+In addition, the boxplots comparing the yards gained and points scored between home and away teams revealed that the home team gains more yards and scores more points than away teams.
+The two sample t-tests revealed that the difference in mean yards gained between home and away teams and the difference in mean points scored between home and away teams were both statistically significant, at a 5% significance level.
+These differences were much smaller for the number of turnovers committed by home teams compared to away teams.
+This indicates that playing at home probably doesn't have a large effect in causing the away team to turn the ball over more often.
+
+Lastly, we decided to analyze the AFC West division, where we observed their winning percentages every year from 2000-2019. 
+Our analysis found that out of the four teams, it is difficult to spot patterns or trends in their winning percentages just from simply looking at the plots of these four teams' winning percentages. 
+We also attempted to fit multiple time series models, using them to forecast winning percentages three years into the future.
+However, our projections tended to underestimate, compared to the actual results that we have available for the 2020 and 2021 seasons.
+Thus, we generally found that winning percentages usually fluctuate over long periods of time among the AFC West teams.
+In terms of time series modeling, we think including explanatory variables into these models would improve the overall fits, as well as improve the forecast accuracy.
+One highlight that we thought was noteworthy to mention was the fact that the Chiefs have been on a strong streak within the last seven years as shown by our data. 
+This impressive achievement was even supplemented due to the fact that they won Super Bowl in 2020.
 
 ## Future Research
 
