@@ -1238,7 +1238,14 @@ For discussion on future ideas of analysis, please refer to the Future Studies s
 There are different questions that we tried to address in our analyses as a group, leading to a multitude of inferences we can draw from our dataset. 
 Several main points in our findings that we can all takeaway can be summarized below. 
 
-Focusing on the SuperBowl, we found that the Superbowl is mostly won by the New England Patriots with a whopping record of 6 wins within 2000-2019. We also found *BIPIN CAN INSERT HIS CONCLUSION ON THE AFC VS NFC, WHO WON THE MOST SUPERBOWL*
+Focusing on the SuperBowl, we found that the Superbowl is mostly won by the New England Patriots with a whopping record of 6 wins within 2000-2019. We also found that between 2000 and 2019, AFC's teams have won 6 more Superbowl's trophy compared to NFC's teams.  
+
+Regarding the comparison between AFC's and NFC's teams, AFC teams has won more number of matches when playing against NFC teams either home or away with only 4 of them being tied.
+There is not much difference in the distribution of points won between the two conferences in these matches based on the summary statistics.
+Among the games played at NFC's home, NFC won more games compared to AFC. 
+Similarly, AFC teams were winning more games against NFC whenever AFC's teams were playing in their home.
+However, based on the number of home games played between the two, AFC has a better home record. 
+There is not much difference in the distribution of points won by winning conferences playing at both NFC's teams and AFC's teams home. 
 
 Lastly, we decided to analyze the division AFC West, where we observed their winning percentages every year from 2000-2019. 
 Our analysis found that out of the four teams, it is difficult to spot pattern or trends of their winning percentages just from simply looking at the plots of these four teams' winning percentages. 
