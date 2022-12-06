@@ -265,13 +265,14 @@ plot_grid(plot7,plot8,plot9,plot10,plot11,plot12)
 
 ## Analysis
 
-#### Which team won the SuperBowl the most number from 2000 to 2019?
+#### Which team won the Super Bowl the most from 2000-2019?
 
-In this section, we can check if there is any team that won the SuperBowl multiple times over the 20-year range.
-We decided to create a data frame consisting of the winners of the Superbowl and display the corresponding number of wins.
-We then drew a bar plot to help visualize the number of wins. We found out that New England Patriot won the most with 6 games won.
-Next up, we found that there are three teams that won the same amount of time (2 times): Baltimore Ravens, New York Giants, and Pittsburgh Steelers.
-Unfortunately, other teams that have won the SuperBowl from 2000-2019 only won once. 
+In this section, we can check if there is any team that won the Super Bowl multiple times over the 20-year range.
+We decided to create a data frame consisting of the winners of the Super Bowl and display the corresponding number of wins.
+We then drew a bar plot to help visualize the number of wins.
+We found out that New England Patriots won the most with 6 games won.
+Next up, we found that there are three teams that won the same amount of times (2): Baltimore Ravens, New York Giants, and Pittsburgh Steelers.
+Unfortunately, other teams that have won the Super Bowl from 2000-2019 only won once. 
 
 ```{r, echo = FALSE, warning=FALSE, message = FALSE}
 library(tidyverse)
