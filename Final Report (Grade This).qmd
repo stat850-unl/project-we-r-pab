@@ -209,15 +209,17 @@ skim(footballgames)
 
 While the summaries are good sources of information about the data, visual summaries can also helpful in recognizing patterns and trends in the data.
 Here, we provide boxplots for each of the numeric variables (excluding year which was read in as a numeric variable).
+The top row shows a boxplot of the winning team's points scored, a boxplot of the losing team's points scored, and a boxplot of the winning team's yards gained.
+The bottom row shows a boxplot of the losing team's yards, a boxplot of the winning team's turnovers, and a boxplot of the losing team's turnovers.
+The boxplots generally show what we would expect.
+Winning teams tend to score more points, gain more yards, and commit fewer turnovers than the losing team.
+It is interesting to see that a some teams turned the ball over six and seven times and still won the game.
 
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-library(ggplot2)
-library(tidyverse)
 library(cowplot)
-
-# skim the data
-skim(footballgames)
+library(tidyverse)
+library(ggplot2)
 
 plot1 <- ggplot(footballgames, aes(y = pts_win)) + 
   geom_boxplot() + 
@@ -250,6 +252,20 @@ plot6 <- ggplot(footballgames, aes(y = turnovers_loss)) +
   ylab("Number of Turnovers")
 
 plot_grid(plot1,plot2,plot3,plot4,plot5,plot6)
+```
+
+Also shown are histograms of the numeric variables. 
+This is useful in identifying the most common trends in NFL games.
+The top left and top right histograms show the winning team's points scored and the losing team's points scored.
+Based on the histograms, the winning team usually scores between 20 and 35 points in a game, while the losing team usually scores between 5 and 25 points in a game.
+It's interesting to note that one of the most frequent amount of points scored for losing teams is within the 5-10 point range, while this is exceptionally rare for the winning team.
+This suggests that there aren't many NFL games in which both teams score few points (although the 2022 Broncos are trying hard to increase this number).
+The middle histograms show the winning team's yards gained and the losing team's yards gained.
+Based on the histograms, it appears the winning team typically gains 300-400 yards while the losing team typically gains 250-350 yards.
+The histograms on the bottom show the number of turnovers committed by the winning team and the number of turnovers committed by the losing team, respectively.
+It appear that winning teams often commit 1 or fewer turnovers per game while losing teams often commit 1-2 turnovers per game.
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
 par(mfrow = c(3,2))
 # histogram of points won
@@ -270,7 +286,17 @@ hist(footballgames$turnovers_win)
 # histogram of turnovers loss
 hist(footballgames$turnovers_loss)
 
+```
 
+In addition to boxplots and histograms, we also decided to display density curves for the numeric variables.
+There are some interesting density curves shown.
+The densities for the winning team's yards gained and the losing team's yards gained don't show any gross departures from normality, which is interesting.
+The densities for the number of turnovers committed by the winning and losing teams both provide some interesting curves as well.
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(ggplot2)
+library(tidyverse)
+library(cowplot)
 
 plot7 <- ggplot(footballgames, aes(x = pts_win)) +
   geom_density() +
@@ -298,6 +324,7 @@ plot12 <- ggplot(footballgames, aes(x = turnovers_loss)) +
 
 plot_grid(plot7,plot8,plot9,plot10,plot11,plot12)
 ```
+
 
 ## Analysis
 
