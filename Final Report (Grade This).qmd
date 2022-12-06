@@ -10,17 +10,18 @@ editor_options:
 ## Introduction
 
 Have you ever seen a baseball player smack a home run on tv, with the launch angle, distance traveled, and exit velocity immediately depicted on screen?
-Have you ever wondered how ESPN comes up with interesting statistics and factoids to display on screen? Or maybe you've seen betting odds for sporting events and questioned how those odds are set.
+Have you ever wondered how ESPN comes up with interesting statistics and factoids to display on screen?
+Or maybe you've seen betting odds for sporting events and questioned how those odds are set.
 Even if you're not interested in sports, chances are, you've encountered some type of data related to or pertaining to sports.
 If not, it's highly likely that you'll encounter sports data in the future. The world of data is constantly getting bigger and bigger, with increasing numbers of applications, including in sports.
 In fact, using data or employing quantitative methods in sports is so popular, there's an entire field of statistics dedicated to it, called sports analytics.
-In the field of sports analytics, experts, often statisticians or data scientists, use data and employ quantitative methods to evaluate player performance, analyze player safety, predict outcomes of games, set betting odds, and develop in-game strategies, among other things.
-Sports teams and organizations also use analysis to make business decisions, while the public, can use the sports analytics to play fantasy sports, make bets, or provide evidence to help win arguments about whose favorite team is better.
+In the field of sports analytics, experts, often statisticians or data scientists, use data and quantitative methods to evaluate player performance, analyze player safety, predict outcomes of games, set betting odds, and develop in-game strategies, among other things.
+Sports teams and organizations also use analysis to make business decisions, while the public can use sports analytics to play fantasy sports, make bets, or provide evidence to help win arguments about whose favorite team is better.
 
 
-On account of the fact that American football is the most popular sport in the U.S., in this paper, we will try to analyze the performance of NFL Teams.
+On account of the fact that American football is the most popular sport in the U.S., in this paper, we will analyze the performance of NFL teams.
 To provide a little bit of context, the National Football League (NFL) is an American football league, consisting of 32 teams.
-Each team belongs to either AFC (American Football Conference), or NFC (National Football Conference); and there are 16 teams in each conference.
+Each team belongs to either the AFC (American Football Conference) or the NFC (National Football Conference), and there are 16 teams in each conference.
 Conferences are further broken down into divisions (North, South, East, and West). For a full list of current teams, please see the table below.
 
 | AFC                  | NFC                   |
@@ -46,14 +47,14 @@ Conferences are further broken down into divisions (North, South, East, and West
 | Houston Texans       | Carolina Panthers     |
 | Jacksonville Jaguars | Tampa Bay Buccaneers  |
 
-**Note:** The data set covers the years 2000 through 2019. In that span, the Houston Texans were added as a team (2002), and there have been multiple changes of location.
+**Note:** The data set covers the years 2000 through 2019. In that span, the Houston Texans were added as a team (2002), and there have been multiple teams that changed locations.
 This includes the Los Angeles Chargers (formerly San Diego Chargers), Las Vegas Raiders (formerly Oakland Raiders), and the Los Angeles Rams (formerly St. Louis Rams).
 
 **Note:** This current format with conferences and divisions was implemented beginning in the 2002 season with the addition of the Houston Texans.
 
 For the majority of the time this data set spans, the NFL season consisted of four weeks of a preseason in which games don't count in the standings.
 The preseason was followed by a 17-week regular season, where teams played 16 games and had one bye week (one week during the course of the season where they don't play a game).
-After the end of the regular season, six teams from each conference (four division winners in each conference and two wild card teams) advance to the playoffs.
+After the end of the regular season, six teams from each conference (four division winners in each conference and two wild card teams) advanced to the playoffs.
 The teams were seeded 1-6 in each conference, where the four division winners constituted seeds 1-4, and the wild card teams constituting seeds 5 and 6.
 The first round of the playoffs is called the wild card round.
 In this round of the playoffs, the 6 seed plays on the road against the 3 seed in each conference, and the 5 seed plays on the road against the 4 seed in each conference.
@@ -70,7 +71,7 @@ All this information can be visualized in the picture below.
 **Note:** In 2021, the NFL implemented several changes to the season.
 The current regular season now consists of a three-week preseason, followed by 18 weeks of the regular season. Teams now play 17 games during the regular season.
 The playoff format was also changed, to add an extra wild card team and remove the bye week for the 2 seed in each conference.
-This added an extra wild card round game between the 7 seed visiting the 2 seed.
+This added an extra wild card round game between the 7 seed and the 2 seed.
 
 **Note:** In 2000 and 2001, the NFL had different conferences and divisions, so the playoffs included the three division winners in each conference and three wild card rounds.
 
@@ -81,23 +82,43 @@ The data was stored in NFL Scores Main Page under All Game Scores ([data](https:
 The data was used for a tidytuesday project in 2020 ([data](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-04/readme.md#gamescsv)) that primarily focused on NFL attendance.
 The data used for this report was found using the tidytuesday link.
 
-The data we are using in this project comes in the format of a .csv file.
-The spreadsheet contains football games played by NFL teams from year 2000-2019.
-This data originally contained 19 variables related to NFL game scores and outcomes.
+The data we are using in this project comes in the format of a .csv file, containing football games played by NFL teams from year 2000-2019.
+This data originally contained 19 variables related to NFL game scores, outcomes, and statistics.
 Out of these 19 variables, 11 were character variables, seven were numeric variables, and one was a time variable. In order to meet project specifications, a categorical variable was needed.
-To derive a categorical variable, a loop was utilized to replace values of "NA" with a string "0" in the tie column and replace team names with a string "1".
-This also helped to clean the data, since it does not make sense to list a team winner for a game that ended with a tie.
-After this loop, the strings of "0" and "1" were converted to a categorical variable. This process essentially created a categorical variable with a value of 0 if an NFL game ended with one team winning and a value of 1 if an NFL game ended in a tie.
+To derive a categorical variable, a loop was utilized to replace values of "NA" with a string "0" in the tie column and replace team names with a string "1" in this same column.
+This also helped to clean the data, since it doesn'tt make sense to list a team winner for a game that ended with a tie (as the original data did).
+After this loop, the strings of "0" and "1" were converted to a categorical variable.
+This process created a categorical variable with a value of 0 if an NFL game ended with one team winning and a value of 1 if an NFL game ended in a tie.
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
 # load in the data
 footballgames <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-04/games.csv')
+
+library(skimr)
+library(cowplot)
+library(ggplot2)
+library(tidyverse)
+library(ggthemes)
+library(stringr)
+library(plotly)
+library(magrittr)
+library(stringr)
+library(dplyr)
+library(grid)
+library(gridExtra)
+library(tsibble)
+library(fable)
+library(lubridate)
+library(feasts)
+library(ggfortify)
+
 ```
 
 ```{r, echo = FALSE, warning = FALSE, results = 'hide'}
 ##### derive categorical variable #####
+
 # replace NA's in tie column with string 0
 footballgames$tie[is.na(footballgames$tie)] <- "0"
 # replace ties with string 1 instead of string with team name
@@ -200,8 +221,6 @@ The only differences between the summaries is that skimming gave us the standard
 The results from skimming the data are included below.
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
-# load in libraries
-library(skimr)
 # skim the data
 skim(footballgames)
 
@@ -217,9 +236,6 @@ It is interesting to see that a some teams turned the ball over six and seven ti
 
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-library(cowplot)
-library(tidyverse)
-library(ggplot2)
 
 plot1 <- ggplot(footballgames, aes(y = pts_win)) + 
   geom_boxplot() + 
@@ -294,9 +310,6 @@ The densities for the winning team's yards gained and the losing team's yards ga
 The densities for the number of turnovers committed by the winning and losing teams both provide some interesting curves as well.
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-library(ggplot2)
-library(tidyverse)
-library(cowplot)
 
 plot7 <- ggplot(footballgames, aes(x = pts_win)) +
   geom_density() +
@@ -338,10 +351,6 @@ Next up, we found that there are three teams that won the same amount of times (
 Unfortunately, other teams that have won the Super Bowl from 2000-2019 only won once. 
 
 ```{r, echo = FALSE, warning=FALSE, message = FALSE}
-library(tidyverse)
-library(ggplot2)
-library(ggthemes)
-library(stringr)
 #filtering the superbowl matches
 superbowlgames<-filter(footballgames, week == "SuperBowl") %>%
   group_by(`winner`) %>%
@@ -369,12 +378,6 @@ The respective number of wins for each conference is then calculated and a bar p
 
 ```{r, echo = FALSE, warning=FALSE, message = FALSE}
 ####Calculating the percentages of AFC and NFC wins whenever they face each other.
-library(tidyverse)
-library(magrittr)
-library(dplyr)
-library(ggplot2)
-library(plotly)
-library(dplyr)
 
 #AFC vs NFC teams list
 afc_teams<- c("Cleveland Browns","Baltimore Ravens","Pittsburgh Steelers","Cincinnati Bengals","Miami Dolphins","Buffalo Bills","New York Jets","New England Patriots", "Kansas City Chiefs","Los Angeles Chargers","Denver Broncos","Las Vegas Raiders","Tennessee Titans","Houston Texans","Indianapolis Colts","Jacksonville Jaguars", "Oakland Raiders", "San Diego Chargers")
@@ -473,8 +476,7 @@ Similar steps are carried out whenever the AFC teams are playing at home.
 Finally, a side-by-side bar-plots are created for comparison.
 
 ```{r,echo = FALSE, warning = FALSE, message = FALSE, results = 'hide', fig.keep = 'all'}
-library(grid)
-library(gridExtra)
+
 #Number of games won at home by NFC teams whenever they played AFC teams.
 
 ###First create a data with home team being NFC team and away team being AFC team. 
@@ -626,7 +628,6 @@ It must be noted however, that these counts are not exact since the data lists a
 
 ```{r, echo = FALSE, warning=FALSE}
 ### Comparing the number of games won by the home team to the number of games won by the away team ###
-library(tidyverse)
 # create a vector of 0's
 locationofwin <- rep(c(0), 5324)
 
@@ -835,11 +836,6 @@ The games played by AFC West teams can be found here ([source](https://phermanto
 By looking at the trend over the past 20 years, we hope that people can assess their past performance and try to predict their future performances.
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-library(dplyr)
-library(ggplot2)
-library(stringr)
-library(ggthemes)                             
-
 
 #filtering out broncos games
 broncosgames<-filter(footballgames, home_team == "Denver Broncos" | away_team == "Denver Broncos")
@@ -890,13 +886,6 @@ The Broncos' actual winning percentages in 2020 and 2021 were 31.3% and 41.2%, r
 Since the forecasted winning percentages are far away from the actual values, the model wasn't very accurate, although the actual winning percentage in 2021 was within the 80% prediction interval (shown in the darker hue of orange).
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-library(tsibble)
-library(tidyverse)
-library(fable)
-library(lubridate)
-library(ggplot2)
-library(feasts)
-library(ggfortify)
 
 # Create a time series object 
 broncosts <- broncosnumbers %>% 
@@ -1279,7 +1268,7 @@ broncosnumbers<-broncosnumbers  %>%
   mutate(team_name = "Denver Broncos")
 combinedtables<-bind_rows(raidersnumbers, chiefsnumbers, chargersnumbers, broncosnumbers)
 
-library(plotly)
+
 finalplot<-ggplot(data = combinedtables, aes(x = year, color = team_name, y = winning_percentage)) +
   labs(title = "AFC West Percentage of Wins through 2000 - 2019",
          x = "Year",
