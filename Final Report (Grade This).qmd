@@ -630,7 +630,7 @@ First, the number of games won by the home team and the number of games won by t
 Based off this tally, there were 3,025 NFL games won by the home team from 2000-2019.
 Over this same stretch of time, there were 2,279 NFL games won by the away team.
 Clearly, the home team wins more often than the road team, but it is helpful to provide additional context.
-Since there were 5,304 games played, the home team has won 3,025/5,304 games for a percentage of 57%.
+Since there were 5,304 games played, the home team has won 3,025 of 5,304 games for a percentage of 57%.
 This suggests that the home team wins NFL games about 57% of the time.
 It must be noted however, that these counts are not exact since the data lists a home team, even for games played at a neutral site.
 
